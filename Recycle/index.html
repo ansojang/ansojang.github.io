@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>리사이클홈 시흥점 — 중고·리퍼 가전·가구 300평 대형매장</title>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+<style>
+  :root{
+    --green:#1f7a52; --green-d:#155c3d; --green-l:#e8f4ee;
+    --ink:#1c2620; --gray:#5d6b63; --line:#e4eae6;
+    --bg:#f7faf8; --card:#ffffff; --amber:#e08a2b; --radius:16px;
+    --shadow:0 6px 24px rgba(22,60,42,.08);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+    color:var(--ink);background:var(--bg);line-height:1.6;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1160px;margin:0 auto;padding:0 20px}
+  section{padding:72px 0}
+  h2.tt{font-size:30px;font-weight:800;letter-spacing:-.02em;margin-bottom:8px}
+  .sub{color:var(--gray);font-size:16px;margin-bottom:34px}
+  .center{text-align:center}
+
+  /* ===== Nav ===== */
+  header{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.92);
+    backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;gap:24px;height:66px}
+  .logo{font-weight:900;font-size:21px;letter-spacing:-.03em;display:flex;align-items:center;gap:8px}
+  .logo .leaf{width:30px;height:30px;background:var(--green);border-radius:9px;display:grid;place-items:center;color:#fff;font-size:17px}
+  .nav .menu{display:flex;gap:22px;margin-left:8px;font-weight:600;font-size:15px;color:var(--gray)}
+  .nav .menu a:hover{color:var(--green)}
+  .nav .right{margin-left:auto;display:flex;gap:10px;align-items:center}
+  .btn{border:0;cursor:pointer;font-weight:700;border-radius:10px;padding:11px 18px;font-size:15px;transition:.15s}
+  .btn-pri{background:var(--green);color:#fff}
+  .btn-pri:hover{background:var(--green-d)}
+  .btn-gh{background:#fff;color:var(--green);border:1.5px solid var(--green)}
+  .btn-gh:hover{background:var(--green-l)}
+  .menu-toggle{display:none;background:none;border:0;font-size:24px;cursor:pointer}
+
+  /* ===== Hero ===== */
+  .hero{background:linear-gradient(160deg,#eaf6ef 0%,#f7faf8 60%);padding:64px 0 56px}
+  .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center}
+  .badge{display:inline-flex;align-items:center;gap:7px;background:#fff;border:1px solid var(--line);
+    color:var(--green-d);font-weight:700;font-size:13px;padding:7px 13px;border-radius:999px;box-shadow:var(--shadow)}
+  .hero h1{font-size:46px;line-height:1.18;font-weight:900;letter-spacing:-.035em;margin:18px 0 14px}
+  .hero h1 .hl{color:var(--green)}
+  .hero p.lead{font-size:18px;color:var(--gray);margin-bottom:26px}
+  .search{display:flex;background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:6px;box-shadow:var(--shadow);max-width:440px}
+  .search input{flex:1;border:0;outline:0;padding:12px 14px;font-size:15px;background:transparent}
+  .hero-stats{display:flex;gap:28px;margin-top:30px}
+  .hero-stats .n{font-size:26px;font-weight:900;color:var(--green-d)}
+  .hero-stats .l{font-size:13px;color:var(--gray)}
+  .hero-card{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:26px;border:1px solid var(--line)}
+  .hero-card .row{display:flex;align-items:center;gap:14px;padding:13px 0;border-bottom:1px dashed var(--line)}
+  .hero-card .row:last-child{border:0}
+  .hero-card .ic{width:46px;height:46px;border-radius:12px;background:var(--green-l);display:grid;place-items:center;font-size:22px;flex-shrink:0}
+  .hero-card .row b{display:block;font-size:15px}
+  .hero-card .row span{font-size:13px;color:var(--gray)}
+
+  /* ===== Trust bar ===== */
+  .trust{background:var(--green-d);color:#fff;padding:0}
+  .trust .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+  .trust .it{padding:26px 18px;text-align:center;border-right:1px solid rgba(255,255,255,.14)}
+  .trust .it:last-child{border:0}
+  .trust .it .e{font-size:26px}
+  .trust .it b{display:block;font-size:16px;margin-top:6px}
+  .trust .it span{font-size:13px;opacity:.8}
+
+  /* ===== Categories ===== */
+  .cats{display:grid;grid-template-columns:repeat(6,1fr);gap:14px}
+  .cat{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px 10px;text-align:center;cursor:pointer;transition:.15s}
+  .cat:hover{border-color:var(--green);transform:translateY(-3px);box-shadow:var(--shadow)}
+  .cat .e{font-size:30px}
+  .cat b{display:block;margin-top:8px;font-size:14px;font-weight:700}
+
+  /* ===== Grade ===== */
+  .grades{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .grade{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:26px;position:relative;overflow:hidden}
+  .grade .tag{display:inline-grid;place-items:center;width:48px;height:48px;border-radius:12px;font-weight:900;font-size:22px;color:#fff;margin-bottom:14px}
+  .grade.s .tag{background:#1f7a52}.grade.a .tag{background:#3a8fd0}.grade.b .tag{background:#e08a2b}
+  .grade h4{font-size:19px;margin-bottom:6px}
+  .grade p{color:var(--gray);font-size:14px}
+  .grade .pct{position:absolute;top:22px;right:24px;font-weight:800;color:var(--green-d)}
+
+  /* ===== Products ===== */
+  .filter{display:flex;gap:9px;flex-wrap:wrap;justify-content:center;margin-bottom:30px}
+  .chip{border:1.5px solid var(--line);background:#fff;color:var(--gray);font-weight:700;font-size:14px;
+    padding:9px 17px;border-radius:999px;cursor:pointer;transition:.15s}
+  .chip:hover{border-color:var(--green)}
+  .chip.on{background:var(--green);color:#fff;border-color:var(--green)}
+  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+  .pcard{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;transition:.18s;display:flex;flex-direction:column}
+  .pcard:hover{transform:translateY(-4px);box-shadow:var(--shadow);border-color:#cfe0d6}
+  .thumb{height:150px;display:grid;place-items:center;font-size:54px;position:relative}
+  .thumb .g{position:absolute;top:10px;left:10px;font-size:12px;font-weight:800;color:#fff;padding:3px 9px;border-radius:7px}
+  .thumb .heart{position:absolute;top:9px;right:11px;font-size:20px;cursor:pointer;opacity:.55;user-select:none}
+  .thumb .heart.on{opacity:1}
+  .thumb .pimg{width:100%;height:100%;object-fit:cover;display:block}
+  /* showcase band */
+  .showcase{padding:30px 0 8px;background:var(--bg)}
+  .store-photo{width:100%;border-radius:18px;display:block;box-shadow:var(--shadow);border:1px solid var(--line)}
+  .showcase-cap{text-align:center;margin-top:14px;font-size:15px;color:var(--gray)}
+  .showcase-cap b{color:var(--green-d)}
+  .store-svg{width:100%;height:auto;border-radius:18px;display:block;box-shadow:var(--shadow);border:1px solid var(--line)}
+  .hero-photo{width:100%;height:160px;object-fit:cover;border-radius:12px;margin-bottom:16px;display:block}
+  .pbody{padding:14px 15px 16px;flex:1;display:flex;flex-direction:column}
+  .pbody .cat-l{font-size:12px;color:var(--green);font-weight:700}
+  .pbody h5{font-size:15px;font-weight:700;margin:3px 0 8px;line-height:1.35}
+  .pbody .price{margin-top:auto}
+  .pbody .now{font-size:19px;font-weight:900}
+  .pbody .off{color:var(--amber);font-weight:800;margin-right:6px}
+  .pbody .was{color:#aab4ae;text-decoration:line-through;font-size:13px;margin-left:6px}
+  .pbody .meta{font-size:12px;color:var(--gray);margin-top:7px;display:flex;gap:10px}
+  .empty{grid-column:1/-1;text-align:center;color:var(--gray);padding:40px}
+
+  /* ===== Steps ===== */
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+  .step{text-align:center;position:relative}
+  .step .circ{width:64px;height:64px;border-radius:50%;background:var(--green-l);color:var(--green-d);
+    display:grid;place-items:center;font-size:28px;margin:0 auto 14px;font-weight:900}
+  .step .no{font-size:12px;font-weight:800;color:var(--green);letter-spacing:.08em}
+  .step h4{font-size:17px;margin:4px 0 6px}
+  .step p{font-size:14px;color:var(--gray)}
+
+  /* ===== Reviews ===== */
+  .rev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .rev{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:24px}
+  .rev .stars{color:#f2b417;font-size:15px;letter-spacing:2px}
+  .rev p{font-size:15px;margin:12px 0 16px}
+  .rev .who{display:flex;align-items:center;gap:11px}
+  .rev .av{width:38px;height:38px;border-radius:50%;background:var(--green-l);display:grid;place-items:center;font-weight:800;color:var(--green-d)}
+  .rev .who b{font-size:14px}.rev .who span{font-size:12px;color:var(--gray)}
+
+  /* ===== FAQ ===== */
+  .faq{max-width:760px;margin:0 auto}
+  .qa{background:var(--card);border:1px solid var(--line);border-radius:12px;margin-bottom:11px;overflow:hidden}
+  .qa q{display:flex;justify-content:space-between;align-items:center;padding:18px 20px;cursor:pointer;font-weight:700;quotes:none}
+  .qa q:before{content:"Q  ";color:var(--green);font-weight:900}
+  .qa .ans{max-height:0;overflow:hidden;transition:.25s;color:var(--gray);padding:0 20px}
+  .qa.open .ans{max-height:240px;padding:0 20px 18px}
+  .qa .arr{transition:.25s;color:var(--gray)}
+  .qa.open .arr{transform:rotate(180deg)}
+
+  /* ===== CTA / form ===== */
+  .cta{background:linear-gradient(160deg,#1f7a52,#155c3d);color:#fff;border-radius:24px;padding:46px;display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:center}
+  .cta h3{font-size:28px;font-weight:900;letter-spacing:-.02em}
+  .cta p{opacity:.9;margin-top:10px}
+  .form{background:#fff;border-radius:16px;padding:24px}
+  .form label{display:block;font-size:13px;font-weight:700;color:var(--ink);margin:12px 0 5px}
+  .form input,.form select{width:100%;border:1.5px solid var(--line);border-radius:10px;padding:11px 13px;font-size:15px;outline:0;font-family:inherit}
+  .form input:focus,.form select:focus{border-color:var(--green)}
+  .form .ok{background:var(--green-l);color:var(--green-d);border-radius:10px;padding:14px;text-align:center;font-weight:700;margin-top:14px;display:none}
+
+  /* ===== Location ===== */
+  .loc-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:24px;align-items:stretch}
+  .map{border-radius:var(--radius);overflow:hidden;border:1px solid var(--line);min-height:340px}
+  .map iframe{width:100%;height:100%;min-height:340px;border:0;display:block}
+  .loc-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow)}
+  .loc-card .li{display:flex;gap:13px;padding:14px 0;border-bottom:1px dashed var(--line)}
+  .loc-card .li .ic{font-size:20px;flex-shrink:0}
+  .loc-card .li b{font-size:14px}.loc-card .li p{font-size:14px;color:var(--gray)}
+
+  /* ===== Footer ===== */
+  footer{background:#11201a;color:#b7c6bd;padding:48px 0 30px;font-size:14px}
+  footer .fg{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:28px;margin-bottom:28px}
+  footer h6{color:#fff;font-size:15px;margin-bottom:12px}
+  footer a{display:block;padding:3px 0}footer a:hover{color:#fff}
+  footer .bot{border-top:1px solid rgba(255,255,255,.1);padding-top:18px;font-size:12.5px;opacity:.7}
+
+  @media(max-width:880px){
+    .nav .menu{display:none}.menu-toggle{display:block}
+    .hero-grid,.cta{grid-template-columns:1fr}
+    .hero h1{font-size:34px}
+    .trust .wrap{grid-template-columns:repeat(2,1fr)}
+    .trust .it:nth-child(2){border-right:0}
+    .cats{grid-template-columns:repeat(3,1fr)}
+    .grades,.steps,.rev-grid{grid-template-columns:1fr}
+    .grid{grid-template-columns:repeat(2,1fr)}
+    section{padding:52px 0}
+  }
+  @media(max-width:520px){.grid{grid-template-columns:1fr}.cats{grid-template-columns:repeat(2,1fr)}.hero-stats{flex-wrap:wrap;gap:18px}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <div class="logo"><span class="leaf">♻</span><span style="color:#1a4f9c">리사</span><span style="color:#3a9d3a">이</span><span style="color:#1a4f9c">클</span><span style="color:#3a9d3a">H</span><span style="color:#1a4f9c">ome</span> <span style="font-size:13px;font-weight:700;color:var(--green);background:var(--green-l);padding:3px 8px;border-radius:7px;margin-left:2px">시흥점</span></div>
+    <nav class="menu">
+      <a href="#cats">카테고리</a>
+      <a href="#products">중고·리퍼</a>
+      <a href="#grade">상태등급</a>
+      <a href="#how">이용방법</a>
+      <a href="#location">매장안내</a>
+      <a href="#faq">자주묻는질문</a>
+    </nav>
+    <div class="right">
+      <button class="btn btn-gh" onclick="document.getElementById('sell').scrollIntoView()">내 물건 팔기</button>
+      <button class="btn btn-pri" onclick="document.getElementById('contact').scrollIntoView()">상담 신청</button>
+      <button class="menu-toggle" onclick="alert('카테고리 / 중고·리퍼 / 상태등급 / 이용방법 / 자주묻는질문')">☰</button>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="badge">📍 300평 대형매장 · 중고백화점 · 시흥 정왕역</span>
+      <h1>새것 같은 <span class="hl">중고·리퍼 가전·가구</span><br>300평 대형매장에서 최저가로 만나세요</h1>
+      <p class="lead">300평 규모 중고백화점에서 다양한 중고·리퍼·브랜드 상품을 직접 보고 고르세요.<br>시흥·안산·광명 지역 폐가전 무료수거부터 배송·설치까지 한 번에.</p>
+      <div class="search">
+        <input id="heroSearch" placeholder="찾으시는 제품을 검색해보세요 (예: 냉장고, 소파)" onkeyup="if(event.key==='Enter')goSearch()">
+        <button class="btn btn-pri" onclick="goSearch()">검색</button>
+      </div>
+      <p style="margin-top:14px;font-size:15px;color:var(--gray)">📞 전화 상담·재고 문의 <a href="tel:031-1833-4884" style="color:var(--green-d);font-weight:800">031-1833-4884</a></p>
+      <div class="hero-stats">
+        <div><div class="n">12,800+</div><div class="l">누적 판매 제품</div></div>
+        <div><div class="n">98.6%</div><div class="l">재구매·추천 만족도</div></div>
+        <div><div class="n">최대 70%</div><div class="l">새제품 대비 절약</div></div>
+      </div>
+    </div>
+    <div class="hero-card">
+      <img class="hero-photo" src="https://d8j0ntlcm91z4.cloudfront.net/user_3ECjaCILSnzxIAKMsAPjA6m4G7e/hf_20260616_101159_3ff45d7b-3569-4ce9-b9f8-b69d0a5126b7.png" alt="리사이클홈 매장 내부 진열 모습" loading="lazy">
+      <div class="row"><div class="ic">🔍</div><div><b>50항목 정밀검수</b><span>작동·외관·위생까지 단계별 점검 후 등급 부여</span></div></div>
+      <div class="row"><div class="ic">🛠️</div><div><b>1년 무상 A/S 보증</b><span>구매 후 1년간 무상 수리, 7일 내 교환·환불</span></div></div>
+      <div class="row"><div class="ic">🚚</div><div><b>익일배송 · 무료설치</b><span>수도권 익일배송, 가전 기사 직접 설치</span></div></div>
+      <div class="row"><div class="ic">🌱</div><div><b>폐가전 무료수거</b><span>새 제품 받을 때 쓰던 물건 무료로 가져갑니다</span></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- SHOWCASE BANNER (illustration) -->
+<div class="showcase">
+  <div class="wrap">
+    <svg class="store-svg" viewBox="0 0 1200 360" preserveAspectRatio="xMidYMid slice" role="img" aria-label="리사이클홈 시흥점 중고백화점 건물 전경 일러스트">
+      <defs>
+        <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6fb0e6"/><stop offset="1" stop-color="#cfe7f8"/></linearGradient>
+      </defs>
+      <rect width="1200" height="360" fill="url(#sky)"/>
+      <!-- left neighbor buildings -->
+      <rect x="0" y="150" width="135" height="175" fill="#b7c0c8"/>
+      <g fill="#8c98a2"><rect x="14" y="168" width="22" height="16"/><rect x="46" y="168" width="22" height="16"/><rect x="78" y="168" width="22" height="16"/><rect x="14" y="196" width="22" height="16"/><rect x="46" y="196" width="22" height="16"/><rect x="78" y="196" width="22" height="16"/><rect x="14" y="224" width="22" height="16"/><rect x="46" y="224" width="22" height="16"/><rect x="78" y="224" width="22" height="16"/></g>
+      <rect x="14" y="250" width="100" height="20" fill="#2f6fa8"/>
+      <!-- right neighbor dark building -->
+      <rect x="1075" y="120" width="125" height="205" fill="#5a5f64"/>
+      <g fill="#3e4347"><rect x="1095" y="150" width="26" height="20"/><rect x="1135" y="150" width="26" height="20"/><rect x="1095" y="186" width="26" height="20"/><rect x="1135" y="186" width="26" height="20"/><rect x="1095" y="222" width="26" height="20"/><rect x="1135" y="222" width="26" height="20"/></g>
+      <!-- main tower -->
+      <rect x="150" y="28" width="905" height="210" fill="#e7decd"/>
+      <!-- window columns (glass) -->
+      <g fill="#a6c1da">
+        <rect x="166" y="46" width="46" height="178"/><rect x="232" y="46" width="46" height="178"/><rect x="298" y="46" width="46" height="178"/><rect x="364" y="46" width="46" height="178"/><rect x="430" y="46" width="46" height="178"/><rect x="496" y="46" width="46" height="178"/><rect x="562" y="46" width="46" height="178"/><rect x="628" y="46" width="46" height="178"/><rect x="694" y="46" width="46" height="178"/><rect x="760" y="46" width="46" height="178"/><rect x="826" y="46" width="46" height="178"/><rect x="892" y="46" width="46" height="178"/><rect x="958" y="46" width="46" height="178"/>
+      </g>
+      <!-- floor separators (cream) -->
+      <g stroke="#e7decd" stroke-width="4">
+        <line x1="160" y1="64" x2="1045" y2="64"/><line x1="160" y1="82" x2="1045" y2="82"/><line x1="160" y1="100" x2="1045" y2="100"/><line x1="160" y1="118" x2="1045" y2="118"/><line x1="160" y1="136" x2="1045" y2="136"/><line x1="160" y1="154" x2="1045" y2="154"/><line x1="160" y1="172" x2="1045" y2="172"/><line x1="160" y1="190" x2="1045" y2="190"/><line x1="160" y1="208" x2="1045" y2="208"/>
+      </g>
+      <!-- top brand signs -->
+      <text x="600" y="42" text-anchor="middle" font-family="sans-serif" font-weight="900" font-size="17"><tspan fill="#1a4f9c">리사</tspan><tspan fill="#3a9d3a">이</tspan><tspan fill="#1a4f9c">클</tspan><tspan fill="#3a9d3a">H</tspan><tspan fill="#1a4f9c">ome</tspan></text>
+      <text x="820" y="42" text-anchor="middle" font-family="serif" font-style="italic" font-size="15" fill="#2f3a55">Sky Dream City</text>
+      <!-- dark ground-floor signboard -->
+      <rect x="150" y="238" width="905" height="34" fill="#241f1b"/>
+      <text x="250" y="262" text-anchor="middle" font-family="sans-serif" font-weight="900" font-size="22" fill="#fff">중고백화점</text>
+      <text x="430" y="261" font-family="sans-serif" font-weight="800" font-size="18" fill="#ffd24a">1833-4884</text>
+      <text x="700" y="262" text-anchor="middle" font-family="sans-serif" font-weight="900" font-size="17"><tspan fill="#fff">리사</tspan><tspan fill="#5fd07a">이</tspan><tspan fill="#fff">클</tspan><tspan fill="#5fd07a">H</tspan><tspan fill="#fff">ome</tspan></text>
+      <!-- storefront glass (blue) with orange trim -->
+      <rect x="150" y="272" width="905" height="6" fill="#e8902b"/>
+      <rect x="150" y="278" width="905" height="34" fill="#1f6fb0"/>
+      <rect x="150" y="300" width="905" height="12" fill="#e8902b" opacity=".9"/>
+      <rect x="560" y="278" width="90" height="34" fill="#2f86c8"/>
+      <!-- trees (autumn) -->
+      <g><rect x="356" y="246" width="9" height="66" fill="#7c5a39"/><circle cx="360" cy="240" r="30" fill="#e09a2e"/></g>
+      <g><rect x="636" y="246" width="9" height="66" fill="#7c5a39"/><circle cx="640" cy="238" r="32" fill="#d98a2a"/></g>
+      <g><rect x="876" y="246" width="9" height="66" fill="#7c5a39"/><circle cx="880" cy="240" r="30" fill="#e6b047"/></g>
+      <!-- guardrail + road -->
+      <rect x="0" y="316" width="1200" height="8" fill="#c9b34a"/>
+      <g stroke="#9aa49a" stroke-width="3"><line x1="60" y1="316" x2="60" y2="330"/><line x1="180" y1="316" x2="180" y2="330"/><line x1="300" y1="316" x2="300" y2="330"/><line x1="420" y1="316" x2="420" y2="330"/><line x1="540" y1="316" x2="540" y2="330"/><line x1="660" y1="316" x2="660" y2="330"/><line x1="780" y1="316" x2="780" y2="330"/><line x1="900" y1="316" x2="900" y2="330"/><line x1="1020" y1="316" x2="1020" y2="330"/><line x1="1140" y1="316" x2="1140" y2="330"/></g>
+      <rect x="0" y="324" width="1200" height="36" fill="#8f989d"/>
+      <g stroke="#f2f2f2" stroke-width="4" stroke-dasharray="38 28"><line x1="0" y1="344" x2="1200" y2="344"/></g>
+    </svg>
+    <div class="showcase-cap">📍 경기 시흥시 역전로 300 1층 · <b>300평 대형매장 최저가 판매</b> · 정왕역 1번 출구 356m</div>
+  </div>
+</div>
+
+<!-- TRUST -->
+<div class="trust">
+  <div class="wrap">
+    <div class="it"><div class="e">✅</div><b>품질보증</b><span>검수 통과 제품만</span></div>
+    <div class="it"><div class="e">↩️</div><b>7일 안심환불</b><span>마음에 안 들면 반품</span></div>
+    <div class="it"><div class="e">💳</div><b>안전결제</b><span>카드·간편결제 지원</span></div>
+    <div class="it"><div class="e">📞</div><b>1:1 상담</b><span>전문 상담사 배정</span></div>
+  </div>
+</div>
+
+<!-- CATEGORIES -->
+<section id="cats">
+  <div class="wrap center">
+    <h2 class="tt">카테고리</h2>
+    <p class="sub">가전부터 가구까지, 필요한 제품을 골라보세요</p>
+    <div class="cats">
+      <div class="cat" onclick="filterCat('냉장고')"><div class="e">🧊</div><b>냉장고</b></div>
+      <div class="cat" onclick="filterCat('세탁기')"><div class="e">🌀</div><b>세탁기</b></div>
+      <div class="cat" onclick="filterCat('에어컨')"><div class="e">❄️</div><b>에어컨</b></div>
+      <div class="cat" onclick="filterCat('TV')"><div class="e">📺</div><b>TV</b></div>
+      <div class="cat" onclick="filterCat('소파')"><div class="e">🛋️</div><b>소파</b></div>
+      <div class="cat" onclick="filterCat('식탁')"><div class="e">🍽️</div><b>식탁·테이블</b></div>
+    </div>
+  </div>
+</section>
+
+<!-- GRADE -->
+<section id="grade" style="background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <div class="center"><h2 class="tt">투명한 상태등급제</h2>
+    <p class="sub">모든 제품은 검수 후 S/A/B 등급으로 솔직하게 표기합니다</p></div>
+    <div class="grades">
+      <div class="grade s"><div class="tag">S</div><span class="pct">새제품 대비 ~40%</span>
+        <h4>리퍼 / 미사용</h4><p>전시·반품 후 미사용 제품. 외관 흠집 거의 없이 새것에 가까운 최상급 상태입니다.</p></div>
+      <div class="grade a"><div class="tag">A</div><span class="pct">~55%</span>
+        <h4>중고 상급</h4><p>사용감이 적고 작동 완벽. 생활기스가 미세하게 있을 수 있으나 기능엔 영향 없습니다.</p></div>
+      <div class="grade b"><div class="tag">B</div><span class="pct">~70%</span>
+        <h4>중고 실속</h4><p>외관 사용감은 있지만 검수·세척·수리를 마친 가성비 제품. 실사용에 전혀 문제 없습니다.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section id="products">
+  <div class="wrap">
+    <div class="center"><h2 class="tt">지금 만나는 중고·리퍼 상품</h2>
+    <p class="sub">검수 완료된 추천 제품 — 카테고리로 필터해보세요</p></div>
+    <div class="filter" id="filter"></div>
+    <div class="grid" id="grid"></div>
+  </div>
+</section>
+
+<!-- HOW -->
+<section id="how" style="background:var(--green-l)">
+  <div class="wrap">
+    <div class="center"><h2 class="tt">리사이클 홈은 이렇게 일합니다</h2>
+    <p class="sub">버려질 뻔한 제품이 새 주인을 만나기까지</p></div>
+    <div class="steps">
+      <div class="step"><div class="circ">📦</div><div class="no">STEP 01</div><h4>수거 · 매입</h4><p>가정·기업의 제품을 무료수거하거나 합리적 가격에 매입합니다.</p></div>
+      <div class="step"><div class="circ">🔬</div><div class="no">STEP 02</div><h4>50항목 검수</h4><p>엔지니어가 작동·안전·위생을 점검하고 상태등급을 매깁니다.</p></div>
+      <div class="step"><div class="circ">✨</div><div class="no">STEP 03</div><h4>세척 · 수리</h4><p>전문 세척과 부품 교체로 새것 같은 컨디션으로 복원합니다.</p></div>
+      <div class="step"><div class="circ">🚚</div><div class="no">STEP 04</div><h4>보증 배송 · 설치</h4><p>1년 보증과 함께 배송·설치, 쓰던 제품은 무료로 회수합니다.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section>
+  <div class="wrap">
+    <div class="center"><h2 class="tt">고객 후기</h2>
+    <p class="sub">리사이클 홈을 경험한 분들의 이야기</p></div>
+    <div class="rev-grid">
+      <div class="rev"><div class="stars">★★★★★</div><p>"리퍼 냉장고 샀는데 새것이랑 구분이 안 가요. 가격은 절반인데 설치까지 깔끔하게 해주셔서 만족합니다."</p>
+        <div class="who"><div class="av">김</div><div><b>김O은</b><span>양천구 · 양문형 냉장고</span></div></div></div>
+      <div class="rev"><div class="stars">★★★★★</div><p>"자취방 가구 한 번에 장만했어요. B등급인데 사진보다 훨씬 깨끗했고, 폐가구도 가져가 주셔서 편했습니다."</p>
+        <div class="who"><div class="av">이</div><div><b>이O준</b><span>성북구 · 소파+식탁</span></div></div></div>
+      <div class="rev"><div class="stars">★★★★☆</div><p>"드럼세탁기 6개월째 쓰는데 멀쩡해요. A/S 한 번 불렀는데 바로 처리해주셔서 믿음이 갑니다."</p>
+        <div class="who"><div class="av">박</div><div><b>박O희</b><span>분당 · 드럼세탁기</span></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" style="background:#fff;border-top:1px solid var(--line)">
+  <div class="wrap">
+    <div class="center"><h2 class="tt">자주 묻는 질문</h2><p class="sub">궁금한 점을 빠르게 확인하세요</p></div>
+    <div class="faq" id="faqBox"></div>
+  </div>
+</section>
+
+<!-- LOCATION -->
+<section id="location" style="background:#fff;border-top:1px solid var(--line)">
+  <div class="wrap">
+    <div class="center"><h2 class="tt">매장 안내 · 오시는 길</h2>
+    <p class="sub">직접 보고 고르세요. 매장에서 작동 상태를 확인하실 수 있습니다</p></div>
+    <div class="loc-grid">
+      <div class="map">
+        <iframe title="리사이클홈 시흥점 위치" loading="lazy" allowfullscreen
+          src="https://maps.google.com/maps?q=%EA%B2%BD%EA%B8%B0%20%EC%8B%9C%ED%9D%A5%EC%8B%9C%20%EC%97%AD%EC%A0%84%EB%A1%9C%20300&t=&z=16&ie=UTF8&iwloc=&output=embed"></iframe>
+      </div>
+      <div class="loc-card">
+        <h3 style="font-size:22px;font-weight:900;display:flex;align-items:center;gap:8px">♻ 리사이클홈 시흥점</h3>
+        <div class="li"><span class="ic">📍</span><div><b>주소</b><p>경기 시흥시 역전로 300 1층 101호</p></div></div>
+        <div class="li"><span class="ic">🚇</span><div><b>지하철</b><p>수인분당선 정왕역 1번 출구에서 356m (도보 약 5분)</p></div></div>
+        <div class="li"><span class="ic">🚗</span><div><b>자차</b><p>서울에서 출발 시 경인고속도로 이용 · 매장 앞 주차 가능</p></div></div>
+        <div class="li"><span class="ic">🕘</span><div><b>영업시간</b><p>매일 영업 ~ 19:00 종료 (방문 전 전화 권장)</p></div></div>
+        <div class="li"><span class="ic">📞</span><div><b>전화</b><p><a href="tel:031-1833-4884" style="color:var(--green-d);font-weight:800">031-1833-4884</a></p></div></div>
+        <div style="display:flex;gap:10px;margin-top:18px;flex-wrap:wrap">
+          <a class="btn btn-pri" href="https://naver.me/FwnA9fAu" target="_blank" rel="noopener">네이버 지도에서 보기 →</a>
+          <button class="btn btn-gh" onclick="document.getElementById('contact').scrollIntoView()">방문 상담 신청</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA / 팔기 + 상담 -->
+<section id="sell">
+  <div class="wrap">
+    <div class="cta" id="contact">
+      <div>
+        <h3>안 쓰는 가전·가구, 팔거나 무료로 비우세요</h3>
+        <p>사진 한 장이면 무료 견적을 보내드립니다. 시흥·안산·광명 지역 수거 일정도 원하는 날짜로 맞춰드려요. 구매·방문 상담도 이 양식으로 함께 신청할 수 있습니다.</p>
+      </div>
+      <form class="form" id="leadForm" onsubmit="return submitLead(event)">
+        <label>이름</label>
+        <input id="f_name" placeholder="홍길동" required>
+        <label>연락처</label>
+        <input id="f_phone" placeholder="010-0000-0000" required>
+        <label>문의 유형</label>
+        <select id="f_type">
+          <option>제품 구매 상담</option>
+          <option>내 물건 판매(매입) 견적</option>
+          <option>폐가전·가구 무료수거</option>
+        </select>
+        <button class="btn btn-pri" style="width:100%;margin-top:16px;padding:13px" type="submit">무료 상담 신청</button>
+        <div class="ok" id="okMsg">✅ 신청 완료! 영업일 기준 1일 내 연락드리겠습니다.</div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="fg">
+      <div>
+        <div class="logo" style="color:#fff;margin-bottom:12px"><span class="leaf">♻</span>리사이클홈 시흥점</div>
+        <p style="max-width:320px">버려질 제품에 두 번째 삶을. 믿고 사는 중고·리퍼 가전·가구 전문 매장입니다.</p>
+      </div>
+      <div><h6>바로가기</h6><a href="#products">중고·리퍼 상품</a><a href="#grade">상태등급 안내</a><a href="#how">이용방법</a><a href="#location">매장안내</a><a href="#faq">자주묻는질문</a></div>
+      <div><h6>매장 안내</h6><a href="https://naver.me/FwnA9fAu" target="_blank" rel="noopener">📍 경기 시흥시 역전로 300 1층 101호</a><a href="tel:031-1833-4884">📞 031-1833-4884</a><a>🕘 매일 영업 ~19:00 종료</a><a>🚇 수인분당선 정왕역 1번 출구 356m</a></div>
+    </div>
+    <div class="bot">© 2026 리사이클홈 시흥점 (Recycle Home). 본 페이지는 기획 시안입니다 · 경기 시흥시 역전로 300 1층 101호</div>
+  </div>
+</footer>
+
+<script>
+/* ===== 데이터 ===== */
+const products = [
+  {n:"삼성 양문형 냉장고 846L", c:"냉장고", g:"S", now:690000, was:1890000, e:"🧊", bg:"#e8f4ee", yr:"2023년식", warr:"1년"},
+  {n:"LG 디오스 4도어 냉장고", c:"냉장고", g:"A", now:540000, was:1490000, e:"🧊", bg:"#eaf2fb", yr:"2022년식", warr:"1년"},
+  {n:"LG 트롬 드럼세탁기 21kg", c:"세탁기", g:"S", now:420000, was:1190000, e:"🌀", bg:"#e8f4ee", yr:"2023년식", warr:"1년"},
+  {n:"삼성 그랑데 통돌이 세탁기", c:"세탁기", g:"B", now:190000, was:690000, e:"🌀", bg:"#fdf2e6", yr:"2021년식", warr:"6개월"},
+  {n:"삼성 무풍 스탠드 에어컨 17평", c:"에어컨", g:"A", now:480000, was:1390000, e:"❄️", bg:"#eaf2fb", yr:"2022년식", warr:"1년"},
+  {n:"LG 휘센 벽걸이 에어컨 7평", c:"에어컨", g:"B", now:150000, was:520000, e:"❄️", bg:"#fdf2e6", yr:"2020년식", warr:"6개월"},
+  {n:"삼성 Neo QLED 65인치 TV", c:"TV", g:"S", now:740000, was:1990000, e:"📺", bg:"#e8f4ee", yr:"2023년식", warr:"1년"},
+  {n:"LG 올레드 55인치 TV", c:"TV", g:"A", now:560000, was:1690000, e:"📺", bg:"#eaf2fb", yr:"2022년식", warr:"1년"},
+  {n:"4인용 패브릭 소파 (그레이)", c:"소파", g:"A", now:230000, was:690000, e:"🛋️", bg:"#eaf2fb", yr:"리퍼", warr:"3개월"},
+  {n:"3인용 가죽 소파 (브라운)", c:"소파", g:"B", now:170000, was:590000, e:"🛋️", bg:"#fdf2e6", yr:"중고상급", warr:"3개월"},
+  {n:"원목 4인 식탁 세트", c:"식탁", g:"S", now:210000, was:560000, e:"🍽️", bg:"#e8f4ee", yr:"리퍼", warr:"3개월"},
+  {n:"세라믹 6인 확장형 식탁", c:"식탁", g:"A", now:290000, was:780000, e:"🍽️", bg:"#eaf2fb", yr:"중고상급", warr:"3개월"},
+];
+const cats = ["전체","냉장고","세탁기","에어컨","TV","소파","식탁"];
+const catSVG = {
+  "냉장고":`<svg viewBox="0 0 80 110" style="height:92px"><rect x="22" y="6" width="36" height="98" rx="6" fill="#cdddec" stroke="#1a4f9c" stroke-width="2.5"/><line x1="22" y1="44" x2="58" y2="44" stroke="#1a4f9c" stroke-width="2.5"/><rect x="50" y="14" width="4" height="20" rx="2" fill="#1a4f9c"/><rect x="50" y="52" width="4" height="20" rx="2" fill="#1a4f9c"/><circle cx="30" cy="98" r="2" fill="#1a4f9c"/><circle cx="50" cy="98" r="2" fill="#1a4f9c"/></svg>`,
+  "세탁기":`<svg viewBox="0 0 80 110" style="height:92px"><rect x="16" y="8" width="48" height="94" rx="6" fill="#dceaf6" stroke="#1a4f9c" stroke-width="2.5"/><circle cx="40" cy="62" r="21" fill="#fff" stroke="#1a4f9c" stroke-width="2.5"/><circle cx="40" cy="62" r="11" fill="#bcd3e8"/><circle cx="25" cy="22" r="3" fill="#3a9d3a"/><circle cx="35" cy="22" r="3" fill="#1a4f9c"/><rect x="46" y="18" width="12" height="6" rx="2" fill="#cdddec"/></svg>`,
+  "에어컨":`<svg viewBox="0 0 110 90" style="height:78px"><rect x="10" y="20" width="90" height="32" rx="9" fill="#eaf2fb" stroke="#1a4f9c" stroke-width="2.5"/><line x1="18" y1="46" x2="92" y2="46" stroke="#1a4f9c" stroke-width="2"/><circle cx="86" cy="30" r="3" fill="#3a9d3a"/><path d="M32 60 q6 9 12 0 M64 60 q6 9 12 0" stroke="#3a9d3a" stroke-width="2.5" fill="none"/></svg>`,
+  "TV":`<svg viewBox="0 0 110 90" style="height:80px"><rect x="12" y="8" width="86" height="54" rx="5" fill="#22303d" stroke="#1a4f9c" stroke-width="2.5"/><rect x="18" y="14" width="74" height="42" rx="2" fill="#3a6ea5"/><rect x="48" y="62" width="14" height="8" fill="#1a4f9c"/><rect x="32" y="70" width="46" height="5" rx="2" fill="#1a4f9c"/></svg>`,
+  "소파":`<svg viewBox="0 0 120 80" style="height:72px"><rect x="16" y="34" width="88" height="28" rx="9" fill="#9fb8a6"/><rect x="10" y="24" width="20" height="38" rx="9" fill="#86a690"/><rect x="90" y="24" width="20" height="38" rx="9" fill="#86a690"/><rect x="28" y="26" width="64" height="18" rx="7" fill="#b7ccbd"/><line x1="24" y1="62" x2="24" y2="72" stroke="#5d6b63" stroke-width="3.5"/><line x1="96" y1="62" x2="96" y2="72" stroke="#5d6b63" stroke-width="3.5"/></svg>`,
+  "식탁":`<svg viewBox="0 0 120 80" style="height:72px"><rect x="18" y="32" width="84" height="9" rx="3" fill="#c89b6a"/><rect x="24" y="41" width="5" height="30" fill="#a8804f"/><rect x="91" y="41" width="5" height="30" fill="#a8804f"/><circle cx="44" cy="24" r="6" fill="#9fb8a6"/><circle cx="76" cy="24" r="6" fill="#9fb8a6"/></svg>`
+};
+const CDN = "https://d8j0ntlcm91z4.cloudfront.net/user_3ECjaCILSnzxIAKMsAPjA6m4G7e/";
+const catIMG = {
+  "냉장고": CDN+"hf_20260616_101211_e8f6a4a3-bc42-439f-a30e-b49f4a6c2b4e.png",
+  "세탁기": CDN+"hf_20260616_101212_a0ada311-f99d-44a9-b564-52682ec544b9.png",
+  "에어컨": CDN+"hf_20260616_101213_364873a4-beef-49e9-a151-beeccc2ed272.jpeg",
+  "TV": CDN+"hf_20260616_101529_e0f2d645-cf48-4d07-b7d1-9653f534f538.png",
+  "소파": CDN+"hf_20260616_101526_8ccaceec-4f8a-4c28-bdfe-e85549d30d56.png",
+  "식탁": CDN+"hf_20260616_101528_96b94d0d-cfdb-44df-a137-d5408a321e83.png"
+};
+const gColor = {S:"#1f7a52", A:"#3a8fd0", B:"#e08a2b"};
+let active = "전체", keyword = "";
+
+const won = n => n.toLocaleString("ko-KR")+"원";
+
+function renderFilter(){
+  document.getElementById("filter").innerHTML = cats.map(c =>
+    `<button class="chip ${c===active?'on':''}" onclick="filterCat('${c}')">${c}</button>`).join("");
+}
+function renderGrid(){
+  let list = products.filter(p =>
+    (active==="전체"||p.c===active) &&
+    (keyword===""||(p.n+p.c).toLowerCase().includes(keyword.toLowerCase())));
+  const g = document.getElementById("grid");
+  if(!list.length){ g.innerHTML = `<div class="empty">조건에 맞는 상품이 없습니다. 다른 카테고리를 선택해보세요.</div>`; return; }
+  g.innerHTML = list.map((p,i) => {
+    const off = Math.round((1 - p.now/p.was)*100);
+    return `<div class="pcard">
+      <div class="thumb" style="background:${p.bg}">
+        <span class="g" style="background:${gColor[p.g]}">${p.g}등급</span>
+        <span class="heart" onclick="this.classList.toggle('on');this.textContent=this.classList.contains('on')?'❤️':'🤍'">🤍</span>
+        ${catIMG[p.c] ? `<img class="pimg" src="${catIMG[p.c]}" alt="${p.n}" loading="lazy">` : (catSVG[p.c]||p.e)}
+      </div>
+      <div class="pbody">
+        <span class="cat-l">${p.c} · ${p.yr}</span>
+        <h5>${p.n}</h5>
+        <div class="price">
+          <div><span class="off">${off}%</span><span class="now">${won(p.now)}</span><span class="was">${won(p.was)}</span></div>
+          <div class="meta"><span>🛠️ A/S ${p.warr}</span><span>🚚 익일배송</span></div>
+        </div>
+      </div>
+    </div>`;
+  }).join("");
+}
+function filterCat(c){
+  active = cats.includes(c) ? c : "전체";
+  if(!cats.includes(c)){ // 카테고리 카드(식탁 등 별칭) 매핑
+    active = c.includes("식탁") ? "식탁" : c;
+  }
+  keyword="";
+  document.getElementById("heroSearch").value="";
+  renderFilter(); renderGrid();
+  document.getElementById("products").scrollIntoView({behavior:"smooth"});
+}
+function goSearch(){
+  keyword = document.getElementById("heroSearch").value.trim();
+  active = "전체";
+  renderFilter(); renderGrid();
+  document.getElementById("products").scrollIntoView({behavior:"smooth"});
+}
+
+/* FAQ */
+const faqs = [
+  ["중고·리퍼 제품인데 믿을 수 있나요?","모든 제품은 전문 엔지니어가 50개 항목을 점검하고 작동·안전·위생 검수를 통과한 제품만 판매합니다. 상태는 S/A/B 등급으로 솔직하게 표기하며, 검수 사진도 함께 제공합니다."],
+  ["A/S와 환불은 어떻게 되나요?","제품 등급에 따라 최소 3개월~최대 1년 무상 A/S를 제공합니다. 수령 후 7일 이내에는 단순 변심에도 교환·환불이 가능합니다(설치 제품 제외 조건 안내)."],
+  ["배송과 설치는 얼마나 걸리나요?","수도권은 주문 다음 날 익일배송이 기본이며, 가전은 전문 기사가 직접 설치합니다. 그 외 지역은 1~3일 소요되며 배송 일정은 상담 시 안내드립니다."],
+  ["쓰던 가전·가구도 가져가 주나요?","네. 새 제품을 받으실 때 기존에 쓰시던 동일 품목을 무료로 수거해 드립니다. 판매(매입) 견적도 사진 한 장으로 무료로 받아보실 수 있습니다."],
+  ["가격은 새 제품보다 얼마나 저렴한가요?","등급과 제품에 따라 새 제품 대비 약 40~70% 저렴합니다. 리퍼(S등급)는 새것에 가까우면서 가격은 크게 낮은 것이 특징입니다."],
+];
+document.getElementById("faqBox").innerHTML = faqs.map(([q,a]) =>
+  `<div class="qa"><q onclick="this.parentNode.classList.toggle('open')">${q}<span class="arr">▾</span></q><div class="ans">${a}</div></div>`).join("");
+
+/* 폼 */
+function submitLead(e){
+  e.preventDefault();
+  const name=document.getElementById("f_name").value.trim();
+  const phone=document.getElementById("f_phone").value.trim();
+  if(!name||!phone){return false;}
+  document.getElementById("okMsg").style.display="block";
+  document.getElementById("okMsg").textContent=`✅ ${name}님, 신청이 접수되었습니다. 영업일 1일 내 연락드릴게요!`;
+  e.target.querySelector("button").textContent="신청 완료됨";
+  return false;
+}
+
+renderFilter(); renderGrid();
+</script>
+</body>
+</html>
