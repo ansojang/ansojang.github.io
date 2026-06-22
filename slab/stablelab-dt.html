@@ -285,12 +285,12 @@
 <section id="social"><div class="wrap">
   <div class="center reveal" style="max-width:720px;margin:0 auto 40px"><span class="eyebrow">Social Trading</span><h2>세팅이 어렵다면?<br>검증된 전략을 그대로 복사하세요</h2><p class="lead" style="margin-top:10px;font-size:13px">실제 사용자 성공 세팅값을 내 계좌에 똑같이 적용. ※ 개별 운용 결과이며 동일 수익을 보장하지 않습니다.</p></div>
   <div class="res-grid">
-    <div class="res reveal"><div class="h"><div class="nm">비트코인 BTC</div><div class="ty">독립 청산</div></div><div class="profit">+459,680원</div><div class="pl">자본 1,000만 원 · 62일</div><div class="meta"><span>총 거래 845회</span><span>1회 차익 544원</span></div></div>
-    <div class="res reveal"><div class="h"><div class="nm">이더리움 ETH</div><div class="ty">독립 청산</div></div><div class="profit">+1,067,144원</div><div class="pl">자본 1,000만 원 · 77일</div><div class="meta"><span>총 거래 889회</span><span>1회 차익 1,200원</span></div></div>
-    <div class="res reveal"><div class="h"><div class="nm">비트코인 BTC</div><div class="ty">독립 청산</div></div><div class="profit">+267,890원</div><div class="pl">자본 1,000만 원 · 45일</div><div class="meta"><span>총 거래 96회</span><span>1회 차익 2,800원</span></div></div>
-    <div class="res reveal"><div class="h"><div class="nm">테더 USDT</div><div class="ty">파동형</div></div><div class="profit">+559,998원</div><div class="pl">자본 3,000만 원 · 104일</div><div class="meta"><span>총 거래 19,996회</span><span>1회 차익 28원</span></div></div>
-    <div class="res reveal"><div class="h"><div class="nm">솔라나 SOL</div><div class="ty">파동형</div></div><div class="profit">+4,954,194원</div><div class="pl">자본 3,000만 원 · 106일</div><div class="meta"><span>총 거래 19,816회</span><span>1회 차익 250원</span></div></div>
-    <div class="res reveal"><div class="h"><div class="nm">비트코인 BTC</div><div class="ty">독립 청산</div></div><div class="profit">+2,350,250원</div><div class="pl">자본 3,000만 원 · 52일</div><div class="meta"><span>총 거래 174회</span><span>1회 차익 13,500원</span></div></div>
+    <div class="res reveal"><div class="h"><div class="nm">비트코인 BTC</div><div class="ty">독립 청산</div></div><div class="profit" data-count="459680" data-prefix="+" data-suffix="원">+0원</div><div class="pl">자본 1,000만 원 · 62일</div><div class="meta"><span>총 거래 845회</span><span>1회 차익 544원</span></div></div>
+    <div class="res reveal"><div class="h"><div class="nm">이더리움 ETH</div><div class="ty">독립 청산</div></div><div class="profit" data-count="1067144" data-prefix="+" data-suffix="원">+0원</div><div class="pl">자본 1,000만 원 · 77일</div><div class="meta"><span>총 거래 889회</span><span>1회 차익 1,200원</span></div></div>
+    <div class="res reveal"><div class="h"><div class="nm">비트코인 BTC</div><div class="ty">독립 청산</div></div><div class="profit" data-count="267890" data-prefix="+" data-suffix="원">+0원</div><div class="pl">자본 1,000만 원 · 45일</div><div class="meta"><span>총 거래 96회</span><span>1회 차익 2,800원</span></div></div>
+    <div class="res reveal"><div class="h"><div class="nm">테더 USDT</div><div class="ty">파동형</div></div><div class="profit" data-count="559998" data-prefix="+" data-suffix="원">+0원</div><div class="pl">자본 3,000만 원 · 104일</div><div class="meta"><span>총 거래 19,996회</span><span>1회 차익 28원</span></div></div>
+    <div class="res reveal"><div class="h"><div class="nm">솔라나 SOL</div><div class="ty">파동형</div></div><div class="profit" data-count="4954194" data-prefix="+" data-suffix="원">+0원</div><div class="pl">자본 3,000만 원 · 106일</div><div class="meta"><span>총 거래 19,816회</span><span>1회 차익 250원</span></div></div>
+    <div class="res reveal"><div class="h"><div class="nm">비트코인 BTC</div><div class="ty">독립 청산</div></div><div class="profit" data-count="2350250" data-prefix="+" data-suffix="원">+0원</div><div class="pl">자본 3,000만 원 · 52일</div><div class="meta"><span>총 거래 174회</span><span>1회 차익 13,500원</span></div></div>
   </div>
 </div></section>
 
@@ -444,6 +444,14 @@
     draw(); setInterval(step,140);
   })();
   function submitForm(e){e.preventDefault();alert('상담 신청이 접수되었습니다. 담당자가 곧 연락드리겠습니다.\n\n※ 실제 운영 시 폼 제출을 서버·CRM과 연동해 주세요.');e.target.reset();return false;}
+
+  (function(){
+    function fmt(t,dec,pre,suf){return pre+t.toLocaleString(undefined,{minimumFractionDigits:dec,maximumFractionDigits:dec})+suf;}
+    function animCount(el){var t=+el.dataset.count,dec=+(el.dataset.dec||0),pre=el.dataset.prefix||'',suf=el.dataset.suffix||'',dur=1500,st=performance.now();
+      function f(now){var p=Math.min(1,(now-st)/dur);p=1-Math.pow(1-p,3);el.textContent=fmt(t*p,dec,pre,suf);if(p<1)requestAnimationFrame(f);else el.textContent=fmt(t,dec,pre,suf);}requestAnimationFrame(f);}
+    var cuo=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){animCount(e.target);cuo.unobserve(e.target);}});},{threshold:.4});
+    document.querySelectorAll('.profit[data-count]').forEach(function(el){cuo.observe(el);});
+  })();
 </script>
 </body>
 </html>

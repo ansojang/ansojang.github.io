@@ -264,12 +264,12 @@
 <section id="social" style="background:var(--bg2)"><div class="wrap">
   <div class="center reveal" style="max-width:720px;margin:0 auto 40px"><span class="eyebrow">Social Trading</span><h2>세팅이 어렵다면?<br>검증된 달러 전략을 그대로 복사하세요</h2><p class="lead" style="margin-top:10px;font-size:13px">실제 사용자 성공 세팅값을 내 계좌에 똑같이 적용. ※ 개별 운용 결과이며 동일 수익을 보장하지 않습니다.</p></div>
   <div class="res-grid">
-    <div class="res reveal"><div class="h"><div class="nm">엔비디아 NVDA</div><div class="ty">파동형</div></div><div class="profit">+$2,481.00</div><div class="pl">자본 $10,000 · 62일</div><div class="meta"><span>총 거래 827회</span><span>1회 차익 $3.00</span></div></div>
-    <div class="res reveal"><div class="h"><div class="nm">애플 AAPL</div><div class="ty">파동형</div></div><div class="profit">+$980.20</div><div class="pl">자본 $10,000 · 45일</div><div class="meta"><span>총 거래 490회</span><span>1회 차익 $2.00</span></div></div>
-    <div class="res reveal"><div class="h"><div class="nm">구글 GOOGL</div><div class="ty">파동형</div></div><div class="profit">+$850.00</div><div class="pl">자본 $10,000 · 55일</div><div class="meta"><span>총 거래 283회</span><span>1회 차익 $3.00</span></div></div>
-    <div class="res reveal"><div class="h"><div class="nm">테슬라 TSLA</div><div class="ty">적립형</div></div><div class="profit">+$4,250.50</div><div class="pl">자본 $30,000 · 104일</div><div class="meta"><span>전량 익절 4회</span><span>매수 체결 124회</span></div></div>
-    <div class="res reveal"><div class="h"><div class="nm">마이크로소프트</div><div class="ty">적립형</div></div><div class="profit">+$2,950.00</div><div class="pl">자본 $30,000 · 86일</div><div class="meta"><span>전량 익절 3회</span><span>매수 체결 88회</span></div></div>
-    <div class="res reveal"><div class="h"><div class="nm">나스닥 ETF QQQ</div><div class="ty">적립형</div></div><div class="profit">+$7,630.00</div><div class="pl">자본 $50,000 · 90일</div><div class="meta"><span>전량 익절 2회</span><span>매수 체결 154회</span></div></div>
+    <div class="res reveal"><div class="h"><div class="nm">엔비디아 NVDA</div><div class="ty">파동형</div></div><div class="profit" data-count="2481.00" data-prefix="+$" data-suffix="" data-dec="2">+$0.00</div><div class="pl">자본 $10,000 · 62일</div><div class="meta"><span>총 거래 827회</span><span>1회 차익 $3.00</span></div></div>
+    <div class="res reveal"><div class="h"><div class="nm">애플 AAPL</div><div class="ty">파동형</div></div><div class="profit" data-count="980.20" data-prefix="+$" data-suffix="" data-dec="2">+$0.00</div><div class="pl">자본 $10,000 · 45일</div><div class="meta"><span>총 거래 490회</span><span>1회 차익 $2.00</span></div></div>
+    <div class="res reveal"><div class="h"><div class="nm">구글 GOOGL</div><div class="ty">파동형</div></div><div class="profit" data-count="850.00" data-prefix="+$" data-suffix="" data-dec="2">+$0.00</div><div class="pl">자본 $10,000 · 55일</div><div class="meta"><span>총 거래 283회</span><span>1회 차익 $3.00</span></div></div>
+    <div class="res reveal"><div class="h"><div class="nm">테슬라 TSLA</div><div class="ty">적립형</div></div><div class="profit" data-count="4250.50" data-prefix="+$" data-suffix="" data-dec="2">+$0.00</div><div class="pl">자본 $30,000 · 104일</div><div class="meta"><span>전량 익절 4회</span><span>매수 체결 124회</span></div></div>
+    <div class="res reveal"><div class="h"><div class="nm">마이크로소프트</div><div class="ty">적립형</div></div><div class="profit" data-count="2950.00" data-prefix="+$" data-suffix="" data-dec="2">+$0.00</div><div class="pl">자본 $30,000 · 86일</div><div class="meta"><span>전량 익절 3회</span><span>매수 체결 88회</span></div></div>
+    <div class="res reveal"><div class="h"><div class="nm">나스닥 ETF QQQ</div><div class="ty">적립형</div></div><div class="profit" data-count="7630.00" data-prefix="+$" data-suffix="" data-dec="2">+$0.00</div><div class="pl">자본 $50,000 · 90일</div><div class="meta"><span>전량 익절 2회</span><span>매수 체결 154회</span></div></div>
   </div>
 </div></section>
 
@@ -423,6 +423,14 @@
     draw(); setInterval(step,150);
   })();
   function submitForm(e){e.preventDefault();alert('상담 신청이 접수되었습니다. 담당자가 곧 연락드리겠습니다.\n\n※ 실제 운영 시 폼 제출을 서버·CRM과 연동해 주세요.');e.target.reset();return false;}
+
+  (function(){
+    function fmt(t,dec,pre,suf){return pre+t.toLocaleString(undefined,{minimumFractionDigits:dec,maximumFractionDigits:dec})+suf;}
+    function animCount(el){var t=+el.dataset.count,dec=+(el.dataset.dec||0),pre=el.dataset.prefix||'',suf=el.dataset.suffix||'',dur=1500,st=performance.now();
+      function f(now){var p=Math.min(1,(now-st)/dur);p=1-Math.pow(1-p,3);el.textContent=fmt(t*p,dec,pre,suf);if(p<1)requestAnimationFrame(f);else el.textContent=fmt(t,dec,pre,suf);}requestAnimationFrame(f);}
+    var cuo=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){animCount(e.target);cuo.unobserve(e.target);}});},{threshold:.4});
+    document.querySelectorAll('.profit[data-count]').forEach(function(el){cuo.observe(el);});
+  })();
 </script>
 </body>
 </html>

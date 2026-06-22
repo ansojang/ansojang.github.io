@@ -325,12 +325,12 @@
     <p class="lead" style="margin-top:10px;font-size:13px">실제 사용자 성공 세팅값을 내 계좌에 똑같이 적용. ※ 개별 운용 결과이며 동일 수익을 보장하지 않습니다.</p>
   </div>
   <div class="res-grid">
-    <div class="res reveal"><div class="h"><div class="nm">삼성전자</div><div class="ty">파동형</div></div><div class="profit">+1,261,770원</div><div class="pl">자본 1,000만 원 · 62일</div><div class="meta"><span>총 거래 1,842회</span><span>1회 차익 685원</span></div></div>
-    <div class="res reveal"><div class="h"><div class="nm">포스코홀딩스</div><div class="ty">파동형</div></div><div class="profit">+1,768,320원</div><div class="pl">자본 3,000만 원 · 87일</div><div class="meta"><span>총 거래 720회</span><span>1회 차익 2,456원</span></div></div>
-    <div class="res reveal"><div class="h"><div class="nm">셀트리온</div><div class="ty">파동형</div></div><div class="profit">+5,630,000원</div><div class="pl">자본 5,000만 원 · 112일</div><div class="meta"><span>총 거래 1,599회</span><span>1회 차익 3,520원</span></div></div>
-    <div class="res reveal"><div class="h"><div class="nm">SK하이닉스</div><div class="ty">적립형</div></div><div class="profit">+4,820,000원</div><div class="pl">자본 3,000만 원 · 104일</div><div class="meta"><span>전량 익절 3회</span><span>매수 체결 98회</span></div></div>
-    <div class="res reveal"><div class="h"><div class="nm">네이버</div><div class="ty">적립형</div></div><div class="profit">+2,954,194원</div><div class="pl">자본 3,000만 원 · 86일</div><div class="meta"><span>전량 익절 3회</span><span>매수 체결 88회</span></div></div>
-    <div class="res reveal"><div class="h"><div class="nm">카카오</div><div class="ty">적립형</div></div><div class="profit">+4,100,000원</div><div class="pl">자본 5,000만 원 · 90일</div><div class="meta"><span>전량 익절 2회</span><span>매수 체결 154회</span></div></div>
+    <div class="res reveal"><div class="h"><div class="nm">삼성전자</div><div class="ty">파동형</div></div><div class="profit" data-count="1261770" data-prefix="+" data-suffix="원">+0원</div><div class="pl">자본 1,000만 원 · 62일</div><div class="meta"><span>총 거래 1,842회</span><span>1회 차익 685원</span></div></div>
+    <div class="res reveal"><div class="h"><div class="nm">포스코홀딩스</div><div class="ty">파동형</div></div><div class="profit" data-count="1768320" data-prefix="+" data-suffix="원">+0원</div><div class="pl">자본 3,000만 원 · 87일</div><div class="meta"><span>총 거래 720회</span><span>1회 차익 2,456원</span></div></div>
+    <div class="res reveal"><div class="h"><div class="nm">셀트리온</div><div class="ty">파동형</div></div><div class="profit" data-count="5630000" data-prefix="+" data-suffix="원">+0원</div><div class="pl">자본 5,000만 원 · 112일</div><div class="meta"><span>총 거래 1,599회</span><span>1회 차익 3,520원</span></div></div>
+    <div class="res reveal"><div class="h"><div class="nm">SK하이닉스</div><div class="ty">적립형</div></div><div class="profit" data-count="4820000" data-prefix="+" data-suffix="원">+0원</div><div class="pl">자본 3,000만 원 · 104일</div><div class="meta"><span>전량 익절 3회</span><span>매수 체결 98회</span></div></div>
+    <div class="res reveal"><div class="h"><div class="nm">네이버</div><div class="ty">적립형</div></div><div class="profit" data-count="2954194" data-prefix="+" data-suffix="원">+0원</div><div class="pl">자본 3,000만 원 · 86일</div><div class="meta"><span>전량 익절 3회</span><span>매수 체결 88회</span></div></div>
+    <div class="res reveal"><div class="h"><div class="nm">카카오</div><div class="ty">적립형</div></div><div class="profit" data-count="4100000" data-prefix="+" data-suffix="원">+0원</div><div class="pl">자본 5,000만 원 · 90일</div><div class="meta"><span>전량 익절 2회</span><span>매수 체결 154회</span></div></div>
   </div>
 </div></section>
 
@@ -500,6 +500,14 @@
     draw(); setInterval(step,150);
   })();
   function submitForm(e){e.preventDefault();alert('상담 신청이 접수되었습니다. 담당자가 곧 연락드리겠습니다.\n\n※ 실제 운영 시 폼 제출을 서버·CRM과 연동해 주세요.');e.target.reset();return false;}
+
+  (function(){
+    function fmt(t,dec,pre,suf){return pre+t.toLocaleString(undefined,{minimumFractionDigits:dec,maximumFractionDigits:dec})+suf;}
+    function animCount(el){var t=+el.dataset.count,dec=+(el.dataset.dec||0),pre=el.dataset.prefix||'',suf=el.dataset.suffix||'',dur=1500,st=performance.now();
+      function f(now){var p=Math.min(1,(now-st)/dur);p=1-Math.pow(1-p,3);el.textContent=fmt(t*p,dec,pre,suf);if(p<1)requestAnimationFrame(f);else el.textContent=fmt(t,dec,pre,suf);}requestAnimationFrame(f);}
+    var cuo=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){animCount(e.target);cuo.unobserve(e.target);}});},{threshold:.4});
+    document.querySelectorAll('.profit[data-count]').forEach(function(el){cuo.observe(el);});
+  })();
 </script>
 </body>
 </html>
