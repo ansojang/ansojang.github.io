@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>StableLab US | 잠든 사이 달러를 수확하는 미국주식 자동매매</title>
+<meta name="description" content="애플·엔비디아 등 빅테크를 잠든 사이 자동 매매해 달러를 쌓는 미국 증시 특화 오토 트레이딩. 밤샘 미장 매매를 시스템으로 대체하세요. 무료 상담." />
+<style>
+  :root{
+    --bg:#06100c;--bg2:#0a1812;--panel:#0f2018;--panel2:#143024;--line:#1f3d2e;
+    --ink:#eaf6ef;--ink-soft:#9fc9b3;--ink-dim:#6c947f;
+    --c1:#22c97a;--c2:#f5c451;--green:#34e08a;--red:#ff6b6b;--gold:#f5c451;
+    --grad:linear-gradient(120deg,#22c97a,#f5c451);
+    --radius:14px;--maxw:1140px;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
+  section{padding:88px 0;position:relative}
+  h1,h2,h3{line-height:1.25;letter-spacing:-.03em;font-weight:800}
+  h2{font-size:clamp(26px,3.7vw,40px)}
+  .eyebrow{display:inline-block;font-size:12px;font-weight:800;letter-spacing:.14em;color:var(--c2);text-transform:uppercase;margin-bottom:14px}
+  .lead{color:var(--ink-soft);font-size:clamp(15px,1.6vw,18px)}.center{text-align:center}
+  .gtext{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;font-weight:800;border-radius:11px;padding:16px 28px;font-size:16px;cursor:pointer;border:none;transition:.18s;white-space:nowrap}
+  .btn-primary{background:var(--grad);color:#06170d;box-shadow:0 10px 30px rgba(34,201,122,.3)}
+  .btn-primary:hover{transform:translateY(-2px)}
+  .btn-ghost{background:rgba(255,255,255,.04);color:var(--ink);border:1px solid var(--line)}.btn-ghost:hover{border-color:var(--c1);color:var(--c1)}
+  .badge{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;padding:6px 13px;border-radius:999px;background:rgba(34,201,122,.1);color:var(--c1);border:1px solid rgba(34,201,122,.25)}
+  .topbar{background:var(--grad);color:#06170d;text-align:center;font-size:13.5px;font-weight:800;padding:9px 14px}
+  header.nav{position:sticky;top:0;z-index:60;background:rgba(6,16,12,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+  .nav-in{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .logo{font-weight:900;font-size:19px;display:flex;align-items:center;gap:9px}
+  .logo .mk{width:25px;height:25px;border-radius:7px;background:var(--grad)}
+  .logo small{font-size:11px;font-weight:800;color:var(--c2);background:rgba(245,196,81,.12);padding:2px 8px;border-radius:6px}
+  .nav-links{display:flex;gap:22px;font-size:14px;font-weight:600;color:var(--ink-soft)}.nav-links a:hover{color:var(--c1)}
+  .nav .btn{padding:10px 18px;font-size:14px}
+  @media(max-width:920px){.nav-links{display:none}}
+  .switch{display:flex;gap:6px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:4px}
+  .switch a{font-size:12.5px;font-weight:800;padding:6px 12px;border-radius:7px;color:var(--ink-dim)}
+  .switch a.on{background:var(--grad);color:#06170d}
+  @media(max-width:560px){.switch{display:none}}
+
+  .hero{background:radial-gradient(820px 420px at 78% -8%,rgba(34,201,122,.16),transparent),radial-gradient(700px 420px at 12% 12%,rgba(245,196,81,.12),transparent);overflow:hidden;padding-top:64px}
+  .hero-grid{display:grid;grid-template-columns:1.08fr .92fr;gap:48px;align-items:center}
+  .hero h1{font-size:clamp(31px,5vw,55px);letter-spacing:-.035em}
+  .hero h1 .hl{position:relative;white-space:nowrap}
+  .hero h1 .hl::after{content:"";position:absolute;left:-2px;right:-2px;bottom:6px;height:14px;background:rgba(245,196,81,.25);z-index:-1;border-radius:3px}
+  .hero p.sub{margin:22px 0 18px;font-size:clamp(16px,1.7vw,19px);color:var(--ink-soft);max-width:560px}
+  .eco{display:flex;gap:10px;margin:18px 0 26px;flex-wrap:wrap}
+  .eco span{font-size:13px;font-weight:800;padding:8px 15px;border-radius:10px;border:1px solid var(--line);background:var(--panel)}.eco span b{color:var(--c2)}
+  .hero-cta{display:flex;gap:12px;flex-wrap:wrap}
+  .hero-trust{margin-top:20px;display:flex;gap:20px;flex-wrap:wrap;font-size:13px;color:var(--ink-dim)}.hero-trust b{color:var(--ink)}
+  @media(max-width:920px){.hero-grid{grid-template-columns:1fr;gap:36px}}
+  .dash{background:linear-gradient(180deg,var(--panel),var(--bg2));border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:0 30px 70px rgba(0,0,0,.5)}
+  .dash-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+  .live{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:800;color:var(--green)}
+  .live i{width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse 1.5s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(52,224,138,.6)}70%{box-shadow:0 0 0 8px rgba(52,224,138,0)}100%{box-shadow:0 0 0 0 rgba(52,224,138,0)}}
+  .dash-kpi{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:14px}
+  .kpi{background:var(--panel2);border:1px solid var(--line);border-radius:11px;padding:13px 14px}
+  .kpi .l{font-size:11.5px;color:var(--ink-dim)}.kpi .v{font-size:19px;font-weight:900;margin-top:3px}.kpi .v.up{color:var(--green)}
+  .ord{background:var(--panel2);border:1px solid var(--line);border-radius:11px;font-size:13px}
+  .ord .row{display:flex;justify-content:space-between;padding:9px 14px;border-bottom:1px dashed var(--line)}.ord .row:last-child{border:none}
+  .ord .b{color:var(--green);font-weight:800}.ord .s{color:var(--red);font-weight:800}.ord .muted{color:var(--ink-dim)}
+  .dash-note{font-size:11px;color:var(--ink-dim);margin-top:11px;text-align:center}
+
+  .marq{background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;padding:14px 0}
+  .marq-track{display:flex;gap:40px;white-space:nowrap;animation:scrollx 26s linear infinite;font-weight:800;font-size:14px;color:var(--ink-soft)}
+  .marq-track span b{color:var(--green)}
+  @keyframes scrollx{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+  .stats{background:var(--bg2)}.stat-in{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;text-align:center}
+  .stat .n{font-size:clamp(26px,3.6vw,38px);font-weight:900}.stat .l{font-size:13px;color:var(--ink-soft);margin-top:6px}
+  @media(max-width:680px){.stat-in{grid-template-columns:repeat(2,1fr);gap:26px}}
+
+  .pain-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}@media(max-width:780px){.pain-grid{grid-template-columns:1fr}}
+  .pain{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:28px}.pain:hover{border-color:var(--red)}
+  .pain .ic{font-size:30px;margin-bottom:14px}.pain h3{font-size:20px;margin-bottom:10px}.pain p{color:var(--ink-soft);font-size:15px}
+  .answer{margin:40px auto 0;text-align:center;max-width:780px;font-size:clamp(20px,2.5vw,28px);font-weight:800}
+
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}@media(max-width:860px){.grid3{grid-template-columns:1fr}}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:26px;transition:.2s}.card:hover{transform:translateY(-3px);border-color:rgba(34,201,122,.4)}
+  .card .ic{width:48px;height:48px;border-radius:12px;background:rgba(34,201,122,.12);color:var(--c1);display:flex;align-items:center;justify-content:center;font-size:23px;margin-bottom:16px}
+  .card h3{font-size:18px;margin-bottom:8px}.card p{color:var(--ink-soft);font-size:14.5px}
+
+  .strat{display:grid;grid-template-columns:1fr 1fr;gap:22px}@media(max-width:860px){.strat{grid-template-columns:1fr}}
+  .strat-card{background:linear-gradient(180deg,var(--panel),var(--bg2));border:1px solid var(--line);border-radius:18px;padding:30px}
+  .strat-card .tag{font-size:12px;font-weight:800;letter-spacing:.06em;color:var(--c2)}
+  .strat-card h3{font-size:23px;margin:8px 0 12px}.strat-card p{color:var(--ink-soft);font-size:15px;margin-bottom:18px}
+  .feat{display:flex;gap:11px;align-items:flex-start;margin-bottom:12px;font-size:14.5px}.feat i{color:var(--c1);font-style:normal;font-weight:900;flex-shrink:0}
+  .viz{margin-top:16px;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:16px;font-size:12.5px;color:var(--ink-dim)}
+  .bars{display:flex;align-items:flex-end;gap:5px;height:84px;margin-bottom:8px}
+  .bars .bar{flex:1;border-radius:4px 4px 0 0;background:linear-gradient(180deg,rgba(34,201,122,.55),rgba(34,201,122,.12))}
+  .bars .bar.sell{background:linear-gradient(180deg,var(--gold),rgba(245,196,81,.2))}
+  .line{display:flex;align-items:flex-end;gap:3px;height:84px;margin-bottom:8px}
+  .line .d{flex:1;background:linear-gradient(180deg,rgba(245,196,81,.7),rgba(245,196,81,.1));border-radius:3px 3px 0 0}
+
+  .case{background:linear-gradient(180deg,var(--panel),var(--bg2));border:1px solid var(--line);border-radius:18px;padding:30px;margin-bottom:22px}
+  .case .top{display:flex;align-items:center;gap:14px;margin-bottom:18px;flex-wrap:wrap}
+  .tick{width:50px;height:50px;border-radius:12px;background:var(--panel2);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:13px;color:var(--c2)}
+  .case h3{font-size:19px}.case .sit{font-size:13px;color:var(--ink-dim)}
+  .vs{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:620px){.vs{grid-template-columns:1fr}}
+  .vsbox{border-radius:12px;padding:18px;border:1px solid var(--line)}
+  .vsbox.bad{background:rgba(255,107,107,.06);border-color:rgba(255,107,107,.25)}
+  .vsbox.good{background:rgba(52,224,138,.07);border-color:rgba(52,224,138,.3)}
+  .vsbox .k{font-size:12px;color:var(--ink-dim);margin-bottom:6px}.vsbox .big{font-size:23px;font-weight:900}.vsbox.bad .big{color:var(--red)}.vsbox.good .big{color:var(--green)}
+  .vsbox .desc{font-size:12.5px;color:var(--ink-soft);margin-top:6px}
+
+  .res-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}@media(max-width:860px){.res-grid{grid-template-columns:1fr}}
+  .res{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:20px}
+  .res .h{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.res .nm{font-weight:800;font-size:15px}
+  .res .ty{font-size:11px;font-weight:800;color:var(--c1);background:rgba(34,201,122,.1);padding:3px 9px;border-radius:999px}
+  .res .profit{font-size:25px;font-weight:900;color:var(--green)}.res .pl{font-size:11.5px;color:var(--ink-dim);margin-top:2px}
+  .res .meta{display:flex;justify-content:space-between;font-size:12px;color:var(--ink-soft);margin-top:14px;padding-top:12px;border-top:1px dashed var(--line)}
+
+  .setrow{display:grid;grid-template-columns:1fr 1fr;gap:22px}@media(max-width:780px){.setrow{grid-template-columns:1fr}}
+  .setcard{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:26px}.setcard h3{font-size:18px;margin-bottom:6px}
+  .setcard .seti{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px dashed var(--line);font-size:14px}.setcard .seti:last-of-type{border:none}
+  .setcard .seti .k{color:var(--ink-soft)}.setcard .seti .v{font-weight:800}
+
+  .logos{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:8px}
+  .logos span{font-size:14px;font-weight:800;color:var(--ink-soft);background:var(--panel);border:1px solid var(--line);padding:11px 20px;border-radius:10px}
+
+  .curr{max-width:860px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:680px){.curr{grid-template-columns:1fr}}
+  .lec{background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:15px 18px;display:flex;gap:12px;align-items:flex-start;font-size:14px}
+  .lec b{color:var(--c2);font-weight:900;flex-shrink:0}.lec span{color:var(--ink-soft)}
+
+  .steps{counter-reset:s;display:grid;grid-template-columns:repeat(4,1fr);gap:18px}@media(max-width:860px){.steps{grid-template-columns:1fr 1fr}}@media(max-width:520px){.steps{grid-template-columns:1fr}}
+  .step{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:24px 22px}
+  .step::before{counter-increment:s;content:"0" counter(s);font-size:14px;font-weight:900;color:#06170d;background:var(--grad);width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+  .step h3{font-size:17px;margin-bottom:7px}.step p{color:var(--ink-soft);font-size:14px}
+
+  .price{max-width:620px;margin:0 auto;background:linear-gradient(180deg,var(--panel),var(--bg2));border:2px solid rgba(34,201,122,.45);border-radius:22px;padding:40px 34px;box-shadow:0 30px 80px rgba(34,201,122,.12);text-align:center;position:relative}
+  .price .ribbon{position:absolute;top:-15px;left:50%;transform:translateX(-50%);background:var(--grad);color:#06170d;font-size:12.5px;font-weight:900;padding:7px 18px;border-radius:999px}
+  .price h3{font-size:21px;margin-bottom:6px}.price .amt{font-size:44px;font-weight:900;margin:8px 0 2px}.price .amt small{font-size:16px;color:var(--ink-soft);font-weight:700}
+  .price .sub{font-size:13.5px;color:var(--ink-dim);margin-bottom:22px}
+  .price ul{list-style:none;text-align:left;max-width:420px;margin:0 auto 26px;display:flex;flex-direction:column;gap:12px}
+  .price li{font-size:14.5px;color:var(--ink-soft);display:flex;gap:10px}.price li::before{content:"✓";color:var(--c1);font-weight:900}
+  .price .btn{width:100%;max-width:420px}.price .timer{margin-top:16px;font-size:13px;color:var(--gold);font-weight:700}
+
+  .faq{max-width:820px;margin:0 auto}
+  .qa{border:1px solid var(--line);border-radius:var(--radius);margin-bottom:12px;overflow:hidden;background:var(--panel)}
+  .qa button{width:100%;text-align:left;background:none;border:none;padding:20px 22px;font-size:16px;font-weight:700;cursor:pointer;display:flex;justify-content:space-between;gap:14px;color:var(--ink)}
+  .qa .ans{max-height:0;overflow:hidden;transition:max-height .3s ease;color:var(--ink-soft);font-size:14.5px}.qa .ans p{padding:0 22px 20px}.qa.open .ans{max-height:360px}
+  .qa .chev{color:var(--c1);transition:.3s}.qa.open .chev{transform:rotate(180deg)}
+
+  .cta-final{background:radial-gradient(700px 360px at 80% 10%,rgba(34,201,122,.16),transparent),radial-gradient(640px 360px at 10% 90%,rgba(245,196,81,.13),transparent),var(--bg2)}
+  .cta-grid{display:grid;grid-template-columns:1fr 1fr;gap:46px;align-items:center}@media(max-width:860px){.cta-grid{grid-template-columns:1fr;gap:32px}}
+  .form-box{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:30px}.form-box h3{font-size:21px;margin-bottom:6px}.form-box .desc{font-size:14px;color:var(--ink-soft);margin-bottom:20px}
+  .field{margin-bottom:14px}.field label{display:block;font-size:12.5px;font-weight:700;margin-bottom:6px;color:var(--ink-soft)}
+  .field input,.field select,.field textarea{width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:10px;font-size:15px;font-family:inherit;background:var(--bg);color:var(--ink)}
+  .field input::placeholder,.field textarea::placeholder{color:var(--ink-dim)}.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--c1)}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .consent{display:flex;gap:9px;align-items:flex-start;font-size:12px;color:var(--ink-dim);margin:6px 0 16px}
+  .form-box .btn{width:100%}.form-note{font-size:11px;color:var(--ink-dim);margin-top:10px;text-align:center}
+
+  footer{background:#040b08;color:var(--ink-dim);padding:46px 0 110px;font-size:13px;border-top:1px solid var(--line)}
+  .ft-top{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:22px;margin-bottom:20px}
+  footer a{color:var(--ink-soft)}
+  .disclaimer{background:#081410;border:1px solid var(--line);border-radius:12px;padding:18px 20px;line-height:1.75;font-size:12px;color:var(--ink-dim)}.disclaimer b{color:var(--ink-soft)}
+  .sticky-cta{position:fixed;left:0;right:0;bottom:0;z-index:70;display:none;background:rgba(6,16,12,.95);backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:11px 16px}
+  .sticky-cta .btn{width:100%}@media(max-width:860px){.sticky-cta{display:block}}
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}.reveal.in{opacity:1;transform:none}
+</style>
+</head>
+<body>
+
+<div class="topbar">🇺🇸 StableLab US — 잠든 사이 빅테크에서 달러 수확 · 신규 가입 1:1 코칭 무료</div>
+
+<header class="nav"><div class="wrap nav-in">
+  <div class="logo"><span class="mk"></span>StableLab <small>US</small></div>
+  <nav class="nav-links"><a href="#pain">왜 필요한가</a><a href="#strategy">전략</a><a href="#case">실전 사례</a><a href="#social">전략 복사</a><a href="#faq">FAQ</a></nav>
+  <div style="display:flex;gap:12px;align-items:center"><div class="switch"><a href="index.html">컨퍼런스</a><a href="stablelab-kr.html">KR</a><a class="on" href="#">US</a><a href="stablelab-dt.html">DT</a></div><a href="#apply" class="btn btn-primary">무료 상담</a></div>
+</div></header>
+
+<!-- HERO -->
+<section class="hero"><div class="wrap hero-grid">
+  <div class="reveal">
+    <span class="badge">미국 증시 특화 · 잠든 사이 자동 운용</span>
+    <h1 style="margin-top:16px">아침에 눈을 뜨면,<br>어젯밤 캐낸 <span class="hl gtext">달러</span>가<br>쌓여 있습니다</h1>
+    <p class="sub">더는 밤을 새워 차트를 보지 마세요. StableLab US는 애플·엔비디아 등 글로벌 빅테크를 대상으로, 당신이 잠든 사이에도 기계적으로 달러를 수확하는 오토 트레이딩 시스템입니다.</p>
+    <div class="eco"><span>KR 한국주식</span><span><b>US</b> 미국주식 (현재)</span><span>DT 암호화폐</span></div>
+    <div class="hero-cta"><a href="#apply" class="btn btn-primary">무료 상담 신청하기 →</a><a href="#strategy" class="btn btn-ghost">작동 원리 보기</a></div>
+    <div class="hero-trust"><div>✅ 미국주식 <b>공식 API</b></div><div>✅ <b>나스닥·S&P500</b> 전 종목</div><div>✅ 밤샘 없이 <b>패시브 인컴</b></div></div>
+  </div>
+  <div class="dash reveal">
+    <div class="dash-head"><b>Auto Trading · NVDA</b><span class="live"><i></i>LIVE</span></div>
+    <div class="dash-kpi">
+      <div class="kpi"><div class="l">실행 전략</div><div class="v" style="font-size:15px">파동형 · 100분할</div></div>
+      <div class="kpi"><div class="l">간밤 실현 차익</div><div class="v up">+$142.50</div></div>
+      <div class="kpi"><div class="l">감시 종목</div><div class="v" style="font-size:17px">AAPL·NVDA…</div></div>
+      <div class="kpi"><div class="l">간밤 자동 체결</div><div class="v" style="font-size:17px">BUY 4·SELL 3</div></div>
+    </div>
+    <canvas id="chart" data-unit="$" style="width:100%;height:152px;display:block;background:var(--bg);border:1px solid var(--line);border-radius:11px"></canvas>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;font-size:12px">
+      <div style="display:flex;gap:14px;color:var(--ink-dim)">
+        <span style="display:inline-flex;align-items:center;gap:5px"><i style="width:8px;height:8px;border-radius:50%;background:var(--green);display:inline-block"></i>BUY 매수</span>
+        <span style="display:inline-flex;align-items:center;gap:5px"><i style="width:8px;height:8px;border-radius:50%;background:var(--red);display:inline-block"></i>SELL 익절</span>
+      </div>
+      <div style="font-weight:800;color:var(--green)">실시간 누적 차익 <span id="profit">+$0.00</span></div>
+    </div>
+    <div class="dash-note">※ 기능 이해용 예시 화면이며, 실제 수익을 보장하지 않습니다.</div>
+  </div>
+</div></section>
+
+<div class="marq"><div class="marq-track" id="marq">
+  <span>NVDA [파동형] <b>박스권 달러 창출</b></span><span>TSLA [적립형] <b>하락장 평단 하향</b></span>
+  <span>AAPL [파동형] <b>반복 차익 실현</b></span><span>MSFT [적립형] <b>목표가 일괄 청산</b></span>
+  <span>QQQ [적립형] <b>나스닥 ETF 적립</b></span><span>GOOGL [파동형] <b>횡보장 운용</b></span>
+</div></div>
+
+<section class="stats" style="padding:52px 0"><div class="wrap stat-in">
+  <div class="stat reveal"><div class="n gtext">24시간</div><div class="l">미장 자동 매매</div></div>
+  <div class="stat reveal"><div class="n gtext">2종</div><div class="l">검증된 매매 전략</div></div>
+  <div class="stat reveal"><div class="n gtext">전 종목</div><div class="l">나스닥·S&P500 연동</div></div>
+  <div class="stat reveal"><div class="n gtext">20강</div><div class="l">실전 마스터클래스</div></div>
+</div></section>
+
+<!-- PAIN -->
+<section id="pain"><div class="wrap">
+  <div class="center reveal" style="max-width:720px;margin:0 auto 44px"><span class="eyebrow">Why StableLab US</span><h2>언제까지 수면 부족과 감정에<br>소중한 돈을 잃으시겠습니까?</h2></div>
+  <div class="pain-grid">
+    <div class="pain reveal"><div class="ic">🌙</div><h3>수면 부족에 시달리는 밤샘 미장 매매</h3><p>한국 시간 새벽에 열리는 미국 증시. 매일 졸린 눈을 비비며 차트만 보다 뇌동매매를 반복하고, 건강과 자산을 동시에 깎고 있다면 지금 끊어야 합니다.</p></div>
+    <div class="pain reveal"><div class="ic">🚀</div><h3>가만히 있다 느끼는 글로벌 랠리 FOMO</h3><p>빅테크가 주도하는 랠리가 두려워 예적금만 고집하시나요? 남들만 달러를 버는 듯한 소외감, 잠자는 시간에도 일하는 시스템으로 끊어내세요.</p></div>
+  </div>
+  <p class="answer reveal">정답은 내가 자는 동안 알아서 달러를 버는<br><span class="gtext">'기계적 시스템 투자'</span> 입니다.</p>
+</div></section>
+
+<!-- STRATEGY -->
+<section id="strategy" style="background:var(--bg2)"><div class="wrap">
+  <div class="center reveal" style="max-width:720px;margin:0 auto 44px"><span class="eyebrow">Core System</span><h2>미장이 오르든 내리든,<br>두 엔진이 달러를 만듭니다</h2><p class="lead" style="margin-top:12px">StableLab은 투자 자문이 아니라, 내가 정한 규칙을 그대로 실행하는 <b style="color:var(--ink)">주문 자동화 시스템</b>입니다.</p></div>
+  <div class="strat">
+    <div class="strat-card reveal"><span class="tag">전략 ① 파동형</span><h3>단기 변동성을 공략하는<br>달러 창출 엔진</h3>
+      <p>미국 증시의 잦은 등락(박스권)을 공략해, 하락 시 기계적으로 분할 매수하고 짧은 반등마다 회차별로 즉시 달러 차익을 실현합니다.</p>
+      <div class="feat"><i>✓</i><span><b>기계적 분할 매수</b> — 하락 시 감정 없이 자동 매수</span></div>
+      <div class="feat"><i>✓</i><span><b>회차별 독립 청산</b> — 반등 시 회차별 즉시 달러 익절</span></div>
+      <div class="viz"><div class="bars"><div class="bar" style="height:80%"></div><div class="bar sell" style="height:55%"></div><div class="bar" style="height:90%"></div><div class="bar sell" style="height:48%"></div><div class="bar" style="height:70%"></div><div class="bar sell" style="height:62%"></div><div class="bar" style="height:95%"></div><div class="bar sell" style="height:52%"></div></div>핵심: 하락장에도 반등마다 즉시 달러 수익 실현</div>
+    </div>
+    <div class="strat-card reveal"><span class="tag">전략 ② 적립형</span><h3>장기 우상향을 노리는<br>달러 자산 증식 엔진</h3>
+      <p>글로벌 우량주의 장기 성장에 투자하며, 하락 시 수량을 모아 평단가를 극적으로 낮추고 목표가 도달 시 전량 일괄 청산합니다.</p>
+      <div class="feat"><i>✓</i><span><b>평단가 극적 하향</b> — 하락장을 이용해 단가를 효과적으로 낮춤</span></div>
+      <div class="feat"><i>✓</i><span><b>목표가 일괄 청산</b> — 목표 수익 도달 시 전량 익절</span></div>
+      <div class="viz"><div class="line"><div class="d" style="height:90%"></div><div class="d" style="height:72%"></div><div class="d" style="height:58%"></div><div class="d" style="height:45%"></div><div class="d" style="height:55%"></div><div class="d" style="height:78%"></div><div class="d" style="height:100%"></div></div>핵심: 낮아진 평단가로 반등 시 한 번에 큰 수익</div>
+    </div>
+  </div>
+</div></section>
+
+<!-- CASE -->
+<section id="case"><div class="wrap">
+  <div class="center reveal" style="max-width:720px;margin:0 auto 44px"><span class="eyebrow">Case Study</span><h2>미국 증시 실전 운용 사례</h2><p class="lead" style="margin-top:10px;font-size:13px">※ 특정 시장 상황을 가정한 운용 예시이며, 미래 수익을 보장하지 않습니다.</p></div>
+  <div class="case reveal"><div class="top"><div class="tick">NVDA</div><div><h3>[파동형] 엔비디아 $170~$220 박스권</h3><div class="sit">방향성 없는 횡보장 · $170 ~ $220 등락</div></div></div>
+    <div class="vs"><div class="vsbox bad"><div class="k">일반 투자 (단순 보유)</div><div class="big">$0</div><div class="desc">시세 제자리라 수익 발생 불가</div></div><div class="vsbox good"><div class="k">StableLab 파동형 운용</div><div class="big">지속적 달러 창출</div><div class="desc">작은 파동마다 차익 실현해 수익 확보</div></div></div>
+  </div>
+  <div class="case reveal"><div class="top"><div class="tick">TSLA</div><div><h3>[적립형] 테슬라 하락 후 반등장</h3><div class="sit">$400 → $300 → $385</div></div></div>
+    <div class="vs"><div class="vsbox bad"><div class="k">일반 투자 (단순 보유)</div><div class="big">-3.75%</div><div class="desc">원금 회복 실패로 자금 동결</div></div><div class="vsbox good"><div class="k">StableLab 적립형 운용</div><div class="big">+10.0%</div><div class="desc">평단가 $350으로 낮춰 반등 시 전량 익절</div></div></div>
+  </div>
+</div></section>
+
+<!-- SOCIAL -->
+<section id="social" style="background:var(--bg2)"><div class="wrap">
+  <div class="center reveal" style="max-width:720px;margin:0 auto 40px"><span class="eyebrow">Social Trading</span><h2>세팅이 어렵다면?<br>검증된 달러 전략을 그대로 복사하세요</h2><p class="lead" style="margin-top:10px;font-size:13px">실제 사용자 성공 세팅값을 내 계좌에 똑같이 적용. ※ 개별 운용 결과이며 동일 수익을 보장하지 않습니다.</p></div>
+  <div class="res-grid">
+    <div class="res reveal"><div class="h"><div class="nm">엔비디아 NVDA</div><div class="ty">파동형</div></div><div class="profit">+$2,481.00</div><div class="pl">자본 $10,000 · 62일</div><div class="meta"><span>총 거래 827회</span><span>1회 차익 $3.00</span></div></div>
+    <div class="res reveal"><div class="h"><div class="nm">애플 AAPL</div><div class="ty">파동형</div></div><div class="profit">+$980.20</div><div class="pl">자본 $10,000 · 45일</div><div class="meta"><span>총 거래 490회</span><span>1회 차익 $2.00</span></div></div>
+    <div class="res reveal"><div class="h"><div class="nm">구글 GOOGL</div><div class="ty">파동형</div></div><div class="profit">+$850.00</div><div class="pl">자본 $10,000 · 55일</div><div class="meta"><span>총 거래 283회</span><span>1회 차익 $3.00</span></div></div>
+    <div class="res reveal"><div class="h"><div class="nm">테슬라 TSLA</div><div class="ty">적립형</div></div><div class="profit">+$4,250.50</div><div class="pl">자본 $30,000 · 104일</div><div class="meta"><span>전량 익절 4회</span><span>매수 체결 124회</span></div></div>
+    <div class="res reveal"><div class="h"><div class="nm">마이크로소프트</div><div class="ty">적립형</div></div><div class="profit">+$2,950.00</div><div class="pl">자본 $30,000 · 86일</div><div class="meta"><span>전량 익절 3회</span><span>매수 체결 88회</span></div></div>
+    <div class="res reveal"><div class="h"><div class="nm">나스닥 ETF QQQ</div><div class="ty">적립형</div></div><div class="profit">+$7,630.00</div><div class="pl">자본 $50,000 · 90일</div><div class="meta"><span>전량 익절 2회</span><span>매수 체결 154회</span></div></div>
+  </div>
+</div></section>
+
+<!-- SETUP -->
+<section><div class="wrap">
+  <div class="center reveal" style="max-width:720px;margin:0 auto 40px"><span class="eyebrow">Strategy Setup</span><h2>종목·간격만 정하면<br>매매망이 자동으로 구축됩니다</h2></div>
+  <div class="setrow">
+    <div class="setcard reveal"><h3>파동형 세팅 예시 — 엔비디아(NVDA)</h3>
+      <div class="seti"><span class="k">시작가격</span><span class="v">$220.00</span></div><div class="seti"><span class="k">회차수</span><span class="v">100회</span></div>
+      <div class="seti"><span class="k">매수 간격</span><span class="v">-$2.00</span></div><div class="seti"><span class="k">매도 간격</span><span class="v">+$3.00</span></div>
+      <div class="seti"><span class="k">회당 매수수량</span><span class="v">1주</span></div>
+    </div>
+    <div class="setcard reveal"><h3>적립형 세팅 예시 — 테슬라(TSLA)</h3>
+      <div class="seti"><span class="k">기준가</span><span class="v">$400.00</span></div><div class="seti"><span class="k">매수 조건</span><span class="v">평단가보다 낮을 때</span></div>
+      <div class="seti"><span class="k">회차수</span><span class="v">40회</span></div><div class="seti"><span class="k">전량 매도 조건</span><span class="v">+10% 상승 시</span></div>
+      <div class="seti"><span class="k">회당 매수수량</span><span class="v">10주</span></div>
+    </div>
+  </div>
+</div></section>
+
+<!-- FEATURES -->
+<section style="background:var(--bg2)"><div class="wrap">
+  <div class="center reveal" style="max-width:720px;margin:0 auto 44px"><span class="eyebrow">Why it works</span><h2>그냥 프로그램이 아닙니다.<br>끝까지 함께하는 시스템입니다</h2></div>
+  <div class="grid3">
+    <div class="card reveal"><div class="ic">🔗</div><h3>미국주식 공식 API</h3><p>검증된 공식 API로 연동해 나스닥·S&P500 전 종목을 24시간 자동 운용합니다. 자산은 본인 계좌에 그대로 남습니다.</p></div>
+    <div class="card reveal"><div class="ic">🌙</div><h3>잠자는 시간이 곧 운용 시간</h3><p>새벽에 열리는 미장을 시스템이 대신 지킵니다. 밤을 새우지 않아도 매수·매도가 자동으로 반복됩니다.</p></div>
+    <div class="card reveal"><div class="ic">🧩</div><h3>코딩 없는 전략 빌더</h3><p>종목과 간격만 설정하면 100분할 매매망이 즉시 구축됩니다. 복잡한 수식은 필요 없습니다.</p></div>
+    <div class="card reveal"><div class="ic">🎓</div><h3>실전 마스터클래스 20강</h3><p>S&P500·배당 ETF부터 CPI·금리 뉴스 읽는 법까지, 글로벌 투자 생존 로드맵을 제공합니다.</p></div>
+    <div class="card reveal"><div class="ic">📖</div><h3>왕초보 따라하기 가이드</h3><p>가입부터 첫 달러 수익 확인까지, 가이드북을 그대로 따라 하면 10분이면 세팅이 끝납니다.</p></div>
+    <div class="card reveal"><div class="ic">🤝</div><h3>전문가 1:1 밀착 코칭</h3><p>막힐 땐 언제든 전문가가 직접 피드백합니다. 혼자 헤매지 않도록 끝까지 돕습니다.</p></div>
+  </div>
+  <div class="center reveal" style="margin-top:34px"><div class="logos"><span>한국투자증권(미국주식 API)</span><span>AAPL</span><span>TSLA</span><span>MSFT</span><span>NVDA</span><span>GOOGL</span><span>SPY·QQQ</span></div></div>
+</div></section>
+
+<!-- CURRICULUM -->
+<section><div class="wrap">
+  <div class="center reveal" style="max-width:720px;margin:0 auto 40px"><span class="eyebrow">Masterclass VOD · 총 20강</span><h2>잠자는 시간에 기계가 일하게 하는 법<br>글로벌 투자 생존 로드맵</h2></div>
+  <div class="curr">
+    <div class="lec reveal"><b>OT</b><span>30분 만에 끝내는 내 돈 지키기</span></div>
+    <div class="lec reveal"><b>01</b><span>뭘 살지 모를 땐 전 세계 1등 모둠팩 사기 (ETF)</span></div>
+    <div class="lec reveal"><b>02</b><span>마음 편한 자동 수익, S&P500 시작하기</span></div>
+    <div class="lec reveal"><b>03</b><span>잠자는 동안 달러가 꽂히는 배당 파이프라인</span></div>
+    <div class="lec reveal"><b>04</b><span>꼬박꼬박 꽂히는 미국 주주친화적 ETF</span></div>
+    <div class="lec reveal"><b>05</b><span>CPI·금리 뉴스로 3초 만에 방향 읽기</span></div>
+    <div class="lec reveal"><b>06</b><span>밤새지 않고 낮에 편하게 미장 거래하기</span></div>
+    <div class="lec reveal"><b>07</b><span>[결론] 잠자는 시간에 기계가 대신 일하게 하는 법</span></div>
+  </div>
+</div></section>
+
+<!-- HOW -->
+<section style="background:var(--bg2)"><div class="wrap">
+  <div class="center reveal" style="max-width:720px;margin:0 auto 44px"><span class="eyebrow">How it works</span><h2>10분이면, 24시간 달러 엔진을 장착합니다</h2></div>
+  <div class="steps">
+    <div class="step reveal"><h3>서비스 가입</h3><p>기본 정보만으로 빠르게 계정을 만듭니다.</p></div>
+    <div class="step reveal"><h3>증권사 API 연동</h3><p>본인 명의 해외주식 계좌를 공식 API로 안전하게 연결합니다.</p></div>
+    <div class="step reveal"><h3>전략 세팅·복사</h3><p>검증된 달러 전략을 보고 그대로 입력·복사합니다.</p></div>
+    <div class="step reveal"><h3>자동 운영·수익 확인</h3><p>자는 동안 시스템이 매수·매도를 반복하며 달러를 쌓습니다.</p></div>
+  </div>
+</div></section>
+
+<!-- FAQ -->
+<section id="faq" style="background:var(--bg2)"><div class="wrap">
+  <div class="center reveal" style="max-width:720px;margin:0 auto 44px"><span class="eyebrow">FAQ</span><h2>궁금한 점을 미리 정리했습니다</h2></div>
+  <div class="faq">
+    <div class="qa reveal"><button>자동매매를 하면 수익이 보장되나요? <span class="chev">▾</span></button><div class="ans"><p>아닙니다. 정한 규칙대로 주문을 자동 실행하는 도구이며, 수익을 보장하지 않습니다. 모든 투자에는 원금 손실 위험이 있고, 환율 변동 위험도 존재합니다. 판단과 결과의 책임은 이용자 본인에게 있습니다.</p></div></div>
+    <div class="qa reveal"><button>새벽 미장 시간에 깨어 있어야 하나요? <span class="chev">▾</span></button><div class="ans"><p>아닙니다. 시스템이 24시간 미장을 감시하며 설정한 조건대로 자동 매매합니다. 잠자는 동안에도 매수·매도가 진행됩니다.</p></div></div>
+    <div class="qa reveal"><button>달러 환전이나 해외계좌가 필요한가요? <span class="chev">▾</span></button><div class="ans"><p>본인 명의의 해외주식 거래 계좌를 공식 API로 연동합니다. 자산은 항상 본인 계좌에 보관되며, StableLab은 자금을 직접 보관·인출하지 않습니다.</p></div></div>
+    <div class="qa reveal"><button>투자나 코딩을 잘 몰라도 쓸 수 있나요? <span class="chev">▾</span></button><div class="ans"><p>네. 종목과 간격만 설정하면 되고, 어렵다면 검증된 전략을 그대로 복사할 수 있습니다. 가이드북과 1:1 코칭으로 끝까지 돕습니다.</p></div></div>
+  </div>
+</div></section>
+
+<!-- CTA -->
+<section id="apply" class="cta-final"><div class="wrap cta-grid">
+  <div class="reveal"><span class="eyebrow">Start Now</span><h2>이제, 잠자는 시간에<br><span class="gtext">달러</span>가 쌓일 차례입니다</h2><p class="lead" style="margin-top:16px">궁금하신 점을 남겨 주시면 담당자가 빠르게 연락드려, 내 자금 규모와 성향에 맞는 미국 주식 전략을 1:1로 안내합니다.</p>
+    </div>
+  <div class="form-box reveal"><h3>StableLab US 무료 상담 신청</h3><p class="desc">1분이면 충분합니다. 부담 없이 먼저 물어보세요.</p>
+    <form onsubmit="return submitForm(event)">
+      <div class="row2"><div class="field"><label>이름</label><input type="text" required placeholder="홍길동" /></div><div class="field"><label>나이</label><input type="number" required placeholder="40" /></div></div>
+      <div class="field"><label>연락처</label><input type="tel" required placeholder="010-0000-0000" /></div>
+      <div class="field"><label>투자 가능 자금</label><select required><option value="">선택해 주세요</option><option>$10,000 미만</option><option>$10,000~$30,000</option><option>$30,000~$50,000</option><option>$50,000 이상</option></select></div>
+      <div class="field"><label>문의사항 (선택)</label><textarea rows="2" placeholder="예) 해외주식 처음인데 시작할 수 있을까요?"></textarea></div>
+      <label class="consent"><input type="checkbox" required style="width:auto;margin-top:3px" /><span>개인정보 수집·이용에 동의합니다. (상담 목적으로만 사용·파기)</span></label>
+      <button type="submit" class="btn btn-primary">무료 상담 신청하기</button>
+      <p class="form-note">제출 시 입력하신 연락처로 담당자가 연락드립니다.</p>
+    </form>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <div class="ft-top"><div class="logo" style="color:#fff"><span class="mk"></span>StableLab <small>US</small></div><div style="display:flex;gap:20px;flex-wrap:wrap"><a href="stablelab-kr.html">KR 한국주식</a><a href="stablelab-dt.html">DT 암호화폐</a><a href="index.html">컨퍼런스</a><a href="#apply">상담 신청</a></div></div>
+  <div class="disclaimer"><b>투자 위험 고지</b><br>본 서비스는 이용자가 직접 설정·복사한 조건에 따라 주문을 자동 실행하는 <b>주문 자동화 도구</b>이며, 투자자문업·유사투자자문업 또는 종목 추천 서비스가 아닙니다. 해외주식은 <b>원금 손실 및 환율 변동 위험이 발생할 수 있으며</b>, 본 페이지의 운용 사례·수익 금액은 특정 조건에서의 과거·예시 결과로 <b>미래 수익을 보장하지 않습니다.</b> 모든 투자 판단과 결과의 책임은 이용자 본인에게 있습니다.<br><br><b>사업자 정보</b> 【상호 / 대표자 / 사업자등록번호 / 주소 / 통신판매업 신고번호】<br>© <span id="yr"></span> StableLab. All rights reserved.</div>
+</div></footer>
+
+<div class="sticky-cta"><a href="#apply" class="btn btn-primary">무료 상담 신청하기 →</a></div>
+<script>
+  document.getElementById('yr').textContent=new Date().getFullYear();
+  var mq=document.getElementById('marq'); if(mq){mq.innerHTML+=mq.innerHTML;}
+  document.querySelectorAll('.qa button').forEach(function(b){b.addEventListener('click',function(){var qa=b.parentElement,o=qa.classList.contains('open');document.querySelectorAll('.qa').forEach(function(x){x.classList.remove('open')});if(!o)qa.classList.add('open');});});
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}})},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(function(el){io.observe(el)});
+  (function(){
+    var cv=document.getElementById('chart'); if(!cv)return;
+    var ctx=cv.getContext('2d'); var dpr=window.devicePixelRatio||1;
+    var cs=getComputedStyle(document.documentElement);
+    var accent=(cs.getPropertyValue('--c1')||'#22c97a').trim();
+    var green=(cs.getPropertyValue('--green')||'#34e08a').trim();
+    var red=(cs.getPropertyValue('--red')||'#ff6b6b').trim();
+    var line=(cs.getPropertyValue('--line')||'#1f3d2e').trim();
+    var unit=cv.dataset.unit||'원';
+    function size(){cv.width=cv.clientWidth*dpr;cv.height=cv.clientHeight*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);}
+    size(); window.addEventListener('resize',size);
+    var N=64, data=[], markers=[], t=Math.random()*10, profit=0;
+    var pf=document.getElementById('profit');
+    for(var i=0;i<N;i++){data.push(50);}
+    function fmt(v){return unit==='$' ? '+$'+v.toFixed(2) : '+'+Math.round(v).toLocaleString()+'원';}
+    function hexA(h,a){h=h.replace('#','');if(h.length===3)h=h.replace(/(.)/g,'$1$1');var n=parseInt(h,16);return 'rgba('+((n>>16)&255)+','+((n>>8)&255)+','+(n&255)+','+a+')';}
+    function draw(){
+      var w=cv.clientWidth,h=cv.clientHeight,pad=8,n=data.length,dx=w/(N-1);
+      function X(i){return i*dx;} function Y(val){return pad+(h-2*pad)*(1-val/100);}
+      ctx.clearRect(0,0,w,h);
+      ctx.strokeStyle=line;ctx.lineWidth=1;ctx.setLineDash([4,5]);
+      [22,50,78].forEach(function(g){ctx.beginPath();ctx.moveTo(0,Y(g));ctx.lineTo(w,Y(g));ctx.stroke();});
+      ctx.setLineDash([]);
+      ctx.beginPath();ctx.moveTo(X(0),Y(data[0]));
+      for(var i=1;i<n;i++)ctx.lineTo(X(i),Y(data[i]));
+      ctx.lineTo(X(n-1),h);ctx.lineTo(X(0),h);ctx.closePath();
+      var g2=ctx.createLinearGradient(0,0,0,h);g2.addColorStop(0,hexA(accent,.32));g2.addColorStop(1,hexA(accent,0));
+      ctx.fillStyle=g2;ctx.fill();
+      ctx.beginPath();ctx.moveTo(X(0),Y(data[0]));
+      for(var j=1;j<n;j++)ctx.lineTo(X(j),Y(data[j]));
+      ctx.strokeStyle=accent;ctx.lineWidth=2;ctx.stroke();
+      markers.forEach(function(m){var x=X(m.i),y=Y(data[m.i]);ctx.beginPath();ctx.arc(x,y,3.4,0,7);ctx.fillStyle=m.type==='buy'?green:red;ctx.fill();});
+      var lx=X(n-1),ly=Y(data[n-1]);
+      ctx.beginPath();ctx.arc(lx,ly,6,0,7);ctx.fillStyle=hexA(accent,.25);ctx.fill();
+      ctx.beginPath();ctx.arc(lx,ly,3.5,0,7);ctx.fillStyle=accent;ctx.fill();
+    }
+    function step(){
+      t+=0.045;
+      var v=50+Math.sin(t)*22+Math.sin(t*0.43)*9+(Math.random()-0.5)*5;
+      v=Math.max(8,Math.min(92,v));
+      data.push(v); if(data.length>N)data.shift();
+      for(var k=0;k<markers.length;k++)markers[k].i--;
+      markers=markers.filter(function(m){return m.i>=0;});
+      var n=data.length;
+      if(n>=3){var a=data[n-3],b=data[n-2],c=data[n-1];
+        if(b<a&&b<c){markers.push({i:n-2,type:'buy'});}
+        else if(b>a&&b>c){markers.push({i:n-2,type:'sell'});profit+=(unit==='$'?(1+Math.random()*3):(300+Math.random()*900));if(pf)pf.textContent=fmt(profit);}
+      }
+      draw();
+    }
+    draw(); setInterval(step,150);
+  })();
+  function submitForm(e){e.preventDefault();alert('상담 신청이 접수되었습니다. 담당자가 곧 연락드리겠습니다.\n\n※ 실제 운영 시 폼 제출을 서버·CRM과 연동해 주세요.');e.target.reset();return false;}
+</script>
+</body>
+</html>

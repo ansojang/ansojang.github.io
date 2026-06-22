@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StableLab 컨퍼런스 | 잠든 사이에도 수익 내는 자동 투자 시스템 최초 공개</title>
+<meta name="description" content="한국·미국·스테이블코인을 안정적으로 운영하는 기계적 자동 투자 시스템. 2026년 7월 11일, 단 200석 한정 오프라인 컨퍼런스에서 최초 공개됩니다.">
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = { theme: { extend: {
+  fontFamily: { sans: ['Pretendard Variable','Pretendard','system-ui','sans-serif'] },
+  colors: { ink:'#0a0e17', ink2:'#0f1623', card:'#131c2e', line:'#23304a', gold:'#f5c451', green:'#22c98a', red:'#f0556b', muted:'#8b9bb4' },
+}}};
+</script>
+<style>
+  html{scroll-behavior:smooth} body{background:#0a0e17;color:#e7eefb}
+  .grad-gold{background:linear-gradient(90deg,#f5c451,#f0a93c);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .grad-green{background:linear-gradient(90deg,#22c98a,#19a3c9);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .glass{background:rgba(10,14,23,.82);backdrop-filter:blur(12px)}
+  .reveal{opacity:0;transform:translateY(24px);transition:all .7s cubic-bezier(.16,1,.3,1)} .reveal.in{opacity:1;transform:none}
+  .glow-gold{box-shadow:0 0 0 1px rgba(245,196,81,.3),0 24px 70px -22px rgba(245,196,81,.45)}
+  .tag{letter-spacing:.18em} .card-h{transition:all .35s ease} .card-h:hover{transform:translateY(-6px);border-color:#3a4d73}
+  ::selection{background:#f5c451;color:#0a0e17}
+  .pulse-dot{animation:pd 1.4s ease-in-out infinite} @keyframes pd{0%,100%{opacity:1}50%{opacity:.3}}
+  .grid-bg{background-image:radial-gradient(rgba(245,196,81,.08) 1px,transparent 1px);background-size:26px 26px}
+  details[open] .faq-q span{transform:rotate(45deg)}
+  @keyframes drawline{0%{stroke-dashoffset:1600}55%{stroke-dashoffset:0}100%{stroke-dashoffset:0}}
+  @keyframes blinkfx{0%,100%{opacity:1}50%{opacity:.2}}
+  @keyframes risepulse{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+  svg polyline[stroke="#3a4d73"]{stroke-dasharray:1600;animation:drawline 5s ease-in-out infinite}
+  svg polyline[stroke="#f0556b"]{stroke-dasharray:1600;animation:drawline 5s ease-in-out infinite}
+  svg circle[fill="#22c98a"]{animation:blinkfx 1.7s ease-in-out infinite}
+  .blink{animation:blinkfx 1.3s ease-in-out infinite}
+</style>
+</head>
+<body class="font-sans antialiased">
+
+<!-- TOP BAR (urgency) -->
+<div class="bg-gold text-ink text-center text-sm font-bold py-2 px-4">
+  🎁 현장 참가자 전원 <span class="underline">7일 무료 체험권</span> 증정 · 단 200석 한정 · 선착순 마감
+</div>
+
+<!-- NAV -->
+<header class="sticky top-0 z-50 glass border-b border-line/60">
+  <div class="max-w-7xl mx-auto px-5 h-16 flex items-center justify-between">
+    <a href="#top" class="flex items-center gap-2 font-extrabold text-xl tracking-tight"><span class="w-7 h-7 rounded-lg bg-gradient-to-br from-gold to-amber-600 flex items-center justify-center text-ink text-sm font-black">S</span> StableLab</a>
+    <nav class="hidden md:flex items-center gap-1 text-sm text-muted">
+      <a href="index.html" class="px-3 py-2 text-white font-semibold">컨퍼런스</a>
+      <a href="stablelab-kr.html" class="px-3 py-2 hover:text-white">스테이블랩(KR) ▾</a>
+      <a href="stablelab-us.html" class="px-3 py-2 hover:text-white">스테이블랩(US) ▾</a>
+      <a href="stablelab-dt.html" class="px-3 py-2 hover:text-white">스테이블랩(DT) ▾</a>
+    </nav>
+    <a href="#apply" class="px-4 py-2 rounded-lg text-sm font-bold bg-gold text-ink hover:brightness-110 transition">지금 신청하기</a>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- HERO -->
+<section class="relative overflow-hidden grid-bg">
+  <div class="absolute inset-0 -z-10">
+    <img src="https://images.unsplash.com/photo-1642790106117-e829e14a795f?q=80&w=2070&auto=format&fit=crop" alt="" class="w-full h-full object-cover opacity-[0.12]">
+    <div class="absolute inset-0 bg-gradient-to-b from-ink/70 via-ink/85 to-ink"></div>
+    <div class="absolute -top-40 left-1/2 -translate-x-1/2 w-[900px] h-[700px] rounded-full bg-gold/10 blur-3xl"></div>
+  </div>
+  <div class="max-w-4xl mx-auto px-5 py-20 lg:py-28 text-center">
+    <span class="reveal tag text-xs font-bold text-gold bg-gold/10 border border-gold/25 rounded-full px-4 py-1.5">2026 STABLELAB OFFLINE CONFERENCE</span>
+    <h1 class="reveal mt-7 text-4xl md:text-6xl font-extrabold leading-[1.16]">
+      차트 안 보고<br>한국주식·미국주식·달러투자로<br><span class="grad-gold">매일 수익 캐는 법</span>
+    </h1>
+    <p class="reveal mt-7 text-muted text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+      감정과 밤샘 매매를 끊어내고<br><b class="text-white">잠든 사이에도 기계가 알아서 자산을 굴리는</b> 자동 트레이딩 시스템
+    </p>
+
+    <!-- event facts -->
+    <div class="reveal mt-9 grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-3xl mx-auto text-sm">
+      <div class="bg-card/70 border border-line rounded-xl py-4"><div class="text-xs text-muted">일자</div><div class="mt-1 font-bold">7월 11일 (토)</div></div>
+      <div class="bg-card/70 border border-line rounded-xl py-4"><div class="text-xs text-muted">시간</div><div class="mt-1 font-bold">오후 2시–4시</div></div>
+      <div class="bg-card/70 border border-line rounded-xl py-4"><div class="text-xs text-muted">장소</div><div class="mt-1 font-bold">선정릉역 쉬피겐홀</div></div>
+      <div class="bg-card/70 border border-gold/30 rounded-xl py-4"><div class="text-xs text-muted">특전</div><div class="mt-1 font-bold text-gold">비즈니스 파트너 기회</div></div>
+    </div>
+
+    <!-- countdown -->
+    <div class="reveal mt-8">
+      <p class="text-xs text-muted tag">마감까지 남은 시간</p>
+      <div id="countdown" class="mt-3 flex justify-center gap-3 font-black">
+        <div class="bg-ink2 border border-line rounded-xl px-4 py-3 min-w-[72px]"><span data-d class="text-3xl grad-gold">00</span><div class="text-[11px] text-muted font-normal mt-1">일</div></div>
+        <div class="bg-ink2 border border-line rounded-xl px-4 py-3 min-w-[72px]"><span data-h class="text-3xl grad-gold">00</span><div class="text-[11px] text-muted font-normal mt-1">시간</div></div>
+        <div class="bg-ink2 border border-line rounded-xl px-4 py-3 min-w-[72px]"><span data-m class="text-3xl grad-gold">00</span><div class="text-[11px] text-muted font-normal mt-1">분</div></div>
+        <div class="bg-ink2 border border-line rounded-xl px-4 py-3 min-w-[72px]"><span data-s class="text-3xl grad-gold">00</span><div class="text-[11px] text-muted font-normal mt-1">초</div></div>
+      </div>
+    </div>
+
+    <!-- seats -->
+    <div class="reveal mt-8 max-w-md mx-auto">
+      <div class="flex items-center justify-between text-xs text-muted mb-2"><span class="inline-flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-red pulse-dot"></span>선착순 200석 한정</span><span class="text-gold font-bold">좌석 빠르게 마감 중</span></div>
+      <div class="h-2.5 rounded-full bg-ink2 border border-line overflow-hidden"><div class="h-full w-[82%] bg-gradient-to-r from-gold to-amber-500"></div></div>
+    </div>
+
+    <div class="reveal mt-8 max-w-xl mx-auto bg-gradient-to-r from-gold/15 to-amber-500/10 border border-gold/40 rounded-2xl px-6 py-5">
+      <p class="text-sm text-gold font-bold tag">CONFERENCE ONLY</p>
+      <p class="mt-1.5 text-lg md:text-xl font-extrabold">현장에 온 분께만 <span class="grad-gold">7일 무료 체험권</span>을 드립니다</p>
+      <p class="mt-1 text-sm text-muted">결제 없이 7일 동안 직접 굴려보고 결정하세요. 온라인 신청자에게는 제공되지 않습니다.</p>
+    </div>
+
+    <div class="reveal mt-7 flex flex-col items-center gap-3">
+      <a href="#apply" class="px-10 py-4 rounded-xl bg-gold text-ink font-black text-lg glow-gold hover:brightness-110 transition">7일 무료 체험권 받으러 가기 →</a>
+      <span class="text-xs text-muted">정원 마감 시 신청이 조기 종료됩니다.</span>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST STRIP -->
+<section class="border-y border-line/40 bg-ink2/60">
+  <div class="max-w-6xl mx-auto px-5 py-6 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+    <div class="reveal flex flex-col items-center gap-1"><span class="text-2xl">🏦</span><p class="text-sm font-bold">공식 증권사 API 연동</p><p class="text-xs text-muted">한국투자증권 등 정식 연동</p></div>
+    <div class="reveal flex flex-col items-center gap-1"><span class="text-2xl">🎙️</span><p class="text-sm font-bold">실명 연사 직접 시연</p><p class="text-xs text-muted">안영신 소장 · 글로벌셀러창업연구소</p></div>
+    <div class="reveal flex flex-col items-center gap-1"><span class="text-2xl">🎁</span><p class="text-sm font-bold">7일 무료 체험 제공</p><p class="text-xs text-muted">현장 참가자 전원</p></div>
+    <div class="reveal flex flex-col items-center gap-1"><span class="text-2xl">🔒</span><p class="text-sm font-bold">선착순 200석 한정</p><p class="text-xs text-muted">소수 정예 오프라인</p></div>
+  </div>
+</section>
+
+<!-- VIDEO TEASER -->
+<section id="video" class="py-20 border-t border-line/40">
+  <div class="max-w-4xl mx-auto px-5">
+    <div class="reveal text-center"><p class="tag text-xs font-bold text-gold">LIVE PREVIEW</p><h2 class="mt-3 text-3xl md:text-4xl font-extrabold leading-snug">말보다 한 번 보는 게 빠릅니다</h2><p class="mt-3 text-muted">실제 시스템이 24시간 매수·매도를 반복하며 수익을 쌓는 모습을 오프라인에서 직접 확인하세요.</p></div>
+    <div class="reveal mt-10">
+      <div id="videoBox" class="relative aspect-video rounded-2xl overflow-hidden border border-line glow-gold cursor-pointer group" onclick="playVideo()">
+        <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=2070&auto=format&fit=crop" alt="시스템 시연 미리보기" class="w-full h-full object-cover opacity-70 group-hover:opacity-90 transition">
+        <div class="absolute inset-0 bg-gradient-to-t from-ink/80 to-transparent"></div>
+        <div class="absolute inset-0 flex flex-col items-center justify-center">
+          <div class="w-20 h-20 rounded-full bg-gold text-ink flex items-center justify-center text-3xl shadow-2xl group-hover:scale-110 transition">▶</div>
+          <p class="mt-4 font-bold text-lg">자동 매매 시스템 실전 작동 영상</p>
+          <p class="text-xs text-muted mt-1">클릭하면 영상이 재생됩니다</p>
+        </div>
+      </div>
+    </div>
+    <p class="reveal mt-4 text-center text-[11px] text-muted/70">※ 영상 자리입니다. 실제 시연/홍보 영상의 유튜브 링크를 넣어드릴 수 있습니다.</p>
+  </div>
+</section>
+
+<!-- PAIN / TARGET -->
+<section class="py-24 border-t border-line/40">
+  <div class="max-w-5xl mx-auto px-5">
+    <p class="reveal text-center tag text-xs font-bold text-gold">FOR YOU</p>
+    <h2 class="reveal mt-3 text-3xl md:text-4xl font-extrabold text-center leading-snug">이런 고민, 한 번쯤 해보셨다면<br>이 컨퍼런스는 <span class="grad-gold">당신을 위한 자리</span>입니다</h2>
+    <div class="mt-14 grid md:grid-cols-3 gap-5">
+      <div class="reveal card-h bg-card border border-line rounded-2xl p-7"><div class="text-3xl">🌙</div><h3 class="mt-4 font-bold text-lg">밤새 차트 보다 지친 분</h3><p class="mt-2 text-sm text-muted leading-relaxed">새벽 미장, 24시간 코인 시장에 끌려다니며 수면과 멘탈을 갉아먹고 있다면.</p></div>
+      <div class="reveal card-h bg-card border border-line rounded-2xl p-7"><div class="text-3xl">😵</div><h3 class="mt-4 font-bold text-lg">감정 매매로 손실 본 분</h3><p class="mt-2 text-sm text-muted leading-relaxed">조금 빠지면 손절, 급등하면 추격매수. 뇌동매매의 악순환을 끊고 싶다면.</p></div>
+      <div class="reveal card-h bg-card border border-line rounded-2xl p-7"><div class="text-3xl">🛡️</div><h3 class="mt-4 font-bold text-lg">안정적으로 굴리고 싶은 분</h3><p class="mt-2 text-sm text-muted leading-relaxed">한국·미국 주식과 스테이블코인을 한 번에, 흔들림 없이 기계적으로 운용하고 싶다면.</p></div>
+    </div>
+    <p class="reveal mt-12 text-center text-lg md:text-xl font-semibold">정답은 감정이 배제된 <span class="grad-gold">'기계적 시스템 투자'</span>입니다.<br><span class="text-muted text-base font-normal">그 시스템을 7월 11일, 눈앞에서 직접 확인하세요.</span></p>
+  </div>
+</section>
+
+<!-- REVEAL -->
+<section id="reveal" class="py-24 bg-ink2 border-y border-line/40">
+  <div class="max-w-6xl mx-auto px-5">
+    <div class="reveal text-center max-w-2xl mx-auto">
+      <p class="tag text-xs font-bold text-gold">FIRST REVEAL</p>
+      <h2 class="mt-3 text-3xl md:text-4xl font-extrabold leading-snug">현장에서 처음 공개되는<br>3대 자동 트레이딩 시스템</h2>
+      <p class="mt-4 text-muted">하나의 시스템으로 한국·미국·암호화폐 시장을 넘나들며, 시장 흐름에 따라 자본을 유연하게 스위칭합니다.</p>
+    </div>
+    <div class="reveal mt-14 grid md:grid-cols-3 gap-6">
+      <div class="card-h bg-card border border-gold/30 rounded-2xl p-8"><div class="w-14 h-14 rounded-2xl bg-white/5 border border-gold/30 flex items-center justify-center text-2xl font-black text-gold">KR</div><h3 class="mt-5 text-xl font-extrabold">스테이블랩 KR</h3><p class="text-sm text-gold">한국 주식</p><p class="mt-3 text-sm text-muted leading-relaxed">코스피·코스닥 전 종목. 박스권과 하락장에서도 파동형·적립형 전략으로 수익을 완성.</p></div>
+      <div class="card-h bg-card border border-gold/30 rounded-2xl p-8"><div class="w-14 h-14 rounded-2xl bg-white/5 border border-gold/30 flex items-center justify-center text-2xl font-black text-gold">US</div><h3 class="mt-5 text-xl font-extrabold">스테이블랩 US</h3><p class="text-sm text-gold">미국 주식</p><p class="mt-3 text-sm text-muted leading-relaxed">애플·엔비디아 등 빅테크. 잠든 사이에도 달러를 수확하는 글로벌 오토 트레이딩.</p></div>
+      <div class="card-h bg-card border border-gold/30 rounded-2xl p-8"><div class="w-14 h-14 rounded-2xl bg-white/5 border border-gold/30 flex items-center justify-center text-2xl font-black text-gold">DT</div><h3 class="mt-5 text-xl font-extrabold">스테이블랩 DT</h3><p class="text-sm text-gold">암호화폐</p><p class="mt-3 text-sm text-muted leading-relaxed">비트코인·이더리움·스테이블코인. 폭락장에서도 분할 매수와 독립 청산으로 방어.</p></div>
+    </div>
+    <p class="reveal text-center mt-8 text-sm text-muted">* 각 솔루션 상세는 <a href="stablelab-kr.html" class="text-gold underline">KR</a> · <a href="stablelab-us.html" class="text-gold underline">US</a> · <a href="stablelab-dt.html" class="text-gold underline">DT</a> 페이지에서 미리 볼 수 있습니다.</p>
+  </div>
+</section>
+
+<!-- SOLUTION PREVIEW (KR 상세 반영) -->
+<section id="preview" class="py-24">
+  <div class="max-w-6xl mx-auto px-5">
+    <div class="reveal text-center max-w-2xl mx-auto">
+      <p class="tag text-xs font-bold text-gold">HOW IT WORKS</p>
+      <h2 class="mt-3 text-3xl md:text-4xl font-extrabold leading-snug">대체 어떤 시스템이길래?<br>작동 원리부터 성과까지 미리 공개</h2>
+      <p class="mt-4 text-muted">하락장·횡보장에서도 감정 없이 작동하는 두 가지 검증된 전략. 컨퍼런스에서 실제 계좌로 직접 확인하세요.</p>
+    </div>
+
+    <!-- 전략 01: 파동형 + 다이어그램 -->
+    <div class="reveal mt-16 grid lg:grid-cols-2 gap-10 items-center">
+      <div>
+        <span class="tag text-xs font-bold text-gold">CORE STRATEGY 01</span>
+        <h3 class="mt-3 text-2xl md:text-3xl font-extrabold leading-snug">단기 변동성을 공략하는<br><span class="grad-gold">[파동형]</span> 매매 전략</h3>
+        <p class="mt-4 text-muted leading-relaxed">증시의 잦은 등락(박스권)을 공략하여, 가격이 하락할 때 기계적으로 매수하고 짧은 반등에 즉각 차익을 실현하는 현금 창출 특화 전략입니다.</p>
+        <div class="mt-6 space-y-3">
+          <div class="flex gap-4 bg-card border border-line rounded-xl p-4"><div class="text-2xl">📉</div><div><h4 class="font-bold">기계적 분할 매수</h4><p class="text-sm text-muted mt-0.5">하락 시 감정 없이 자동 매수</p></div></div>
+          <div class="flex gap-4 bg-card border border-line rounded-xl p-4"><div class="text-2xl">💴</div><div><h4 class="font-bold">회차별 독립 청산</h4><p class="text-sm text-muted mt-0.5">단기 반등 시 즉시 개별 매도</p></div></div>
+        </div>
+      </div>
+      <div class="bg-card border border-line rounded-2xl p-6">
+        <p class="text-sm font-semibold text-muted">분할 매수 및 독립 청산 메커니즘 <span class="text-gold">(10분할 예시)</span></p>
+        <svg viewBox="0 0 420 240" class="w-full mt-4">
+          <polyline points="0,40 60,90 120,150 180,200 240,150 300,110 360,170 420,80" fill="none" stroke="#3a4d73" stroke-width="2"/>
+          <g fill="#f0556b"><circle cx="60" cy="90" r="5"/><circle cx="120" cy="150" r="5"/><circle cx="180" cy="200" r="5"/><circle cx="360" cy="170" r="5"/></g>
+          <g fill="#22c98a"><circle cx="240" cy="150" r="6"/><circle cx="300" cy="110" r="6"/><circle cx="420" cy="80" r="6"/></g>
+          <text x="232" y="138" fill="#22c98a" font-size="9" font-weight="bold">수익실현</text>
+          <text x="292" y="98" fill="#22c98a" font-size="9" font-weight="bold">수익실현</text>
+          <text x="368" y="68" fill="#22c98a" font-size="9" font-weight="bold" text-anchor="end">수익실현</text>
+        </svg>
+        <p class="mt-3 text-sm text-center font-semibold text-gold">핵심: 하락장에도 반등 시마다 즉시 수익 실현!</p>
+      </div>
+    </div>
+
+    <!-- 전략 02: 적립형 + 다이어그램 -->
+    <div class="reveal mt-16 grid lg:grid-cols-2 gap-10 items-center">
+      <div class="order-2 lg:order-1 bg-card border border-line rounded-2xl p-6">
+        <p class="text-sm font-semibold text-muted">평단가 관리 및 일괄 청산 메커니즘</p>
+        <svg viewBox="0 0 420 240" class="w-full mt-4">
+          <polyline points="0,60 70,110 140,160 210,190 280,150 350,90 420,50" fill="none" stroke="#3a4d73" stroke-width="2"/>
+          <g fill="#f0556b"><circle cx="70" cy="110" r="5"/><circle cx="140" cy="160" r="5"/><circle cx="210" cy="190" r="6"/></g>
+          <line x1="0" y1="130" x2="420" y2="130" stroke="#f5c451" stroke-width="1.5" stroke-dasharray="6 4"/>
+          <text x="6" y="124" fill="#f5c451" font-size="9">극적으로 낮아진 평균 단가</text>
+          <circle cx="420" cy="50" r="7" fill="#22c98a"/><text x="414" y="40" fill="#22c98a" font-size="10" font-weight="bold" text-anchor="end">목표 수익 달성!</text>
+        </svg>
+        <p class="mt-3 text-sm text-center font-semibold text-gold">핵심: 낮아진 평단가로 반등 시 한 번에 큰 수익!</p>
+      </div>
+      <div class="order-1 lg:order-2">
+        <span class="tag text-xs font-bold text-green">CORE STRATEGY 02</span>
+        <h3 class="mt-3 text-2xl md:text-3xl font-extrabold leading-snug">장기적 우상향을 위한<br><span class="grad-green">[적립형]</span> 자산 증식 전략</h3>
+        <p class="mt-4 text-muted leading-relaxed">우량주의 장기 성장에 투자하며, 하락 시 수량을 모으고 목표가 도달 시 일괄 청산하여 자산을 극대화합니다.</p>
+        <div class="mt-6 space-y-3">
+          <div class="flex gap-4 bg-card border border-line rounded-xl p-4"><div class="text-2xl">⚓</div><div><h4 class="font-bold">평단가 극적 하향</h4><p class="text-sm text-muted mt-0.5">하락장을 이용해 단가를 효과적으로 낮춤</p></div></div>
+          <div class="flex gap-4 bg-card border border-line rounded-xl p-4"><div class="text-2xl">🎯</div><div><h4 class="font-bold">목표가 일괄 청산</h4><p class="text-sm text-muted mt-0.5">잔파동에 흔들리지 않고 전량 익절</p></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 실전 사례 2종 with 프로세스 -->
+    <div class="reveal mt-20">
+      <h3 class="text-center text-2xl md:text-3xl font-extrabold">검증된 실전 운용 사례</h3>
+      <div class="mt-10 grid md:grid-cols-2 gap-6">
+        <div class="bg-card border border-line rounded-2xl p-6">
+          <span class="tag text-xs font-bold text-gold">CASE 1 · 파동형</span>
+          <h4 class="mt-2 font-bold text-lg">삼성전자 25만~30만 박스권 수익 창출</h4>
+          <div class="mt-4 grid grid-cols-2 gap-3 text-sm">
+            <div class="rounded-lg bg-ink2 border border-line p-3"><div class="text-xs text-muted">일반 보유</div><div class="font-bold text-muted mt-1">0원 (수익 無)</div></div>
+            <div class="rounded-lg bg-ink2 border border-green/30 p-3"><div class="text-xs text-green">스테이블랩</div><div class="font-bold text-green mt-1">지속 현금 창출</div></div>
+          </div>
+          <svg viewBox="0 0 560 130" class="w-full mt-4">
+            <line x1="0" y1="22" x2="560" y2="22" stroke="#23304a" stroke-dasharray="4 4"/><text x="0" y="16" fill="#8b9bb4" font-size="9">300,000원 (천장)</text>
+            <line x1="0" y1="110" x2="560" y2="110" stroke="#23304a" stroke-dasharray="4 4"/><text x="0" y="125" fill="#8b9bb4" font-size="9">250,000원 (바닥)</text>
+            <polyline points="0,70 70,100 140,50 210,100 280,48 350,100 420,52 490,98 560,60" fill="none" stroke="#3a4d73" stroke-width="2"/>
+            <g fill="#f0556b"><circle cx="70" cy="100" r="4"/><circle cx="210" cy="100" r="4"/><circle cx="350" cy="100" r="4"/><circle cx="490" cy="98" r="4"/></g>
+            <g fill="#22c98a"><circle cx="140" cy="50" r="5"/><circle cx="280" cy="48" r="5"/><circle cx="420" cy="52" r="5"/></g>
+          </svg>
+          <p class="mt-2 text-xs text-center text-gold">횡보장에서도 파동마다 차익 실현</p>
+        </div>
+        <div class="bg-card border border-line rounded-2xl p-6">
+          <span class="tag text-xs font-bold text-green">CASE 2 · 적립형</span>
+          <h4 class="mt-2 font-bold text-lg">SK하이닉스 하락장 수량 모아가기</h4>
+          <div class="mt-4 grid grid-cols-2 gap-3 text-sm">
+            <div class="rounded-lg bg-ink2 border border-line p-3"><div class="text-xs text-muted">일반 보유</div><div class="font-bold text-muted mt-1">+18% 수익</div></div>
+            <div class="rounded-lg bg-ink2 border border-green/30 p-3"><div class="text-xs text-green">스테이블랩</div><div class="font-bold text-green mt-1">+30% 달성</div></div>
+          </div>
+          <svg viewBox="0 0 560 130" class="w-full mt-4">
+            <text x="0" y="22" fill="#8b9bb4" font-size="9">130만</text><text x="0" y="72" fill="#8b9bb4" font-size="9">110만</text><text x="0" y="120" fill="#8b9bb4" font-size="9">90만</text>
+            <line x1="60" y1="78" x2="560" y2="78" stroke="#f5c451" stroke-width="1.3" stroke-dasharray="6 4"/><text x="560" y="72" fill="#f5c451" font-size="8" text-anchor="end">평단가 약 100만 원</text>
+            <polyline points="60,24 190,58 320,112 440,82 560,32" fill="none" stroke="#3a4d73" stroke-width="2"/>
+            <g fill="#f0556b"><circle cx="60" cy="24" r="4"/><circle cx="190" cy="58" r="4"/><circle cx="320" cy="112" r="5"/></g>
+            <circle cx="560" cy="32" r="6" fill="#22c98a"/>
+          </svg>
+          <p class="mt-2 text-xs text-center text-gold">반등 시 +30% 일괄 익절</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 전략 세팅 미리보기 -->
+    <div class="reveal mt-20 grid lg:grid-cols-2 gap-6">
+      <div class="bg-ink2 border border-line rounded-2xl p-6">
+        <p class="text-sm font-bold text-gold">파동형 세팅 예시 — 삼성전자</p>
+        <div class="mt-4 space-y-2 text-sm">
+          <div class="flex justify-between border-b border-line/60 pb-2"><span class="text-muted">시작가격 / 회차수</span><b>300,000원 / 100회</b></div>
+          <div class="flex justify-between border-b border-line/60 pb-2"><span class="text-muted">매수간격</span><b class="text-red">-500원</b></div>
+          <div class="flex justify-between border-b border-line/60 pb-2"><span class="text-muted">매도간격</span><b class="text-green">+700원</b></div>
+          <div class="flex justify-between"><span class="text-muted">결과 (62일)</span><b class="text-green">+1,261,770원 · 1,842회</b></div>
+        </div>
+      </div>
+      <div class="bg-ink2 border border-line rounded-2xl p-6">
+        <p class="text-sm font-bold text-green">적립형 세팅 예시 — SK하이닉스</p>
+        <div class="mt-4 space-y-2 text-sm">
+          <div class="flex justify-between border-b border-line/60 pb-2"><span class="text-muted">기준가</span><b>1,100,000원</b></div>
+          <div class="flex justify-between border-b border-line/60 pb-2"><span class="text-muted">매수 조건</span><b>평단가보다 낮을 때</b></div>
+          <div class="flex justify-between border-b border-line/60 pb-2"><span class="text-muted">전량 매도 조건</span><b class="text-green">+30% 상승 시</b></div>
+          <div class="flex justify-between"><span class="text-muted">결과 (104일)</span><b class="text-green">+4,820,000원 · 3회 익절</b></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 검증된 성과 6종 -->
+    <div class="reveal mt-20">
+      <h3 class="text-center text-2xl md:text-3xl font-extrabold">실전 운용 성과 · 세팅값 복사 가능</h3>
+      <p class="text-center text-sm text-muted mt-2">실제 사용자들의 검증된 세팅값을 내 계좌에 그대로 적용할 수 있습니다.</p>
+      <p class="mt-8 mb-3 text-sm font-semibold text-muted">안정성 중심 전략</p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="bg-card border border-line rounded-xl p-5"><div class="flex justify-between items-center"><b>삼성전자 <span class="text-muted text-xs font-normal">[파동형]</span></b><span class="text-green font-extrabold">+<span data-count="1261770">0</span>원</span></div><div class="mt-2 text-xs text-muted">자본 1,000만 · 62일 · 1,842회 거래</div></div>
+        <div class="bg-card border border-line rounded-xl p-5"><div class="flex justify-between items-center"><b>포스코홀딩스 <span class="text-muted text-xs font-normal">[파동형]</span></b><span class="text-green font-extrabold">+<span data-count="1768320">0</span>원</span></div><div class="mt-2 text-xs text-muted">자본 3,000만 · 87일 · 720회 거래</div></div>
+        <div class="bg-card border border-line rounded-xl p-5"><div class="flex justify-between items-center"><b>셀트리온 <span class="text-muted text-xs font-normal">[파동형]</span></b><span class="text-green font-extrabold">+<span data-count="5630000">0</span>원</span></div><div class="mt-2 text-xs text-muted">자본 5,000만 · 112일 · 1,599회 거래</div></div>
+      </div>
+      <p class="mt-6 mb-3 text-sm font-semibold text-muted">수익금 극대화 전략</p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="bg-card border border-line rounded-xl p-5"><div class="flex justify-between items-center"><b>SK하이닉스 <span class="text-muted text-xs font-normal">[적립형]</span></b><span class="text-green font-extrabold">+<span data-count="4820000">0</span>원</span></div><div class="mt-2 text-xs text-muted">자본 3,000만 · 104일 · 3회 전량 익절</div></div>
+        <div class="bg-card border border-line rounded-xl p-5"><div class="flex justify-between items-center"><b>네이버 <span class="text-muted text-xs font-normal">[적립형]</span></b><span class="text-green font-extrabold">+<span data-count="2954194">0</span>원</span></div><div class="mt-2 text-xs text-muted">자본 3,000만 · 86일 · 3회 전량 익절</div></div>
+        <div class="bg-card border border-line rounded-xl p-5"><div class="flex justify-between items-center"><b>카카오 <span class="text-muted text-xs font-normal">[적립형]</span></b><span class="text-green font-extrabold">+<span data-count="4100000">0</span>원</span></div><div class="mt-2 text-xs text-muted">자본 5,000만 · 90일 · 2회 전량 익절</div></div>
+      </div>
+      <p class="mt-4 text-center text-[11px] text-muted/70">※ 과거 운용 사례이며 미래 수익을 보장하지 않습니다. 시장 상황에 따라 결과는 달라질 수 있습니다.</p>
+    </div>
+
+    <!-- 생태계 -->
+    <div class="reveal mt-20 grid lg:grid-cols-3 gap-6">
+      <div class="bg-ink2 border border-gold/30 rounded-2xl p-7 flex flex-col justify-center">
+        <p class="text-xs text-muted">지원 증권사 (API 연동)</p>
+        <div class="mt-3 text-2xl font-extrabold">한국투자증권</div>
+        <div class="mt-2 inline-flex items-center gap-2 text-sm text-green"><span class="w-2 h-2 rounded-full bg-green"></span>Open API 연동 완료</div>
+      </div>
+      <div class="lg:col-span-2 bg-ink2 border border-line rounded-2xl p-7">
+        <p class="text-xs text-muted">코스피/코스닥 상장 전 종목 자동 운용</p>
+        <div class="mt-4 flex flex-wrap gap-2 text-sm">
+          <span class="px-3 py-1.5 rounded-lg bg-card border border-line">삼성전자</span>
+          <span class="px-3 py-1.5 rounded-lg bg-card border border-line">SK하이닉스</span>
+          <span class="px-3 py-1.5 rounded-lg bg-card border border-line">포스코홀딩스</span>
+          <span class="px-3 py-1.5 rounded-lg bg-card border border-line">셀트리온</span>
+          <span class="px-3 py-1.5 rounded-lg bg-card border border-line">네이버</span>
+          <span class="px-3 py-1.5 rounded-lg bg-card border border-line">카카오</span>
+          <span class="px-3 py-1.5 rounded-lg bg-card border border-line">현대차</span>
+          <span class="px-3 py-1.5 rounded-lg bg-gold/10 border border-gold/30 text-gold">코스피/코스닥 전 종목</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 글로벌 스위칭 -->
+    <div class="reveal mt-12 bg-ink2 border border-line rounded-2xl p-8 text-center">
+      <p class="tag text-xs font-bold text-gold">GLOBAL PORTFOLIO</p>
+      <h3 class="mt-2 text-xl md:text-2xl font-extrabold">시장 흐름에 맞춘 유연한 포트폴리오 스위칭</h3>
+      <p class="mt-3 text-muted text-sm max-w-2xl mx-auto">한국 주식이 정체될 땐 미국 주식(US)·암호화폐(DT) 환경으로 자본을 유연하게 이동시켜 글로벌 랠리를 놓치지 않습니다.</p>
+      <div class="mt-6 flex flex-wrap items-center justify-center gap-3 text-sm font-bold">
+        <span class="px-4 py-2 rounded-lg bg-card border border-line">KR 횡보/하락</span>
+        <span class="text-gold text-xl">➔</span>
+        <span class="px-4 py-2 rounded-lg bg-card border border-gold/30 text-gold">US 랠리 스위칭</span>
+        <span class="px-4 py-2 rounded-lg bg-card border border-gold/30 text-gold">DT 랠리 스위칭</span>
+      </div>
+    </div>
+
+    <!-- 마스터클래스 -->
+    <div class="reveal mt-12 bg-card border border-line rounded-2xl p-8">
+      <p class="tag text-xs font-bold text-gold">MASTERCLASS VOD</p>
+      <h3 class="mt-2 text-xl md:text-2xl font-extrabold">국내 주식 커리큘럼 총 21강 제공(준비 중)</h3>
+      <p class="mt-2 text-muted text-sm">프로그램만 주지 않습니다. 기초 개념부터 시스템 투자까지 한국 주식 생존 로드맵을 함께 제공합니다.</p>
+      <div class="mt-5 grid sm:grid-cols-2 gap-2 text-sm">
+        <div class="flex gap-2 rounded-lg bg-ink2 border border-line px-3 py-2.5"><span class="text-gold">01</span> 30분 만에 끝내는 내 돈 지키기 (OT)</div>
+        <div class="flex gap-2 rounded-lg bg-ink2 border border-line px-3 py-2.5"><span class="text-muted">02</span> 내가 사면 떨어지는 이유 (박스피 탈출법)</div>
+        <div class="flex gap-2 rounded-lg bg-ink2 border border-line px-3 py-2.5"><span class="text-muted">03</span> 짧은 오르내림 사이클로 타이밍 잡기</div>
+        <div class="flex gap-2 rounded-lg bg-ink2 border border-line px-3 py-2.5"><span class="text-muted">04</span> 롤러코스터 장세에서 시드머니 방어</div>
+        <div class="flex gap-2 rounded-lg bg-ink2 border border-line px-3 py-2.5"><span class="text-muted">05</span> 삼성전자·SK하이닉스 사면 안심일까?</div>
+        <div class="flex gap-2 rounded-lg bg-ink2 border border-line px-3 py-2.5"><span class="text-muted">06</span> 내 감정을 빼야 수익이 난다</div>
+      </div>
+      <p class="mt-3 text-xs text-muted">…외 15강, 현장에서 전체 커리큘럼 공개</p>
+    </div>
+
+    <!-- 가입 흐름 -->
+    <div class="reveal mt-12 bg-ink2 border border-line rounded-2xl p-7">
+      <p class="text-center text-sm font-semibold text-muted mb-6">왕초보도 10분이면 끝나는 4단계</p>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center text-sm">
+        <div><div class="mx-auto w-9 h-9 rounded-full bg-gold text-ink font-black flex items-center justify-center">1</div><p class="mt-2 font-semibold">서비스 가입</p><p class="text-xs text-muted mt-1">간편 회원가입</p></div>
+        <div><div class="mx-auto w-9 h-9 rounded-full bg-gold text-ink font-black flex items-center justify-center">2</div><p class="mt-2 font-semibold">증권사 API 연동</p><p class="text-xs text-muted mt-1">공식 API 안전 연결</p></div>
+        <div><div class="mx-auto w-9 h-9 rounded-full bg-gold text-ink font-black flex items-center justify-center">3</div><p class="mt-2 font-semibold">전략 세팅값 입력</p><p class="text-xs text-muted mt-1">검증된 값 그대로</p></div>
+        <div><div class="mx-auto w-9 h-9 rounded-full bg-gold text-ink font-black flex items-center justify-center">4</div><p class="mt-2 font-semibold">24시간 자동 운영</p><p class="text-xs text-muted mt-1">누적 수익 확인</p></div>
+      </div>
+    </div>
+
+    <div class="reveal mt-12 text-center">
+      <a href="#apply" class="inline-block px-9 py-4 rounded-xl bg-gold text-ink font-black text-lg glow-gold hover:brightness-110 transition">현장에서 직접 확인하기 →</a>
+    </div>
+  </div>
+</section>
+
+<!-- WHY OFFLINE -->
+<section class="py-24">
+  <div class="max-w-6xl mx-auto px-5">
+    <div class="reveal text-center max-w-2xl mx-auto"><p class="tag text-xs font-bold text-gold">WHY OFFLINE</p><h2 class="mt-3 text-3xl md:text-4xl font-extrabold leading-snug">왜 굳이 오프라인에서<br>직접 공개할까요?</h2></div>
+    <div class="reveal mt-10 rounded-2xl overflow-hidden border border-line relative">
+      <img src="conference.jpg" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=2070&auto=format&fit=crop'" alt="스테이블랩 컨퍼런스 현장" class="w-full h-56 md:h-72 object-cover opacity-90">
+      <div class="absolute inset-0 bg-gradient-to-t from-ink2 via-ink2/30 to-transparent"></div>
+      <div class="absolute bottom-5 left-6"><p class="text-lg md:text-xl font-extrabold">200명이 함께하는 단 한 번의 현장</p><p class="text-sm text-muted">7월 11일 (토) · 선정릉역 쉬피겐홀</p></div>
+    </div>
+    <div class="reveal mt-8 grid md:grid-cols-3 gap-6">
+      <div class="bg-card border border-line rounded-2xl p-7"><div class="text-3xl">🖥️</div><h3 class="mt-4 font-bold text-lg">실시간 라이브 시연</h3><p class="mt-2 text-sm text-muted leading-relaxed">영상이 아닌 실제 계좌·실제 주문망이 돌아가는 화면을 현장에서 그대로 공개합니다.</p></div>
+      <div class="bg-card border border-line rounded-2xl p-7"><div class="text-3xl">🙋</div><h3 class="mt-4 font-bold text-lg">현장 Q&A · 1:1 상담</h3><p class="mt-2 text-sm text-muted leading-relaxed">궁금한 점을 그 자리에서 묻고, 내 상황에 맞는 세팅을 직접 안내받을 수 있습니다.</p></div>
+      <div class="bg-card border border-line rounded-2xl p-7"><div class="text-3xl">🤝</div><h3 class="mt-4 font-bold text-lg">비즈니스 파트너 기회</h3><p class="mt-2 text-sm text-muted leading-relaxed">단순 개인 투자뿐만 아니라, 스테이블랩과 함께 추가 수익을 만들 수 있는 비즈니스 기회를 제공합니다.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- AGENDA -->
+<section id="agenda" class="py-24 bg-ink2 border-y border-line/40">
+  <div class="max-w-3xl mx-auto px-5">
+    <div class="reveal text-center"><p class="tag text-xs font-bold text-gold">PROGRAM</p><h2 class="mt-3 text-3xl md:text-4xl font-extrabold">당일 프로그램 (2시간)</h2><p class="mt-3 text-muted text-sm">7월 11일 (토) 오후 2:00 – 4:00 · 선정릉역 쉬피겐홀</p></div>
+    <div class="reveal mt-12 space-y-3">
+      <div class="flex gap-5 bg-card border border-line rounded-xl p-5"><div class="text-gold font-bold whitespace-nowrap">14:00</div><div><h4 class="font-bold">오프닝 · 왜 지금 시스템 투자인가</h4><p class="text-sm text-muted mt-1">감정·밤샘 매매의 한계와 기계적 투자의 원리</p></div></div>
+      <div class="flex gap-5 bg-card border border-line rounded-xl p-5"><div class="text-gold font-bold whitespace-nowrap">14:25</div><div><h4 class="font-bold">파동형·적립형 전략 완전 해부</h4><p class="text-sm text-muted mt-1">박스권·하락장에서 수익이 나는 메커니즘</p></div></div>
+      <div class="flex gap-5 bg-card border border-gold/30 rounded-xl p-5"><div class="text-gold font-bold whitespace-nowrap">14:55</div><div><h4 class="font-bold">🔓 KR·US·DT 솔루션 최초 라이브 공개</h4><p class="text-sm text-muted mt-1">실제 계좌·실시간 주문망 시연</p></div></div>
+      <div class="flex gap-5 bg-card border border-line rounded-xl p-5"><div class="text-gold font-bold whitespace-nowrap">15:30</div><div><h4 class="font-bold">실전 운용 성과 · 전략 복사 사례</h4><p class="text-sm text-muted mt-1">검증된 세팅값을 내 계좌에 그대로 적용하는 법</p></div></div>
+      <div class="flex gap-5 bg-card border border-line rounded-xl p-5"><div class="text-gold font-bold whitespace-nowrap">15:50</div><div><h4 class="font-bold">현장 Q&A · 참가자 한정 혜택 안내</h4><p class="text-sm text-muted mt-1">질의응답과 당일 전용 혜택</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SPEAKER -->
+<section class="py-24">
+  <div class="max-w-4xl mx-auto px-5 reveal">
+    <div class="bg-card border border-line rounded-2xl p-8 md:p-10 flex flex-col md:flex-row gap-8 items-center">
+      <img src="profile.jpg" alt="안영신 소장" class="w-28 h-28 md:w-36 md:h-36 rounded-2xl object-cover border border-gold/30 shrink-0">
+      <div>
+        <p class="tag text-xs font-bold text-gold">SPEAKER</p>
+        <h2 class="mt-2 text-2xl font-extrabold">안영신 소장 · 글로벌셀러창업연구소</h2>
+        <p class="mt-3 text-muted leading-relaxed">감정을 배제한 기계적 자동 투자 시스템을 직접 설계·운용해 온 실전가. 한국·미국·암호화폐를 아우르는 스테이블랩 생태계를 통해, 누구나 따라 할 수 있는 안정적 자동 투자의 길을 제시합니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BENEFIT -->
+<section id="benefit" class="py-24 bg-ink2 border-y border-line/40">
+  <div class="max-w-4xl mx-auto px-5">
+    <div class="reveal text-center"><p class="tag text-xs font-bold text-gold">ONSITE ONLY</p><h2 class="mt-3 text-3xl md:text-4xl font-extrabold leading-snug">현장 참가자에게만 드리는<br>특별 혜택</h2></div>
+
+    <div class="reveal mt-10 bg-gradient-to-r from-gold/20 to-amber-500/10 border border-gold/50 rounded-3xl p-8 md:p-10 text-center glow-gold">
+      <span class="tag text-xs font-bold text-gold">대표 혜택 · CONFERENCE EXCLUSIVE</span>
+      <h3 class="mt-3 text-3xl md:text-4xl font-black"><span class="grad-gold">7일 무료 체험권</span> 100% 증정</h3>
+      <p class="mt-3 text-muted max-w-xl mx-auto">현장 참가자 전원에게 드립니다. 결제 부담 없이 7일 동안 실제로 시스템을 돌려보고, 내 눈으로 확인한 뒤 결정하세요. <b class="text-white">온라인·후기 신청자에게는 제공되지 않는 현장 전용 혜택</b>입니다.</p>
+    </div>
+
+    <p class="reveal mt-10 text-sm font-semibold text-muted text-center">여기에 더해, 이런 혜택도 함께 드립니다</p>
+    <div class="reveal mt-5 grid sm:grid-cols-2 gap-5">
+      <div class="bg-card border border-line rounded-2xl p-6 flex gap-4"><span class="text-green text-xl">✓</span><div><h4 class="font-bold">검증된 전략 세팅값 시트</h4><p class="text-sm text-muted mt-1">바로 따라 입력할 수 있는 KR·US·DT 실전 세팅값 제공</p></div></div>
+      <div class="bg-card border border-line rounded-2xl p-6 flex gap-4"><span class="text-green text-xl">✓</span><div><h4 class="font-bold">1:1 세팅 코칭 우선권</h4><p class="text-sm text-muted mt-1">전문가 밀착 코칭을 우선 배정</p></div></div>
+      <div class="bg-card border border-line rounded-2xl p-6 flex gap-4"><span class="text-green text-xl">✓</span><div><h4 class="font-bold">마스터클래스 VOD 체험</h4><p class="text-sm text-muted mt-1">실전 강의 커리큘럼 일부를 현장에서 미리 공개</p></div></div>
+    </div>
+    <p class="reveal mt-8 text-center text-sm text-muted">※ 모든 혜택은 <b class="text-white">현장 참석자에 한해</b> 제공되며, 좌석 마감 시 조기 종료됩니다.</p>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="py-20">
+  <div class="max-w-5xl mx-auto px-5 grid grid-cols-2 md:grid-cols-4 gap-5 text-center reveal">
+    <div class="bg-card border border-line rounded-2xl py-8"><div class="text-3xl font-black grad-gold"><span data-count="200">0</span>석</div><p class="mt-2 text-sm text-muted">선착순 한정</p></div>
+    <div class="bg-card border border-line rounded-2xl py-8"><div class="text-3xl font-black grad-gold"><span data-count="3">0</span>개</div><p class="mt-2 text-sm text-muted">시장 통합 운용</p></div>
+    <div class="bg-card border border-line rounded-2xl py-8"><div class="text-3xl font-black grad-gold"><span data-count="24">0</span>시간</div><p class="mt-2 text-sm text-muted">자동 운영</p></div>
+    <div class="bg-card border border-line rounded-2xl py-8"><div class="text-3xl font-black grad-gold"><span data-count="2">0</span>시간</div><p class="mt-2 text-sm text-muted">압축 인사이트</p></div>
+  </div>
+</section>
+
+<!-- APPLY FORM -->
+<section id="apply" class="py-24 bg-ink2 border-y border-line/40">
+  <div class="max-w-2xl mx-auto px-5">
+    <div class="reveal text-center"><p class="tag text-xs font-bold text-gold">REGISTER</p><h2 class="mt-3 text-3xl md:text-4xl font-extrabold leading-snug">남은 좌석을 지금 신청하세요</h2><p class="mt-3 text-muted">7월 11일 (토) 14:00 · 선정릉역 쉬피겐홀 · 선착순 200석</p><p class="mt-3 inline-block bg-gold/10 border border-gold/30 text-gold text-sm font-bold rounded-full px-4 py-1.5">🎁 신청 후 현장 참석 시 7일 무료 체험권 증정</p></div>
+    <div class="reveal mt-10 bg-card border border-gold/40 rounded-3xl p-8 md:p-10 glow-gold text-center">
+      <p class="tag text-xs font-bold text-gold">SECURE YOUR SEAT</p>
+      <h3 class="mt-3 text-2xl font-extrabold">네이버 예약으로 좌석을 확정하세요</h3>
+      <p class="mt-3 text-sm text-muted">예약 완료 시 좌석이 즉시 확정됩니다 · 선착순 200석 한정</p>
+      <a href="https://booking.naver.com/" target="_blank" rel="noopener" class="mt-7 inline-block w-full md:w-auto px-12 py-4 rounded-xl bg-[#03c75a] text-white font-black text-lg hover:brightness-110 transition">네이버 예약하고 좌석 확정하기 →</a>
+      <p class="mt-4 text-xs text-muted">🎁 현장 참석 시 7일 무료 체험권 증정 · 예약 후 안내 문자를 보내드립니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="py-24">
+  <div class="max-w-3xl mx-auto px-5">
+    <div class="reveal text-center"><p class="tag text-xs font-bold text-gold">FAQ</p><h2 class="mt-3 text-3xl md:text-4xl font-extrabold">자주 묻는 질문</h2></div>
+    <div class="reveal mt-10 space-y-3">
+      <details class="bg-card border border-line rounded-xl p-5"><summary class="faq-q flex items-center justify-between cursor-pointer font-semibold list-none">투자 경험이 전혀 없어도 괜찮나요?<span class="text-gold text-xl transition-transform">+</span></summary><p class="mt-3 text-sm text-muted leading-relaxed">네. 복잡한 차트 분석 없이 검증된 세팅값을 따라 입력하는 방식이라, 왕초보도 이해할 수 있도록 진행합니다.</p></details>
+      <details class="bg-card border border-line rounded-xl p-5"><summary class="faq-q flex items-center justify-between cursor-pointer font-semibold list-none">참가하면 무엇을 얻을 수 있나요?<span class="text-gold text-xl transition-transform">+</span></summary><p class="mt-3 text-sm text-muted leading-relaxed">2시간 컨퍼런스 입장, 솔루션 라이브 시연, 현장 Q&A, 7일 무료 체험권, 그리고 참가자 한정 혜택이 포함됩니다.</p></details>
+      <details class="bg-card border border-line rounded-xl p-5"><summary class="faq-q flex items-center justify-between cursor-pointer font-semibold list-none">현장에서 바로 솔루션을 가입해야 하나요?<span class="text-gold text-xl transition-transform">+</span></summary><p class="mt-3 text-sm text-muted leading-relaxed">아니요. 강요 없이 시스템을 충분히 확인한 뒤, 원하시는 분만 현장 혜택가로 시작하실 수 있습니다.</p></details>
+      <details class="bg-card border border-line rounded-xl p-5"><summary class="faq-q flex items-center justify-between cursor-pointer font-semibold list-none">7일 무료 체험권은 어떻게 받나요?<span class="text-gold text-xl transition-transform">+</span></summary><p class="mt-3 text-sm text-muted leading-relaxed">현장에 참석하신 분 전원에게 드립니다. 결제 없이 7일간 실제로 시스템을 운용해 보고 결정하실 수 있으며, 온라인·후기 신청자에게는 제공되지 않는 현장 전용 혜택입니다.</p></details>
+      <details class="bg-card border border-line rounded-xl p-5"><summary class="faq-q flex items-center justify-between cursor-pointer font-semibold list-none">자리가 마감되면 어떻게 되나요?<span class="text-gold text-xl transition-transform">+</span></summary><p class="mt-3 text-sm text-muted leading-relaxed">선착순 200석 한정으로, 정원이 차면 신청이 조기 마감됩니다. 가능한 빨리 신청해 주세요.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="py-24 bg-ink2 border-t border-line/40">
+  <div class="max-w-3xl mx-auto px-5 text-center reveal">
+    <h2 class="text-3xl md:text-4xl font-extrabold leading-snug">밤샘 매매에서 벗어날<br>단 한 번의 기회</h2>
+    <p class="mt-4 text-muted">7월 11일 토요일 오후 2시, 선정릉역 쉬피겐홀. 200석은 생각보다 빨리 마감됩니다.</p>
+    <p class="mt-3 text-gold font-bold">+ 현장 참가자 전원 7일 무료 체험권 증정</p>
+    <a href="#apply" class="inline-block mt-8 px-10 py-4 rounded-xl bg-gold text-ink font-black text-lg glow-gold hover:brightness-110 transition">지금 좌석 신청하기 →</a>
+  </div>
+</section>
+
+</main>
+
+<footer class="border-t border-line/60 py-12">
+  <div class="max-w-7xl mx-auto px-5">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+      <div><div class="flex items-center gap-2 font-extrabold text-lg"><span class="w-6 h-6 rounded-md bg-gold text-ink flex items-center justify-center text-xs font-black">S</span> StableLab</div><p class="mt-2 text-xs text-muted">© 2026 StableLab · 글로벌셀러창업연구소. All rights reserved.</p></div>
+      <div class="flex items-center gap-3 text-sm text-muted"><a href="stablelab-kr.html" class="hover:text-white">KR</a><a href="stablelab-us.html" class="hover:text-white">US</a><a href="stablelab-dt.html" class="hover:text-white">DT</a></div>
+    </div>
+    <p class="mt-6 text-[11px] text-muted/70 leading-relaxed">※ 본 행사 및 솔루션은 투자 정보 제공을 목적으로 하며, 투자 결과를 보장하지 않습니다. 모든 투자에는 원금 손실 위험이 있으며 투자 판단과 책임은 본인에게 있습니다.</p>
+  </div>
+</footer>
+
+<!-- mobile sticky CTA -->
+<div class="md:hidden fixed bottom-0 inset-x-0 z-50 glass border-t border-line p-3">
+  <a href="#apply" class="block text-center py-3.5 rounded-xl bg-gold text-ink font-black">남은 좌석 신청하기 →</a>
+</div>
+
+<script>
+  // countdown to 2026-07-11 14:00 KST
+  const target = new Date('2026-07-11T14:00:00+09:00').getTime();
+  function tick(){
+    const now = Date.now(); let d = Math.max(0, target - now);
+    const days=Math.floor(d/864e5); d-=days*864e5;
+    const h=Math.floor(d/36e5); d-=h*36e5;
+    const m=Math.floor(d/6e4); d-=m*6e4;
+    const s=Math.floor(d/1e3);
+    const p=n=>String(n).padStart(2,'0');
+    const set=(k,v)=>{const el=document.querySelector('[data-'+k+']'); if(el) el.textContent=p(v);};
+    set('d',days); set('h',h); set('m',m); set('s',s);
+  }
+  tick(); setInterval(tick,1000);
+
+  function submitApply(e){ e.preventDefault(); alert('신청이 접수되었습니다! 안내 문자로 입금·좌석 확정 절차를 보내드립니다.'); e.target.reset(); }
+
+  // 영상 재생: 아래 VIDEO_ID 를 실제 유튜브 영상 ID로 교체하세요.
+  function playVideo(){
+    const VIDEO_ID = 'dQw4w9WgXcQ'; // TODO: 실제 시연 영상 ID로 교체
+    const box = document.getElementById('videoBox');
+    box.outerHTML = '<div class="aspect-video rounded-2xl overflow-hidden border border-line glow-gold"><iframe class="w-full h-full" src="https://www.youtube.com/embed/'+VIDEO_ID+'?autoplay=1&rel=0" title="시스템 시연 영상" frameborder="0" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe></div>';
+  }
+
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.1});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  // 숫자 카운트업
+  function animCount(el){
+    const t=+el.dataset.count, dur=1500, st=performance.now();
+    function f(now){let p=Math.min(1,(now-st)/dur); p=1-Math.pow(1-p,3);
+      el.textContent=Math.floor(t*p).toLocaleString();
+      if(p<1) requestAnimationFrame(f); else el.textContent=t.toLocaleString();}
+    requestAnimationFrame(f);
+  }
+  const co=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){animCount(e.target);co.unobserve(e.target)}})},{threshold:.4});
+  document.querySelectorAll('[data-count]').forEach(el=>co.observe(el));
+</script>
+</body>
+</html>
