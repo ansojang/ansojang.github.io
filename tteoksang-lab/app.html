@@ -162,6 +162,8 @@
       <div class="keybar"><input id="apikey" type="password" placeholder="API 키"><button onclick="saveKey()">저장</button><span id="keystat"></span></div>
       <div class="keyhelp" id="keyhelp"></div>
       <details class="keyguide"><summary>🔑 API 키 발급 방법 단계별 보기</summary><div id="keyguide"></div></details>
+      <div class="keybar"><input id="llmkey" type="password" placeholder="AI 대본·제목 생성용 Gemini API 키 (선택)"><button onclick="saveLLM()">저장</button><span id="llmstat" style="color:#a371f7"></span></div>
+      <div class="keyhelp">🤖 대본·제목을 <b>실제 AI로 생성</b>하려면 무료 <a href="https://aistudio.google.com/app/apikey" target="_blank">Google AI Studio</a>에서 Gemini API 키 발급 → 붙여넣기. 미입력 시 템플릿으로 생성됩니다.</div>
       <div class="searchbar"><input id="seed" type="text" placeholder='예: 동기부여 영상 추천해줘' value="동기부여 영상 추천해줘"><button onclick="recoKeywords()">키워드 추천</button></div>
       <div class="seedchips">
         <span class="chipx" onclick="setSeed('이커머스 영상 추천해줘')">이커머스 영상 추천해줘</span>
@@ -363,8 +365,26 @@ const KEYMETA={
 function keyStore(){ return PLATFORMS[PLAT].storeKey; }
 function getKey(){ return (localStorage.getItem(keyStore())||'').trim(); }
 function updKeyStat(){ const el=document.getElementById('keystat'); if(el) el.textContent=getKey()?'✅ 연동됨':''; }
-function updKeyUI(){ const m=KEYMETA[PLAT]||KEYMETA.youtube; const inp=document.getElementById('apikey'); if(inp){ inp.placeholder=m.ph; inp.value=getKey(); } const h=document.getElementById('keyhelp'); if(h) h.innerHTML=m.help+' · 미입력 시 데모 데이터로 동작'; const g=document.getElementById('keyguide'); if(g) g.innerHTML=m.guide; updKeyStat(); }
+function updKeyUI(){ const m=KEYMETA[PLAT]||KEYMETA.youtube; const inp=document.getElementById('apikey'); if(inp){ inp.placeholder=m.ph; inp.value=getKey(); } const h=document.getElementById('keyhelp'); if(h) h.innerHTML=m.help+' · 미입력 시 데모 데이터로 동작'; const g=document.getElementById('keyguide'); if(g) g.innerHTML=m.guide; updKeyStat(); const lk=document.getElementById('llmkey'); if(lk) lk.value=geminiKey(); updLLMStat(); }
 function saveKey(){ const v=(document.getElementById('apikey').value||'').trim(); localStorage.setItem(keyStore(),v); updKeyStat(); alert(v?(PLATFORMS[PLAT].name+' 키가 저장되었습니다. 이제 실시간으로 동작합니다.'):'키를 비웠습니다. 데모 데이터로 동작합니다.'); }
+/* ===== AI 대본 생성 (Gemini) ===== */
+function geminiKey(){ return (localStorage.getItem('ttl_gemini')||'').trim(); }
+function updLLMStat(){ const el=document.getElementById('llmstat'); if(el) el.textContent=geminiKey()?'🤖 AI 생성 ON':''; }
+function saveLLM(){ const v=(document.getElementById('llmkey').value||'').trim(); localStorage.setItem('ttl_gemini',v); updLLMStat(); alert(v?'Gemini 키 저장 완료. 이제 대본·제목이 AI로 생성됩니다.':'키를 비웠습니다. 템플릿으로 생성됩니다.'); }
+async function genLLM(v,P,kw){
+  const key=geminiKey(); if(!key) throw new Error('Gemini 키 없음');
+  const len = P.scriptType==='long' ? '롱폼 약 5분, 8개 구간(도입 포함)' : '숏폼 1~3분, 6개 구간';
+  const prompt=`너는 한국 ${P.name} 대본 작가야. 아래 정보로 실제 촬영용 대본을 써.\n키워드: ${kw}\n참고(과거 떡상·현재 정체) 영상 제목: ${v.title}\n분량: ${len}. 구조: 강한 후킹 → 전개(핵심 3가지) → 반전 → CTA. 화자는 '안소장'. 말투는 자연스러운 구어체.\n반드시 아래 JSON만 출력(설명·코드펜스 금지):\n{"titles":["제목1","제목2","제목3"],"segments":[{"time":"0:00–0:15","label":"후킹","narration":"실제 대사 그대로","screen":"화면/B-roll 지시","caption":"자막 한 줄"}]}\n수익 보장·과장(무조건·100%) 표현 금지(표시광고법). 숫자는 예시로만.`;
+  const url=`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${encodeURIComponent(key)}`;
+  const res=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({contents:[{parts:[{text:prompt}]}],generationConfig:{temperature:0.85,responseMimeType:'application/json'}})});
+  const j=await res.json();
+  if(j.error) throw new Error(j.error.message||'Gemini 오류');
+  let txt=((((j.candidates||[])[0]||{}).content||{}).parts||[{}])[0].text||'';
+  txt=txt.replace(/```json/gi,'').replace(/```/g,'').trim();
+  const out=JSON.parse(txt);
+  if(!out.segments||!out.segments.length) throw new Error('형식 오류');
+  return out;
+}
 function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 function fmtViews(n){ n=+n||0; if(n>=1e8) return (n/1e8).toFixed(1).replace(/\.0$/,'')+'억'; if(n>=1e4) return Math.round(n/1e4)+'만'; return n.toLocaleString(); }
 function ageLabel(days){ const y=days/365; if(y>=1) return y.toFixed(1)+'년 전'; return Math.max(1,Math.round(days/30))+'개월 전'; }
@@ -458,7 +478,7 @@ async function search(){
 }
 function renderCards(){
   const P=PLATFORMS[PLAT]; const isV=P.ratio==='v916';
-  const data=(PLAT==='youtube'&&liveItems)?liveItems:P.data;
+  const data=liveItems?liveItems:P.data;
   document.getElementById('cards').innerHTML=data.map(v=>{
     const orig = P.real
       ? `<div class="thw h169"><img src="https://i.ytimg.com/vi/${v.id}/maxresdefault.jpg" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/${v.id}/hqdefault.jpg'"></div>`
@@ -488,39 +508,49 @@ function renderCards(){
      </div></div>`;
   }).join('');
 }
-function genScript(n){
-  const P=PLATFORMS[PLAT]; const src=(PLAT==='youtube'&&liveItems)?liveItems:P.data; const v=src.find(x=>x.n===n); const s=v.s;
-  let segs;
-  if(P.scriptType==='long'){
-    segs=[
-     ['00:00–00:18','후킹',s.hook,'정면 클로즈업 · 자막 크게',s.hook.slice(0,16)+'…'],
-     ['00:18–00:45','도입 · 신뢰',s.intro,'채널 소개 B-roll','안소장 · 실전 경험'],
-     ['00:45–01:20','문제 · 공감',s.problem,'공감 상황 B-roll','핵심 문제'],
-     ['01:20–02:10','핵심 ①',`<b>${s.p[0][0]}</b> — ${s.p[0][1]}`,'자료 화면','① '+s.p[0][0]],
-     ['02:10–03:00','핵심 ②',`<b>${s.p[1][0]}</b> — ${s.p[1][1]}`,'예시 화면','② '+s.p[1][0]],
-     ['03:00–03:50','핵심 ③',`<b>${s.p[2][0]}</b> — ${s.p[2][1]}`,'B-roll','③ '+s.p[2][0]],
-     ['03:50–04:30','반전 · 정리',s.rev,'자막 3줄 순차','핵심 정리'],
-     ['04:30–05:00','마무리 · CTA',s.cta,'구독 버튼 + 다음 영상','구독 + 무료 자료']];
-  } else {
-    segs=[
-     ['0–5초','후킹(첫 프레임)',s.hook,'세로 클로즈업 · 초대형 자막',s.hook.slice(0,14)+'…'],
-     ['5–15초','공감/문제',s.problem,'빠른 컷 전환','핵심 문제'],
-     ['15–40초','핵심 ①',`<b>${s.p[0][0]}</b> — ${s.p[0][1]}`,'화면 자막 + 예시','① '+s.p[0][0]],
-     ['40–65초','핵심 ②',`<b>${s.p[1][0]}</b> — ${s.p[1][1]}`,'화면 자막','② '+s.p[1][0]],
-     ['65–85초','핵심 ③',`<b>${s.p[2][0]}</b> — ${s.p[2][1]}`,'화면 자막','③ '+s.p[2][0]],
-     ['85–100초','반전 + CTA',`${s.rev} ${s.cta}`,'팔로우/저장 유도 자막','저장 + 팔로우']];
+async function genScript(n){
+  const P=PLATFORMS[PLAT]; const src=liveItems?liveItems:P.data; const v=src.find(x=>x.n===n); const s=v.s;
+  const kw=document.getElementById('kw').value.trim();
+  let segs=null, title=v.titles[0].replace(/<[^>]+>/g,''), typeLabel=s.type, aiUsed=false;
+  if(geminiKey()){
+    document.getElementById('script').innerHTML='<div style="padding:70px 0;text-align:center;color:var(--sub)">🤖 Gemini가 대본·제목 생성 중…<br><span style="font-size:12px">10~20초 정도 걸립니다</span></div>'; go(3);
+    try{ const out=await genLLM(v,P,kw);
+      if(out.titles&&out.titles[0]) title=out.titles[0];
+      segs=out.segments.map(x=>[x.time||'',x.label||'',x.narration||'',x.screen||'',x.caption||'']);
+      typeLabel='AI 자동 생성 (Gemini)'; aiUsed=true;
+    }catch(e){ segs=null; }
   }
-  const title=v.titles[0].replace(/<[^>]+>/g,'');
+  if(!segs){
+    if(P.scriptType==='long'){
+      segs=[
+       ['00:00–00:18','후킹',s.hook,'정면 클로즈업 · 자막 크게',s.hook.slice(0,16)+'…'],
+       ['00:18–00:45','도입 · 신뢰',s.intro,'채널 소개 B-roll','안소장 · 실전 경험'],
+       ['00:45–01:20','문제 · 공감',s.problem,'공감 상황 B-roll','핵심 문제'],
+       ['01:20–02:10','핵심 ①',`<b>${s.p[0][0]}</b> — ${s.p[0][1]}`,'자료 화면','① '+s.p[0][0]],
+       ['02:10–03:00','핵심 ②',`<b>${s.p[1][0]}</b> — ${s.p[1][1]}`,'예시 화면','② '+s.p[1][0]],
+       ['03:00–03:50','핵심 ③',`<b>${s.p[2][0]}</b> — ${s.p[2][1]}`,'B-roll','③ '+s.p[2][0]],
+       ['03:50–04:30','반전 · 정리',s.rev,'자막 3줄 순차','핵심 정리'],
+       ['04:30–05:00','마무리 · CTA',s.cta,'구독 버튼 + 다음 영상','구독 + 무료 자료']];
+    } else {
+      segs=[
+       ['0–5초','후킹(첫 프레임)',s.hook,'세로 클로즈업 · 초대형 자막',s.hook.slice(0,14)+'…'],
+       ['5–15초','공감/문제',s.problem,'빠른 컷 전환','핵심 문제'],
+       ['15–40초','핵심 ①',`<b>${s.p[0][0]}</b> — ${s.p[0][1]}`,'화면 자막 + 예시','① '+s.p[0][0]],
+       ['40–65초','핵심 ②',`<b>${s.p[1][0]}</b> — ${s.p[1][1]}`,'화면 자막','② '+s.p[1][0]],
+       ['65–85초','핵심 ③',`<b>${s.p[2][0]}</b> — ${s.p[2][1]}`,'화면 자막','③ '+s.p[2][0]],
+       ['85–100초','반전 + CTA',`${s.rev} ${s.cta}`,'팔로우/저장 유도 자막','저장 + 팔로우']];
+    }
+  }
   document.getElementById('script').innerHTML=`
-   <div class="shead"><span class="tag" style="color:${P.color};background:${P.color}18;border-color:${P.color}55">${P.emoji} ${P.name} 대본 · ${s.type}</span>
+   <div class="shead"><span class="tag" style="color:${P.color};background:${P.color}18;border-color:${P.color}55">${P.emoji} ${P.name} 대본 · ${typeLabel}</span>
      <h1>${title}</h1>
-     <div class="smeta"><span class="m">길이 <b>${P.lenLabel}</b></span><span class="m">주제 <b>${s.topic}</b></span><span class="m">화자 <b>안소장</b></span><span class="m">레퍼런스 <b>${v.n}번</b></span></div>
+     <div class="smeta"><span class="m">길이 <b>${P.lenLabel}</b></span><span class="m">주제 <b>${kw||s.topic}</b></span><span class="m">화자 <b>안소장</b></span><span class="m">레퍼런스 <b>${v.n}번</b></span></div>
    </div>
    ${segs.map(g=>`<div class="seg"><div class="segh"><span class="tc">${g[0]}</span><h3>${g[1]}</h3></div>
      <div class="segb"><p class="narr">${g[2]}</p>
      <div class="aux"><div class="box cam"><div class="bt">🎥 화면</div><p>${g[3]}</p></div><div class="box cap"><div class="bt">🔠 자막</div><p class="cl">${g[4]}</p></div></div></div></div>`).join('')}
    <div class="exp"><button class="pri" onclick="alert('데모: 실서비스에서 PDF로 저장됩니다.')">PDF 저장</button><button onclick="alert('데모: 워드(.docx)로 저장됩니다.')">워드 저장</button><button onclick="alert('데모: 커버 스튜디오로 이동해 사진을 합성합니다.')">이 ${P.cover} 만들기</button></div>
-   <div class="disc">🧪 데모 대본입니다. ${P.scriptType==='short'?'숏폼(릴스·틱톡)은 1~3분 기준으로 빠른 전개·강한 후킹에 맞춰 생성됩니다.':'롱폼은 약 5분, 기승전결로 생성됩니다.'} 수치·성과는 실제 실적 기준으로 조정하세요(표시광고법).</div>`;
+   <div class="disc">${aiUsed?'🤖 Gemini가 참고 영상·키워드로 생성한 실제 대본입니다.':'🧪 템플릿 자동 생성 대본입니다. 위 설정에 Gemini 키를 넣으면 AI가 대본·제목을 생성합니다.'} 수치·성과는 실제 실적 기준으로 조정하세요(표시광고법).</div>`;
   go(3);
 }
 (function(){ updKeyUI(); })();
