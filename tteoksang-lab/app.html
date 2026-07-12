@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>떡상랩 · 멀티플랫폼 데모</title>
+<link rel="stylesheet" as="style" crossorigin
+  href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+<style>
+  :root{--bg:#0b0e14;--panel:#151b24;--panel2:#1c232d;--line:#2b333d;--ink:#e8edf3;--sub:#9aa7b5;--mut:#6b7684;--accent:#ff6b35;--green:#3ecf8e;--blue:#4a9eff;--amber:#ffb020;--red:#ff3d68;--yt:#ff3d3d;--ig:#e1306c;--tt:#25f4ee}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Pretendard Variable",Pretendard,-apple-system,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;-webkit-font-smoothing:antialiased}
+  .app{max-width:1080px;margin:0 auto;padding:0 20px 80px}
+  .top{display:flex;align-items:center;gap:12px;padding:18px 0;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:5}
+  .logo{font-size:19px;font-weight:800}.logo .d{color:var(--accent)}
+  .logo .demo{font-size:10px;font-weight:800;color:var(--amber);border:1px solid rgba(255,176,32,.4);background:rgba(255,176,32,.08);padding:2px 7px;border-radius:100px;margin-left:8px}
+  .pill{margin-left:8px;font-size:11px;font-weight:800;padding:3px 10px;border-radius:100px;display:none}
+  .pill.on{display:inline-block}
+  .steps{margin-left:auto;display:flex;gap:6px;font-size:12px;flex-wrap:wrap}
+  .steps span{color:var(--mut);font-weight:700;padding:4px 10px;border-radius:100px;border:1px solid var(--line)}
+  .steps span.on{color:#fff;background:var(--accent);border-color:var(--accent)}
+  .scr{display:none}.scr.on{display:block;animation:f .3s ease}
+  @keyframes f{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+  /* screen 0 platform */
+  .hero{text-align:center;padding:60px 0 24px}
+  .hero h1{font-size:clamp(26px,5vw,42px);font-weight:800;letter-spacing:-.03em;line-height:1.15}
+  .hero h1 .hl{color:var(--accent)}
+  .hero p{color:var(--sub);font-size:16px;margin-top:14px}
+  .plat{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:760px;margin:34px auto 0}
+  @media(max-width:700px){.plat{grid-template-columns:1fr}}
+  .pcard{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:26px 20px;cursor:pointer;text-align:center;transition:.15s;border-top:4px solid var(--line)}
+  .pcard:hover{transform:translateY(-3px)}
+  .pcard.yt{border-top-color:var(--yt)}.pcard.ig{border-top-color:var(--ig)}.pcard.tt{border-top-color:var(--tt)}
+  .pcard .em{font-size:40px}
+  .pcard h3{font-size:19px;font-weight:800;margin:10px 0 4px}
+  .pcard .fmt{font-size:12.5px;color:var(--sub)}
+  .pcard .len{margin-top:10px;font-size:11.5px;font-weight:800;padding:4px 10px;border-radius:100px;display:inline-block;background:var(--panel2);border:1px solid var(--line);color:var(--amber)}
+
+  /* screen 1 */
+  .kwrap{max-width:640px;margin:70px auto 0;text-align:center}
+  .kwrap .badge{font-size:13px;font-weight:800;padding:6px 14px;border-radius:100px;display:inline-block;margin-bottom:16px}
+  .kwrap h2{font-size:26px;font-weight:800}
+  .searchbar{display:flex;gap:10px;margin:26px 0 0}
+  .searchbar input{flex:1;padding:15px 18px;border-radius:12px;border:1px solid var(--line);background:var(--panel);color:var(--ink);font-family:inherit;font-size:16px}
+  .searchbar input:focus{outline:none;border-color:var(--accent)}
+  .searchbar button{padding:0 24px;border-radius:12px;border:none;background:var(--accent);color:#fff;font-weight:800;font-size:16px;cursor:pointer}
+  .chips{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+  .chipx{font-size:13px;font-weight:600;padding:8px 14px;border-radius:100px;border:1px solid var(--line);background:var(--panel);color:var(--sub);cursor:pointer}
+  .chipx:hover{border-color:var(--accent);color:var(--ink)}
+  .backlink{display:inline-block;margin-top:26px;color:var(--mut);font-size:13px;cursor:pointer;background:none;border:none}
+  .kwsub{color:var(--mut);font-size:13.5px;margin-top:8px}
+  .seedchips{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+  .recoOut{margin-top:22px;text-align:left}
+  .rgroup{margin-bottom:14px}
+  .rglabel{font-size:12px;font-weight:800;color:var(--amber);margin-bottom:8px}
+  .rchips{display:flex;gap:8px;flex-wrap:wrap}
+  .rchip{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:9px 13px;cursor:pointer;transition:.12s;text-align:left}
+  .rchip:hover{border-color:var(--accent)}
+  .rchip .k{font-size:13.5px;font-weight:700;color:var(--ink)}
+  .rchip .mt{font-size:11px;color:var(--mut);margin-top:2px}
+  .kdiv{display:flex;align-items:center;gap:12px;margin:24px 0 12px;color:var(--mut);font-size:12px}
+  .kdiv::before,.kdiv::after{content:"";flex:1;height:1px;background:var(--line)}
+  .confirmbar{display:flex;gap:10px;padding:6px;border:1px solid var(--line);border-radius:14px;background:var(--panel);transition:.15s}
+  .confirmbar.ready{border-color:var(--green);box-shadow:0 0 0 3px rgba(62,207,142,.12)}
+  .confirmbar input{flex:1;padding:13px 15px;border-radius:10px;border:none;background:transparent;color:var(--ink);font-family:inherit;font-size:16px;font-weight:600}
+  .confirmbar input:focus{outline:none}
+  .confirmbar button{padding:0 20px;border-radius:10px;border:none;background:var(--green);color:#06281a;font-weight:800;font-size:14.5px;cursor:pointer;white-space:nowrap}
+
+  /* screen 2 */
+  .rhead{padding:24px 0 4px}.rhead .kw{font-size:21px;font-weight:800}.rhead .kw span{color:var(--accent)}
+  .rhead .note{font-size:12.5px;color:var(--mut);margin-top:3px}
+  .demobanner{margin:14px 0;background:rgba(255,176,32,.07);border:1px solid rgba(255,176,32,.3);border-radius:10px;padding:10px 14px;font-size:12.5px;color:var(--amber)}
+  .card{margin-top:16px;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px}
+  .cgrid{display:grid;grid-template-columns:390px 1fr;gap:20px;align-items:start}
+  .cgrid.v{grid-template-columns:330px 1fr}
+  @media(max-width:820px){.cgrid,.cgrid.v{grid-template-columns:1fr}}
+  .rank{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#ff6b35,#ff3d68);color:#fff;font-weight:800;font-size:14px;margin-bottom:10px}
+  .covers{display:flex;gap:12px}
+  .covers.h{flex-direction:column}
+  .tb{flex:1}
+  .tb .l{font-size:11px;font-weight:800;letter-spacing:.04em;margin-bottom:6px;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+  .l.o{color:var(--mut)}.l.r{color:var(--green)}
+  .bdg{font-size:10px;padding:2px 7px;border-radius:100px;font-weight:800;background:var(--panel2);border:1px solid var(--line);color:var(--mut)}
+  .bdg.r{color:var(--green);border-color:rgba(62,207,142,.4);background:rgba(62,207,142,.1)}
+  .thw{width:100%;border-radius:10px;overflow:hidden;border:1px solid var(--line);background:#000}
+  .thw.h169{aspect-ratio:16/9}.thw.v916{aspect-ratio:9/16}
+  .thw img,.thw svg{width:100%;height:100%;object-fit:cover;display:block}
+  .met{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+  .met .m{font-size:11px;font-weight:700;padding:3px 8px;border-radius:6px;background:var(--panel2);border:1px solid var(--line);color:var(--sub)}
+  .met .m b{color:var(--amber)}
+  .ctitle{font-size:15.5px;font-weight:800;line-height:1.35}
+  .cch{font-size:12.5px;color:var(--sub);margin-top:2px}
+  .blk{margin-top:12px}.blk .bh{font-size:11px;font-weight:800;color:var(--mut);letter-spacing:.05em;margin-bottom:6px}
+  .hookq{font-size:13px;font-weight:700;color:#fff;background:var(--panel2);border-left:3px solid var(--accent);border-radius:8px;padding:8px 11px}
+  .topts{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px}
+  .topts li{font-size:13px;color:var(--ink);font-weight:600;line-height:1.4}
+  .topts li.pick{color:#fff}.topts li b{color:var(--amber)}
+  .genbtn{margin-top:14px;width:100%;padding:12px;border:none;border-radius:10px;background:var(--green);color:#06281a;font-weight:800;font-size:14px;cursor:pointer}
+
+  /* screen 3 */
+  .sback{margin:22px 0 6px;background:none;border:1px solid var(--line);color:var(--sub);padding:8px 14px;border-radius:9px;font-weight:700;font-size:13px;cursor:pointer}
+  .shead .tag{display:inline-block;font-size:11px;font-weight:800;color:var(--red);background:rgba(255,61,104,.1);border:1px solid rgba(255,61,104,.35);padding:4px 10px;border-radius:100px;margin-bottom:10px}
+  .shead h1{font-size:22px;font-weight:800;line-height:1.3}
+  .smeta{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+  .smeta .m{font-size:12px;font-weight:700;padding:5px 10px;border-radius:7px;background:var(--panel2);border:1px solid var(--line);color:var(--sub)}.smeta .m b{color:var(--ink)}
+  .seg{margin-top:14px;background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  .segh{display:flex;align-items:center;gap:11px;padding:10px 15px;background:var(--panel2);border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .tc{font-size:12px;font-weight:800;color:var(--accent);background:rgba(255,107,53,.1);border:1px solid rgba(255,107,53,.3);padding:2px 9px;border-radius:6px}
+  .segh h3{font-size:14px;font-weight:800}
+  .segb{padding:13px 15px}.narr{font-size:14.5px;line-height:1.7}.narr .hl{color:var(--amber);font-weight:700}.narr .rd{color:var(--red);font-weight:700}
+  .aux{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:11px}
+  @media(max-width:600px){.aux{grid-template-columns:1fr}}
+  .box{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:9px 11px}
+  .box .bt{font-size:10.5px;font-weight:800;margin-bottom:4px}.box.cam .bt{color:var(--blue)}.box.cap .bt{color:var(--green)}
+  .box p{font-size:12px;color:var(--sub)}.box .cl{color:#fff;font-weight:700;font-size:12.5px}
+  .exp{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+  .exp button{padding:11px 18px;border-radius:10px;border:1px solid var(--line);background:var(--panel2);color:var(--ink);font-weight:800;font-size:13px;cursor:pointer}
+  .exp button.pri{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .disc{margin-top:20px;font-size:11.5px;color:var(--mut);background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:11px 13px}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="top">
+    <div class="logo">떡상<span class="d">랩</span><span class="demo">DEMO</span><span class="pill" id="pill"></span></div>
+    <div class="steps"><span id="st0" class="on">0 플랫폼</span><span id="st1">1 키워드</span><span id="st2">2 추천</span><span id="st3">3 대본</span></div>
+  </div>
+
+  <!-- SCREEN 0 : PLATFORM -->
+  <div class="scr on" id="scr0">
+    <div class="hero">
+      <h1>어떤 플랫폼에 <span class="hl">떡상</span>시킬까요?</h1>
+      <p>플랫폼을 고르면, 커버·후킹·대본이 그 규격에 맞게 자동 생성됩니다.</p>
+    </div>
+    <div class="plat">
+      <div class="pcard yt" onclick="pickPlat('youtube')"><div class="em">▶</div><h3>YouTube</h3><div class="fmt">롱폼 · 16:9 썸네일</div><div class="len">대본 약 5분</div></div>
+      <div class="pcard ig" onclick="pickPlat('instagram')"><div class="em">◍</div><h3>Instagram</h3><div class="fmt">릴스 · 9:16 커버</div><div class="len">대본 1~3분</div></div>
+      <div class="pcard tt" onclick="pickPlat('tiktok')"><div class="em">♪</div><h3>TikTok</h3><div class="fmt">숏폼 · 9:16 커버</div><div class="len">대본 1~3분</div></div>
+    </div>
+  </div>
+
+  <!-- SCREEN 1 : KEYWORD -->
+  <div class="scr" id="scr1">
+    <div class="kwrap">
+      <span class="badge" id="kwbadge"></span>
+      <h2>어떤 영상을 만들고 싶으세요?</h2>
+      <p class="kwsub">키워드가 막막하면 대략만 말해도 돼요. 추천 키워드를 먼저 보고 고르면 됩니다.</p>
+      <div class="searchbar"><input id="seed" type="text" placeholder='예: 동기부여 영상 추천해줘' value="동기부여 영상 추천해줘"><button onclick="recoKeywords()">키워드 추천</button></div>
+      <div class="seedchips">
+        <span class="chipx" onclick="setSeed('이커머스 영상 추천해줘')">이커머스 영상 추천해줘</span>
+        <span class="chipx" onclick="setSeed('동기부여 영상 추천해줘')">동기부여 영상 추천해줘</span>
+      </div>
+      <div class="recoOut" id="recoOut"></div>
+      <div class="kdiv"><span>추천 키워드를 고르거나 직접 입력 → 확정</span></div>
+      <div class="confirmbar" id="confirmbar">
+        <input id="kw" type="text" placeholder="최종 키워드를 입력/선택하세요" value="">
+        <button onclick="search()">이 키워드로 발굴 →</button>
+      </div>
+      <button class="backlink" onclick="go(0)">← 플랫폼 다시 선택</button>
+    </div>
+  </div>
+
+  <!-- SCREEN 2 : RESULTS -->
+  <div class="scr" id="scr2">
+    <div class="rhead"><div class="kw"><span id="platout"></span> · "<span id="kwout">쿠팡 위탁판매</span>" 떡상 레퍼런스</div><div class="note" id="rnote"></div></div>
+    <div class="demobanner" id="demobanner"></div>
+    <div id="cards"></div>
+  </div>
+
+  <!-- SCREEN 3 : SCRIPT -->
+  <div class="scr" id="scr3">
+    <button class="sback" onclick="go(2)">← 추천 목록으로</button>
+    <div id="script"></div>
+  </div>
+</div>
+
+<script>
+const NS='http://www.w3.org/2000/svg';
+function svg169(inner){return `<svg viewBox="0 0 640 360" xmlns="${NS}">${inner}</svg>`;}
+function svg916(inner){return `<svg viewBox="0 0 360 640" xmlns="${NS}">${inner}</svg>`;}
+/* vertical cover generator */
+function vcover(o){ // {top,big1,big2,sub,accent,emoji,seal,brand}
+  const a=o.accent||'#ff6b35';
+  return svg916(`
+   <defs><linearGradient id="g${o.uid}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${o.bg1||'#121a2e'}"/><stop offset="1" stop-color="${o.bg2||'#0a0f1c'}"/></linearGradient></defs>
+   <rect width="360" height="640" fill="url(#g${o.uid})"/>
+   <circle cx="180" cy="230" r="118" fill="${o.circle||'#22304d'}"/><text x="180" y="272" font-size="120" text-anchor="middle">${o.emoji||'🧑‍💼'}</text>
+   ${o.seal?`<circle cx="66" cy="70" r="38" fill="#e2231a"/><text x="66" y="78" font-size="20" font-weight="800" fill="#fff" text-anchor="middle">${o.seal}</text>`:''}
+   ${o.top?`<text x="180" y="405" font-size="26" font-weight="800" fill="#cfd6df" text-anchor="middle">${o.top}</text>`:''}
+   <text style="paint-order:stroke;stroke:#000;stroke-width:9px;stroke-linejoin:round" x="180" y="470" font-size="52" font-weight="900" fill="#fff" text-anchor="middle">${o.big1||''}</text>
+   ${o.big2?`<text style="paint-order:stroke;stroke:#000;stroke-width:9px;stroke-linejoin:round" x="180" y="530" font-size="52" font-weight="900" fill="${a}" text-anchor="middle">${o.big2}</text>`:''}
+   ${o.sub?`<rect x="60" y="558" width="240" height="52" rx="10" fill="${a}"/><text x="180" y="593" font-size="26" font-weight="800" fill="#fff" text-anchor="middle">${o.sub}</text>`:''}`);
+}
+
+/* ===== YOUTUBE dataset (실제 영상) ===== */
+const YT=[
+ {n:1,id:'5h0yTplGPAI',title:'쿠팡 위탁판매로 월 매출 1억 육아맘 ㅣ 위탁배송 아이템은 이겁니다',ch:'탐구생활',views:'122만',age:'2021.05',plateau:'약 5년·완전정체',
+  hook:'[일상 장면] + [의외의 수익]',
+  titles:['쿠팡 위탁판매로 월 순익 <b>3,000만원</b> 직장인 아빠 ㅣ 초보 아이템은 이겁니다','쿠팡으로 월 <b>2,000만원</b> 버는 40대 가장 ㅣ 퇴근 후 2시간 부업','회사 다니며 쿠팡으로 <b>월 천만원</b> 아빠 ㅣ 왕초보 위탁배송'],
+  rec:svg169(`<rect width="640" height="360" fill="#aeb6bd"/><rect y="235" width="640" height="125" fill="#9aa2ab"/><rect x="360" width="280" height="360" fill="#8f98a2"/><circle cx="470" cy="150" r="96" fill="#7a8490"/><text x="470" y="182" font-size="78" text-anchor="middle">🧑‍💼</text><rect x="470" y="26" width="150" height="40" rx="6" fill="#e2231a"/><text x="545" y="54" font-size="22" font-weight="800" fill="#fff" text-anchor="middle">안소장</text><text style="paint-order:stroke;stroke:#000;stroke-width:7px" x="32" y="252" font-size="42" font-weight="800" fill="#fff">아이 등원 시키고</text><text style="paint-order:stroke;stroke:#000;stroke-width:7px" x="32" y="304" font-size="46" font-weight="800"><tspan fill="#e2231a">쿠</tspan><tspan fill="#2f6bff">팡</tspan><tspan fill="#fff">으로</tspan></text><text style="paint-order:stroke;stroke:#000;stroke-width:7px" x="32" y="350" font-size="42" font-weight="800" fill="#fff">돈 버는 아빠</text>`),
+  s:{topic:'직장인 아빠 쿠팡 부업',type:'일상·수익 인증형',hook:'회사 다니면서 쿠팡으로 월 순익 3천만원? 특별한 재능 없었습니다.',intro:'안녕하세요 안소장입니다. 퇴근 후 시간만으로 쿠팡 위탁 굴리는 법 보여드릴게요.',problem:'직장인이 부업에 실패하는 이유는 "시간 없다"는 착각입니다.',p:[['퇴근 후 2시간 루틴','짧고 반복되는 루틴이면 충분합니다.'],['재고 0 위탁 구조','창고·재고 없이 리스크 낮게 시작.'],['아이템 선정 기준','잘 아는 카테고리 + 소모품 + 경쟁 과열 아닌 것.']],rev:'재능이 아니라 구조였습니다. 누구나 따라 할 수 있어요.',cta:'구독 눌러두세요. 아이템 체크리스트는 고정 댓글 무료.'}},
+ {n:2,id:'VH9eneObN_o',title:'이 분은 정말 미쳤습니다. "월 2억 매출" 쿠팡·스마트스토어 위탁 [앤트\'s 1탄]',ch:'필자생',views:'116만',age:'~2년 전',plateau:'정체 구간',
+  hook:'[감탄 리액션] + [초대형 숫자]',
+  titles:['이 사장님 진짜 미쳤습니다. "<b>월 매출 2억</b>" 쿠팡 위탁으로? [안소장\'s 1탄]','이거 실화입니까. "<b>월 순익 5,000만</b>" 위탁판매 하나로? [안소장\'s 1탄]','제가 다 놀랐습니다. "<b>연 매출 20억</b>" 쿠팡·스토어 병행? [고수 인터뷰]'],
+  rec:svg169(`<rect width="640" height="360" fill="#0c0e18"/><clipPath id="y2"><rect x="26" y="20" width="588" height="320" rx="4"/></clipPath><g clip-path="url(#y2)"><rect x="26" y="20" width="588" height="320" fill="#6b7480"/><g fill="#c9a568" stroke="#a5824a" stroke-width="2"><rect x="60" y="150" width="120" height="70"/><rect x="185" y="150" width="120" height="70"/><rect x="60" y="222" width="120" height="70"/></g><circle cx="470" cy="185" r="92" fill="#5a636e"/><text x="470" y="215" font-size="74" text-anchor="middle">🧑‍💼</text></g><rect x="26" y="20" width="588" height="320" rx="4" fill="none" stroke="#6b5bff" stroke-width="10"/><polygon points="30,24 150,24 30,144" fill="#e2231a"/><circle cx="92" cy="86" r="34" fill="#f5c542"/><text x="92" y="94" font-size="20" font-weight="800" fill="#7a5a00" text-anchor="middle">100만</text><text style="paint-order:stroke;stroke:#000;stroke-width:7px" x="46" y="286" font-size="46" font-weight="800" fill="#fff">월 순이익 3000만원</text><text style="paint-order:stroke;stroke:#000;stroke-width:5px" x="46" y="326" font-size="27" font-weight="800" fill="#fff">쿠팡 위탁으로 파는 <tspan fill="#ffd23f">안소장</tspan></text>`),
+  s:{topic:'고수 셀러 인터뷰',type:'리액션 인터뷰형',hook:'이 사장님 진짜 미쳤습니다. 월 매출 2억을 쿠팡 위탁으로만?',intro:'안녕하세요 안소장입니다. 가장 미친 셀러를 모셔서 다 물어봤습니다.',problem:'대부분 월 천만원 벽에서 멈춥니다. 이분은 어떻게 넘었을까요?',p:[['카테고리 선택','수요 꾸준한 카테고리를 먼저 잡았습니다.'],['사입+위탁 병행','위탁으로 테스트, 검증된 것만 사입.'],['광고 설계','본전 ROAS 기준으로 켜고 끕니다.']],rev:'재능이 아니라 순서였습니다.',cta:'2탄에서 소싱 과정 공개. 구독·알림 눌러두세요.'}},
+ {n:3,id:'VgNj8XIJTxk',title:'이대로 따라하면 초등학생도 월 100만 원 벌 수 있습니다 [1편]',ch:'돈버는형님들',views:'115만',age:'2024.10',plateau:'약 1.7년·정체',
+  hook:'[초대형 키워드] + [빨강 도발]',
+  titles:['이 순서대로만 하면 <b>왕초보도</b> 월 100만원 [1편]','이대로만 따라하면 <b>회사원도</b> 부업 월 300 [1편]','이 3단계면 <b>컴맹도</b> 쿠팡 월 100만원 [1편]'],
+  rec:svg169(`<rect width="640" height="360" fill="#0c0e18"/><clipPath id="y3"><rect x="26" y="20" width="588" height="320" rx="3"/></clipPath><g clip-path="url(#y3)"><rect x="26" y="20" width="588" height="320" fill="#c7c3ba"/><rect x="150" y="70" width="230" height="150" rx="6" fill="#2a2f36"/><circle cx="470" cy="180" r="86" fill="#3a4048"/><text x="470" y="210" font-size="70" text-anchor="middle">🧑‍💻</text></g><text style="paint-order:stroke;stroke:#000;stroke-width:5px" x="60" y="150" font-size="40" font-weight="800" fill="#e2231a">어차피 알려줘도</text><text style="paint-order:stroke;stroke:#000;stroke-width:5px" x="60" y="196" font-size="40" font-weight="800" fill="#e2231a">안 하니까 알려줌</text><text style="paint-order:stroke;stroke:#000;stroke-width:12px;stroke-linejoin:round" x="46" y="330" font-size="120" font-weight="900" fill="#fff">쿠팡</text>`),
+  s:{topic:'왕초보 따라하기',type:'따라하기 실전형',hook:'이 순서대로만 하면 왕초보도 월 100만원, 오늘 다 떠먹여드립니다.',intro:'안녕하세요 안소장입니다. 아무것도 모르는 분 기준 3단계로 정리했어요.',problem:'복잡해 보여서 시작을 못 합니다. 첫 100만원은 딱 3개만.',p:[['계정·상품 세팅','가입→카테고리→첫 등록, 하루면 끝.'],['첫 상품 소싱','재구매 나는 소모품 1개.'],['첫 매출 광고','소액 노출→반응 보고 확대.']],rev:'몰라서 못 하는 거지 능력 문제 아닙니다.',cta:'2편에서 소싱 화면 공개. 구독하고 기다려주세요.'}},
+ {n:4,id:'qxdnNDYgEsM',title:'스마트스토어 위탁판매의 찐현실 // 월매출 천만원 내도 90% 포기하는 진짜이유',ch:'마브사끼',views:'113만',age:'~3년 전',plateau:'완전정체',
+  hook:'[통념 뒤집기] + [손실 경고]',
+  titles:['쿠팡 위탁판매의 찐현실 // 월천 벌어도 1년 안에 <b>90%가 포기하는</b> 진짜이유','스마트스토어 창업의 민낯 // 매출 1억 내도 <b>대부분 그만두는</b> 진짜이유','이커머스 부업의 현실 // 초반 반짝 벌다 <b>90%가 접는</b> 진짜이유'],
+  rec:svg169(`<rect width="640" height="360" fill="#0c0e18"/><clipPath id="y4"><rect x="20" y="16" width="600" height="328" rx="3"/></clipPath><g clip-path="url(#y4)"><rect x="20" y="16" width="600" height="328" fill="#c9c6bf"/><circle cx="300" cy="150" r="94" fill="#8b93a0"/><text x="300" y="184" font-size="76" text-anchor="middle">🧑‍💼</text><g fill="#c9a568" stroke="#a5824a" stroke-width="2"><rect x="330" y="150" width="150" height="70"/></g></g><circle cx="90" cy="90" r="42" fill="#f5c542"/><text x="90" y="86" font-size="22" font-weight="800" fill="#2f6bff" text-anchor="middle">100만</text><text x="90" y="108" font-size="15" font-weight="800" fill="#333" text-anchor="middle">VIEW</text><text style="paint-order:stroke;stroke:#000;stroke-width:7px" x="40" y="288" font-size="44" font-weight="800" fill="#ffd23f">쿠팡 셀러 현실후기</text><text style="paint-order:stroke;stroke:#000;stroke-width:7px" x="40" y="336" font-size="44" font-weight="800" fill="#fff">월천 벌어도 포기하는 이유</text>`),
+  s:{topic:'쿠팡 위탁 찐현실',type:'경고·역발상형',hook:'월 천만원 벌었다는 후기 많죠. 근데 10명 중 9명은 1년 안에 사라집니다.',intro:'안녕하세요 안소장입니다. 접는 분들 공통점 딱 세 가지.',problem:'매출이 안 나서가 아니라, 남는 게 없어서 접습니다.',p:[['매출 ≠ 수익','수수료·광고비·반품 빼면 남는 게 없어요.'],['가격 경쟁 = 마진 0','차별화로 싸워야 삽니다.'],['시스템 없이 = 알바','자동화·위임을 처음부터.']],rev:'살아남는 10%는 남는 돈·차별화·시스템이 다릅니다.',cta:'구독 눌러두시고, 본전 마진 계산표 고정 댓글 무료.'}},
+ {n:5,id:'p4HmWJx4h08',title:'온라인판매 아무것도 모르면 이거 보세요. 전부 떠먹여드립니다. 19세 CEO',ch:'머니몬스터TV',views:'110만',age:'~2년 전',plateau:'정체 구간',
+  hook:'[대각 분할] + [의외성] + [초대형 키워드]',
+  titles:['쿠팡 창업 아무것도 모르면 이거 보세요. 전부 떠먹여드립니다. <b>A to Z</b>','온라인 판매 1도 모르면 이거 하나만. <b>완전정복</b>','이커머스 왕초보면 이 영상이 끝. <b>총정리</b>'],
+  rec:svg169(`<rect width="640" height="360" fill="#0c0e18"/><clipPath id="y5"><rect x="20" y="16" width="600" height="328" rx="3"/></clipPath><g clip-path="url(#y5)"><rect x="20" y="16" width="600" height="328" fill="#cfcac2"/><circle cx="230" cy="180" r="100" fill="#9aa0a8"/><text x="230" y="216" font-size="82" text-anchor="middle">🧑‍💼</text><polygon points="360,16 620,16 620,344 300,344" fill="#ff8a2b"/></g><text style="paint-order:stroke;stroke:#000;stroke-width:5px" x="410" y="120" font-size="40" font-weight="800" fill="#fff" text-anchor="middle">누구나 지금부터</text><text style="paint-order:stroke;stroke:#000;stroke-width:7px" x="410" y="200" font-size="74" font-weight="900" fill="#fff" text-anchor="middle">수익화</text><rect x="330" y="240" width="230" height="66" rx="10" fill="#fff"/><text x="445" y="288" font-size="40" font-weight="900" text-anchor="middle"><tspan fill="#ffb400">쿠팡</tspan> <tspan fill="#ff3d2e">CEO</tspan></text><circle cx="86" cy="76" r="36" fill="#e2231a"/><text x="86" y="84" font-size="20" font-weight="800" fill="#fff" text-anchor="middle">100만</text>`),
+  s:{topic:'쿠팡 창업 A to Z',type:'완결·떠먹여형',hook:'쿠팡 창업 아무것도 몰라도 이 영상 하나면 끝.',intro:'안녕하세요 안소장입니다. 큰 그림부터 첫 달 목표까지 정리했어요.',problem:'정보가 흩어져 있어 시작을 못 합니다.',p:[['위탁 구조 이해','돈이 어디서 남는지부터.'],['시작 3단계','계정→아이템→등록.'],['첫 달 목표','첫 매출→첫 정산→첫 재구매.']],rev:'순서만 알면 단순합니다.',cta:'상세편 시리즈로 올립니다. 구독하고 체크리스트 받아가세요.'}}
+];
+
+/* ===== INSTAGRAM (mock) ===== */
+const IG=[
+ {n:1,handle:'@seller_daily',title:'월 천만원 셀러의 진짜 아침 루틴',views:'좋아요 8.2만',age:'1년 전',plateau:'저장 정체',hook:'"성공한 셀러는 아침에 이걸 합니다"',
+  titles:['월 천만원 셀러 <b>아침 루틴</b> 5가지 (저장각)','성공한 셀러가 <b>매일 아침</b> 하는 것','부업으로 월천 버는 사람 <b>아침</b> 훔쳐봄'],
+  cov:{uid:'ig1',top:'월 천만원 셀러',big1:'아침 루틴',big2:'5가지',sub:'저장 필수',accent:'#e1306c',bg1:'#2a1330',bg2:'#140a1c',emoji:'☕',seal:''},
+  s:{topic:'셀러 아침 루틴',type:'릴스 · 정보/저장형',hook:'성공한 셀러는 아침에 이걸 합니다. 3번은 진짜 다들 놓쳐요.',intro:'월 천만원 넘긴 셀러들 아침 루틴, 공통점만 뽑았어요.',problem:'대부분 아침에 폰부터 봅니다. 그게 하루를 망쳐요.',p:[['① 주문·CS 10분 먼저','밀리기 전에 오전에 처리.'],['② 매출이 아니라 순익 체크','숫자 하나로 하루 판단.'],['③ 아이템 리서치 15분','매일 조금씩이 쌓입니다.']],rev:'대단한 게 아니라 매일 같은 걸 반복하는 겁니다.',cta:'저장해두고 내일 아침부터. 팔로우하면 셀러 꿀팁 매일.'}},
+ {n:2,handle:'@commerce_tip',title:'지금 이 아이템 팔면 됩니다',views:'좋아요 12만',age:'8개월 전',plateau:'도달 정체',hook:'"3초 안에 저장하세요"',
+  titles:['지금 <b>이 카테고리</b> 팔면 됩니다','요즘 <b>개꿀</b>인 위탁 아이템 TOP3','모르면 손해, <b>지금 뜨는</b> 아이템'],
+  cov:{uid:'ig2',top:'지금 팔면 되는',big1:'꿀템',big2:'TOP 3',sub:'3초 저장',accent:'#ff8a2b',bg1:'#2a1c0f',bg2:'#160e06',emoji:'📦',seal:''},
+  s:{topic:'지금 뜨는 아이템',type:'릴스 · 트렌드형',hook:'지금 이거 안 팔면 손해입니다. 끝까지 보세요.',intro:'요즘 위탁으로 잘 나가는 카테고리 3개만 콕.',problem:'남들 다 파는 걸 따라 팔면 마진이 없어요.',p:[['① 계절 소모품','재구매 주기 짧은 게 핵심.'],['② 니치 취미템','경쟁 적고 팬층 확실.'],['③ 선물 수요','시즌마다 터집니다.']],rev:'중요한 건 아이템이 아니라 "왜 지금"인지입니다.',cta:'저장하고 하나만 시작해보세요. 팔로우로 매주 업데이트.'}},
+ {n:3,handle:'@sell_school',title:'위탁 vs 사입 3초 정리',views:'좋아요 6.5만',age:'1년 전',plateau:'저장 정체',hook:'"둘 중 뭐부터? 답 정해드림"',
+  titles:['<b>위탁 vs 사입</b> 3초 정리','초보는 무조건 <b>위탁부터</b>인 이유','사입 언제 시작? <b>이 신호</b> 오면'],
+  cov:{uid:'ig3',top:'초보라면',big1:'위탁 vs',big2:'사입',sub:'답 정해줌',accent:'#4a9eff',bg1:'#0f1c2e',bg2:'#0a1018',emoji:'⚖️',seal:''},
+  s:{topic:'위탁 vs 사입',type:'릴스 · 비교/교육형',hook:'위탁이랑 사입, 뭐부터 해야 하나요? 3초면 정리됩니다.',intro:'헷갈리는 두 개, 초보 기준으로 딱 잘라드릴게요.',problem:'처음부터 사입하다 재고에 물려 접는 분 많아요.',p:[['위탁 = 리스크 0','재고 없이 테스트 먼저.'],['사입 = 마진 UP','검증된 상품만 넘어가기.'],['전환 신호','꾸준히 팔리면 그때 사입.']],rev:'순서가 정답입니다. 위탁으로 배우고 사입으로 키우기.',cta:'저장 필수. 팔로우하면 셀러 기초 매일 정리.'}},
+ {n:4,handle:'@real_seller',title:'셀러 90%가 하는 실수',views:'좋아요 15만',age:'10개월 전',plateau:'도달 정체',hook:'"이거 하면 무조건 망합니다"',
+  titles:['셀러 <b>90%</b>가 하는 실수 3가지','이거 하면 무조건 <b>망하는</b> 셀러','초보가 <b>돈 날리는</b> 패턴'],
+  cov:{uid:'ig4',top:'셀러 90%',big1:'이거 하면',big2:'망함',sub:'실수 3가지',accent:'#ff3d68',bg1:'#2a0f16',bg2:'#160809',emoji:'⚠️',seal:''},
+  s:{topic:'셀러 흔한 실수',type:'릴스 · 경고형',hook:'셀러 90%가 이거 하다 망합니다. 본인 아닌지 확인해보세요.',intro:'수많은 셀러 보면서 반복되는 실수 3개만.',problem:'매출만 보고 순익을 안 봐요.',p:[['① 마진 계산 안 함','팔수록 손해인 줄 모름.'],['② 남 따라 같은 상품','가격 경쟁의 늪.'],['③ 혼자 다 하다 번아웃','시스템 없이 소진.']],rev:'실수만 피해도 상위 10% 들어갑니다.',cta:'뜨끔했으면 저장. 팔로우로 실수 피하는 법 계속.'}},
+ {n:5,handle:'@sidejob_kr',title:'무자본으로 부업 시작하는 3단계',views:'좋아요 9.8만',age:'1년 전',plateau:'저장 정체',hook:'"돈 없어도 오늘 시작 가능"',
+  titles:['<b>무자본</b>으로 부업 시작 3단계','돈 없어도 <b>오늘</b> 시작하는 법','0원으로 <b>첫 매출</b>까지'],
+  cov:{uid:'ig5',top:'무자본으로',big1:'오늘 시작',big2:'3단계',sub:'0원 가능',accent:'#3ecf8e',bg1:'#0f2a20',bg2:'#081610',emoji:'🚀',seal:''},
+  s:{topic:'무자본 부업 시작',type:'릴스 · 실전형',hook:'돈 한 푼 없어도 오늘 부업 시작할 수 있습니다.',intro:'무자본으로 첫 매출까지, 3단계로 압축했어요.',problem:'초기 자본 걱정에 시작을 못 하는 분들.',p:[['① 위탁으로 재고 0','내 돈 안 들이고 판매.'],['② 무료툴로 상세 제작','디자인 앱 무료 버전.'],['③ 소액 광고 테스트','만원부터 반응 보기.']],rev:'자본이 아니라 시작이 문제였습니다.',cta:'저장하고 1단계부터. 팔로우로 부업 로드맵 전부.'}}
+];
+
+/* ===== TIKTOK (mock) ===== */
+const TT=[
+ {n:1,handle:'@ttseller',title:'쿠팡으로 돈 버는 법 3초컷',views:'조회 210만',age:'1년 전',plateau:'조회 정체',hook:'"3초 안에 이해시켜드림"',
+  titles:['쿠팡 돈버는 법 <b>3초컷</b>','이거 모르면 <b>손해</b> ㄹㅇ','쿠팡 위탁 <b>팩트만</b>'],
+  cov:{uid:'tt1',top:'쿠팡 돈버는 법',big1:'3초',big2:'컷',sub:'팩트만',accent:'#25f4ee',bg1:'#0c1f22',bg2:'#07120f',emoji:'⚡',seal:''},
+  s:{topic:'쿠팡 수익 구조 3초컷',type:'틱톡 · 즉시후킹형',hook:'쿠팡으로 돈 버는 법, 3초 안에 이해시켜드림.',intro:'길게 설명 안 함. 핵심만 간다.',problem:'다들 어렵게 생각하는데 구조는 단순해요.',p:[['남의 물건을 대신 판다','재고 0.'],['수수료 빼고 마진 남김','계산만 하면 됨.'],['광고로 노출 산다','반응 보고 키움.']],rev:'끝. 이게 전부입니다. 어렵지 않죠?',cta:'저장하고 프로필 링크 ㄱㄱ. 팔로우 필수.'}},
+ {n:2,handle:'@moneyclip',title:'이 아이템 지금 사재기각',views:'조회 180만',age:'9개월 전',plateau:'조회 정체',hook:'"지금 안 하면 늦음"',
+  titles:['이 아이템 지금 <b>사재기각</b>','요즘 <b>이거</b> 개많이 팔림','지금 <b>안 하면</b> 늦음'],
+  cov:{uid:'tt2',top:'지금 이거',big1:'사재기',big2:'각',sub:'지금 ㄱㄱ',accent:'#ff8a2b',bg1:'#2a1c0f',bg2:'#160e06',emoji:'🔥',seal:''},
+  s:{topic:'지금 뜨는 아이템',type:'틱톡 · 트렌드형',hook:'이 아이템 지금 안 잡으면 늦습니다. 바로 감.',intro:'요즘 미친 듯이 팔리는 카테고리만.',problem:'남들 다 파는 거 따라가면 이미 늦음.',p:[['수요 급상승템','트렌드 초입이 기회.'],['재구매 소모품','한 번 팔면 계속.'],['시즌 선물템','때 되면 터짐.']],rev:'포인트는 "왜 지금"이에요.',cta:'저장 필수. 팔로우하면 매주 아이템.'}},
+ {n:3,handle:'@sellerfact',title:'셀러 현실 팩폭',views:'조회 165만',age:'1년 전',plateau:'조회 정체',hook:'"환상 깨드림"',
+  titles:['셀러 현실 <b>팩폭</b>','월천 벌어도 <b>90% 접음</b>','셀러 <b>환상</b> 깨드림'],
+  cov:{uid:'tt3',top:'셀러 현실',big1:'팩폭',big2:'주의',sub:'환상 깸',accent:'#ff3d68',bg1:'#2a0f16',bg2:'#160809',emoji:'💊',seal:''},
+  s:{topic:'셀러 현실 팩폭',type:'틱톡 · 경고/역발상형',hook:'셀러 환상 오늘 깨드립니다. 월천 벌어도 90% 접어요.',intro:'듣기 싫어도 알아야 하는 현실.',problem:'매출 = 수익이 아닙니다.',p:[['수수료·광고·반품','다 빼면 얼마 안 남음.'],['가격 경쟁 지옥','같은 거 팔면 마진 0.'],['혼자 다 하다 지침','시스템 없으면 알바.']],rev:'근데 이거 알면 상위 10% 감.',cta:'저장하고 팔로우. 살아남는 법 계속 올림.'}},
+ {n:4,handle:'@flexceo',title:'월매출 인증 (위탁만)',views:'조회 240만',age:'11개월 전',plateau:'조회 정체',hook:'"위탁으로만 이 정도?"',
+  titles:['위탁으로만 <b>월매출 인증</b>','재고 0으로 <b>이 정도</b>?','위탁 <b>월 3천</b> 실화'],
+  cov:{uid:'tt4',top:'위탁으로만',big1:'월 3천',big2:'인증',sub:'재고 0',accent:'#ffd23f',bg1:'#2a230f',bg2:'#161206',emoji:'💰',seal:''},
+  s:{topic:'월매출 인증',type:'틱톡 · 인증/후킹형',hook:'재고 하나 없이 위탁으로만 월 3천? 인증 갑니다.',intro:'말로만 하면 안 믿으니까 바로 보여드림.',problem:'위탁은 마진 안 남는다? 오해입니다.',p:[['아이템만 잘 고르면','마진 충분히 나옴.'],['상세로 차별화','같은 물건도 다르게.'],['광고 세팅','본전 넘게만 굴림.']],rev:'재능 아니라 방법입니다.',cta:'방법 궁금하면 팔로우. 저장 필수.'}},
+ {n:5,handle:'@newbiehelp',title:'왕초보 실수 TOP3',views:'조회 155만',age:'1년 전',plateau:'조회 정체',hook:'"나만 몰랐던 거"',
+  titles:['왕초보 실수 <b>TOP3</b>','시작 전에 <b>이것만</b>','초보가 <b>돈 날리는</b> 3가지'],
+  cov:{uid:'tt5',top:'왕초보',big1:'실수',big2:'TOP3',sub:'시작 전 필독',accent:'#a371f7',bg1:'#1c1030',bg2:'#100818',emoji:'🙅',seal:''},
+  s:{topic:'왕초보 실수 TOP3',type:'틱톡 · 교육/경고형',hook:'왕초보 때 나만 몰랐던 실수 3가지, 미리 알려드림.',intro:'이거 알고 시작하면 몇 달 아낌.',problem:'다들 똑같은 데서 넘어져요.',p:[['마진 계산 스킵','팔수록 손해.'],['아이템 욕심','한 개부터가 정답.'],['혼자 다 함','자동화 모르면 지침.']],rev:'실수 피하는 게 성장 지름길.',cta:'저장하고 팔로우. 초보 가이드 정주행 ㄱ.'}}
+];
+
+const PLATFORMS={
+ youtube:{name:'YouTube',emoji:'▶',color:'#ff3d3d',cover:'썸네일',hook:'후킹 공식',titleWord:'제목',ratio:'h169',real:true,scriptType:'long',lenLabel:'약 5분',data:YT,note:'조회수 높은 순 · 과거 떡상·현재 정체 롱폼'},
+ instagram:{name:'Instagram',emoji:'◍',color:'#e1306c',cover:'커버',hook:'후킹 캡션',titleWord:'후킹 캡션',ratio:'v916',real:false,scriptType:'short',lenLabel:'1~3분',data:IG,note:'저장·좋아요 높은 순 · 정체된 릴스 (데모 모의 데이터)'},
+ tiktok:{name:'TikTok',emoji:'♪',color:'#25f4ee',cover:'커버',hook:'후킹 자막',titleWord:'후킹 자막',ratio:'v916',real:false,scriptType:'short',lenLabel:'1~3분',data:TT,note:'조회·공유 높은 순 · 정체된 틱톡 (데모 모의 데이터)'}
+};
+let PLAT='youtube';
+
+function go(n){[0,1,2,3].forEach(i=>{document.getElementById('scr'+i).classList.toggle('on',i===n);document.getElementById('st'+i).classList.toggle('on',i===n);});window.scrollTo({top:0,behavior:'smooth'});}
+function pickPlat(p){
+  PLAT=p; const P=PLATFORMS[p];
+  const pill=document.getElementById('pill'); pill.textContent=P.emoji+' '+P.name; pill.className='pill on'; pill.style.color=P.color; pill.style.border='1px solid '+P.color+'55'; pill.style.background=P.color+'18';
+  const b=document.getElementById('kwbadge'); b.textContent=P.emoji+' '+P.name+' · '+P.lenLabel; b.style.color=P.color; b.style.background=P.color+'18'; b.style.border='1px solid '+P.color+'55';
+  document.getElementById('kw').value=''; document.getElementById('confirmbar').classList.remove('ready');
+  recoKeywords();
+  go(1);
+}
+function setKw(k){document.getElementById('kw').value=k;}
+function setSeed(s){document.getElementById('seed').value=s; recoKeywords();}
+/* 키워드 추천 데이터셋 (데모) */
+const KW_SETS={
+  motiv:{theme:'동기부여',groups:[
+    {label:'성공스토리형 (동일시·서사)',items:[
+      {k:'쿠팡 위탁판매 성공스토리',mt:'인증·서사 후킹 · 경쟁 중'},
+      {k:'무자본 창업 인생역전',mt:'Before→After · 경쟁 높음'},
+      {k:'직장인 부업 퇴사',mt:'동일시 · 경쟁 중'}]},
+    {label:'현실·자극형 (손실회피)',items:[
+      {k:'셀러 현실 조언',mt:'역발상 · 경쟁 낮음'},
+      {k:'창업 후회 이유',mt:'경고 · 경쟁 낮음'},
+      {k:'지금 시작 안 하면',mt:'긴급성 · 경쟁 중'}]},
+    {label:'마인드셋형 (실행 자극)',items:[
+      {k:'초보 셀러 마인드셋',mt:'교육·동기 · 경쟁 낮음'},
+      {k:'월 1억 셀러 습관',mt:'구체 성과 · 경쟁 중'}]}
+  ]},
+  ecom:{theme:'이커머스',groups:[
+    {label:'수익 인증형 (구체 숫자)',items:[
+      {k:'쿠팡 위탁판매 월매출',mt:'인증 · 경쟁 높음'},
+      {k:'스마트스토어 순수익',mt:'인증 · 경쟁 중'},
+      {k:'부업 월수익 인증',mt:'Before→After · 경쟁 중'}]},
+    {label:'노하우형 (검색 강함)',items:[
+      {k:'쿠팡 위탁 아이템 소싱',mt:'정보 · 경쟁 높음'},
+      {k:'상세페이지 전환율',mt:'정보 · 경쟁 중'},
+      {k:'스마트스토어 상위노출',mt:'정보 · 경쟁 높음'}]},
+    {label:'현실·경고형 (역발상)',items:[
+      {k:'쿠팡 셀러 현실',mt:'경고 · 경쟁 낮음'},
+      {k:'위탁판매 찐현실',mt:'역발상 · 경쟁 낮음'},
+      {k:'셀러 90% 포기 이유',mt:'손실회피 · 경쟁 낮음'}]}
+  ]}
+};
+function detectSet(seed){
+  const s=(seed||'').toLowerCase();
+  const motiv=['동기부여','성공','인생','마인드','자극','열정','극복','역전'];
+  if(motiv.some(t=>s.includes(t))) return KW_SETS.motiv;
+  return KW_SETS.ecom;
+}
+function recoKeywords(){
+  const seed=document.getElementById('seed').value.trim();
+  const set=detectSet(seed);
+  document.getElementById('recoOut').innerHTML=
+    `<div style="font-size:12.5px;color:var(--sub);margin-bottom:12px">🔎 "<b style="color:#fff">${seed||'주제'}</b>" → <b style="color:var(--amber)">${set.theme}</b> 관련 추천 키워드입니다. 하나를 고르면 아래에서 확정하세요.</div>`
+    + set.groups.map(g=>`<div class="rgroup"><div class="rglabel">${g.label}</div><div class="rchips">${g.items.map(it=>`<div class="rchip" onclick="chooseKw('${it.k}')"><div class="k">${it.k}</div><div class="mt">${it.mt}</div></div>`).join('')}</div></div>`).join('');
+}
+function chooseKw(k){
+  document.getElementById('kw').value=k;
+  const cb=document.getElementById('confirmbar'); cb.classList.add('ready');
+  cb.scrollIntoView({behavior:'smooth',block:'center'});
+}
+function search(){
+  const P=PLATFORMS[PLAT]; const k=document.getElementById('kw').value.trim()||'쿠팡 위탁판매';
+  document.getElementById('kwout').textContent=k;
+  document.getElementById('platout').innerHTML=`<span style="color:${P.color}">${P.emoji} ${P.name}</span>`;
+  document.getElementById('rnote').textContent=P.note;
+  const db=document.getElementById('demobanner');
+  if(P.real && k==='쿠팡 위탁판매'){db.style.display='none';}
+  else{db.style.display='block'; db.textContent=P.real?'🧪 데모: 실서비스는 입력 키워드로 YouTube Data API 실시간 조회. 지금은 "쿠팡 위탁판매" 데이터셋 표시.':'🧪 데모: '+P.name+' 데이터는 모의 예시입니다. 실서비스에서는 '+(PLAT==='instagram'?'IG Graph/Apify':'TikTok API/Apify')+'로 실제 정체된 인기 콘텐츠를 조회합니다.';}
+  renderCards(); go(2);
+}
+function renderCards(){
+  const P=PLATFORMS[PLAT]; const isV=P.ratio==='v916';
+  document.getElementById('cards').innerHTML=P.data.map(v=>{
+    const orig = P.real
+      ? `<div class="thw h169"><img src="https://i.ytimg.com/vi/${v.id}/maxresdefault.jpg" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/${v.id}/hqdefault.jpg'"></div>`
+      : `<div class="thw v916">${vcover(Object.assign({},v.cov,{bg1:'#20242c',bg2:'#12141a',accent:'#8a94a0',circle:'#333a44'}))}</div>`;
+    const rec = P.real ? `<div class="thw h169">${v.rec}</div>` : `<div class="thw v916">${vcover(v.cov)}</div>`;
+    const metrics = P.real
+      ? `<span class="m">조회수 <b>${v.views}</b></span><span class="m">${v.age}</span><span class="m">${v.plateau}</span>`
+      : `<span class="m">${v.views}</span><span class="m">${v.age}</span><span class="m">${v.plateau}</span>`;
+    const origLbl = P.real ? `원본 <span class="bdg">${v.views} · ${v.age}</span>` : `원본(예시) <span class="bdg">${v.views}</span>`;
+    return `<div class="card"><div class="rank">${v.n}</div>
+     <div class="cgrid ${isV?'v':''}">
+      <div>
+        <div class="covers ${isV?'':'h'}">
+          <div class="tb"><div class="l o">${origLbl}</div>${orig}${isV?'':`<div class="met">${metrics}</div>`}</div>
+          <div class="tb"><div class="l r">추천 ${P.cover} <span class="bdg r">FOR 안소장</span></div>${rec}</div>
+        </div>
+        ${isV?`<div class="met">${metrics}</div>`:''}
+      </div>
+      <div>
+        <div class="ctitle">${v.title}</div><div class="cch">${P.real?'채널':'계정'} · ${v.ch||v.handle}</div>
+        <div class="blk"><div class="bh">${P.hook}</div><div class="hookq">${v.hook}</div></div>
+        <div class="blk"><div class="bh">${P.titleWord} 복제 추천</div><ol class="topts">${v.titles.map((t,i)=>`<li class="${i===0?'pick':''}">${t}</li>`).join('')}</ol></div>
+        <button class="genbtn" onclick="genScript(${v.n})">▶ ${v.n}번으로 ${P.lenLabel} 대본 생성</button>
+      </div>
+     </div></div>`;
+  }).join('');
+}
+function genScript(n){
+  const P=PLATFORMS[PLAT]; const v=P.data.find(x=>x.n===n); const s=v.s;
+  let segs;
+  if(P.scriptType==='long'){
+    segs=[
+     ['00:00–00:18','후킹',s.hook,'정면 클로즈업 · 자막 크게',s.hook.slice(0,16)+'…'],
+     ['00:18–00:45','도입 · 신뢰',s.intro,'채널 소개 B-roll','안소장 · 실전 경험'],
+     ['00:45–01:20','문제 · 공감',s.problem,'공감 상황 B-roll','핵심 문제'],
+     ['01:20–02:10','핵심 ①',`<b>${s.p[0][0]}</b> — ${s.p[0][1]}`,'자료 화면','① '+s.p[0][0]],
+     ['02:10–03:00','핵심 ②',`<b>${s.p[1][0]}</b> — ${s.p[1][1]}`,'예시 화면','② '+s.p[1][0]],
+     ['03:00–03:50','핵심 ③',`<b>${s.p[2][0]}</b> — ${s.p[2][1]}`,'B-roll','③ '+s.p[2][0]],
+     ['03:50–04:30','반전 · 정리',s.rev,'자막 3줄 순차','핵심 정리'],
+     ['04:30–05:00','마무리 · CTA',s.cta,'구독 버튼 + 다음 영상','구독 + 무료 자료']];
+  } else {
+    segs=[
+     ['0–5초','후킹(첫 프레임)',s.hook,'세로 클로즈업 · 초대형 자막',s.hook.slice(0,14)+'…'],
+     ['5–15초','공감/문제',s.problem,'빠른 컷 전환','핵심 문제'],
+     ['15–40초','핵심 ①',`<b>${s.p[0][0]}</b> — ${s.p[0][1]}`,'화면 자막 + 예시','① '+s.p[0][0]],
+     ['40–65초','핵심 ②',`<b>${s.p[1][0]}</b> — ${s.p[1][1]}`,'화면 자막','② '+s.p[1][0]],
+     ['65–85초','핵심 ③',`<b>${s.p[2][0]}</b> — ${s.p[2][1]}`,'화면 자막','③ '+s.p[2][0]],
+     ['85–100초','반전 + CTA',`${s.rev} ${s.cta}`,'팔로우/저장 유도 자막','저장 + 팔로우']];
+  }
+  const title=v.titles[0].replace(/<[^>]+>/g,'');
+  document.getElementById('script').innerHTML=`
+   <div class="shead"><span class="tag" style="color:${P.color};background:${P.color}18;border-color:${P.color}55">${P.emoji} ${P.name} 대본 · ${s.type}</span>
+     <h1>${title}</h1>
+     <div class="smeta"><span class="m">길이 <b>${P.lenLabel}</b></span><span class="m">주제 <b>${s.topic}</b></span><span class="m">화자 <b>안소장</b></span><span class="m">레퍼런스 <b>${v.n}번</b></span></div>
+   </div>
+   ${segs.map(g=>`<div class="seg"><div class="segh"><span class="tc">${g[0]}</span><h3>${g[1]}</h3></div>
+     <div class="segb"><p class="narr">${g[2]}</p>
+     <div class="aux"><div class="box cam"><div class="bt">🎥 화면</div><p>${g[3]}</p></div><div class="box cap"><div class="bt">🔠 자막</div><p class="cl">${g[4]}</p></div></div></div></div>`).join('')}
+   <div class="exp"><button class="pri" onclick="alert('데모: 실서비스에서 PDF로 저장됩니다.')">PDF 저장</button><button onclick="alert('데모: 워드(.docx)로 저장됩니다.')">워드 저장</button><button onclick="alert('데모: 커버 스튜디오로 이동해 사진을 합성합니다.')">이 ${P.cover} 만들기</button></div>
+   <div class="disc">🧪 데모 대본입니다. ${P.scriptType==='short'?'숏폼(릴스·틱톡)은 1~3분 기준으로 빠른 전개·강한 후킹에 맞춰 생성됩니다.':'롱폼은 약 5분, 기승전결로 생성됩니다.'} 수치·성과는 실제 실적 기준으로 조정하세요(표시광고법).</div>`;
+  go(3);
+}
+</script>
+</body>
+</html>

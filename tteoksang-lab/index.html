@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>떡상랩 — 이미 이긴 영상만 베낀다</title>
+<link rel="stylesheet" as="style" crossorigin
+  href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+<style>
+  :root{--bg:#0a0d12;--panel:#141a22;--panel2:#1b222c;--line:#28313d;--ink:#eef2f7;--sub:#9aa7b5;--mut:#6b7684;--accent:#ff6b35;--accent2:#ff3d68;--green:#3ecf8e;--blue:#4a9eff;--amber:#ffb020;--yt:#ff3d3d;--ig:#e1306c;--tt:#25f4ee}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:"Pretendard Variable",Pretendard,-apple-system,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+  a{color:inherit;text-decoration:none}
+  .btn{display:inline-flex;align-items:center;gap:8px;font-weight:800;border-radius:12px;cursor:pointer;border:none;transition:.15s;font-family:inherit}
+  .btn.pri{background:var(--accent);color:#fff;padding:15px 26px;font-size:16px;box-shadow:0 8px 24px rgba(255,107,53,.32)}
+  .btn.pri:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(255,107,53,.45)}
+  .btn.gho{background:var(--panel);color:var(--ink);border:1px solid var(--line);padding:15px 24px;font-size:16px}
+  .btn.gho:hover{border-color:var(--accent)}
+  .btn.sm{padding:10px 18px;font-size:14px}
+
+  /* nav */
+  nav{position:sticky;top:0;z-index:50;background:rgba(10,13,18,.82);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+  .navin{display:flex;align-items:center;gap:14px;padding:15px 0}
+  .brand{font-size:20px;font-weight:800;letter-spacing:-.02em}.brand .d{color:var(--accent)}
+  .navlinks{margin-left:auto;display:flex;gap:26px;align-items:center;font-size:14px;color:var(--sub);font-weight:600}
+  .navlinks a:hover{color:var(--ink)}
+  @media(max-width:720px){.navlinks a:not(.navcta){display:none}}
+
+  /* hero */
+  .hero{position:relative;padding:90px 0 70px;text-align:center;overflow:hidden}
+  .glow{position:absolute;width:700px;height:700px;border-radius:50%;filter:blur(120px);opacity:.28;z-index:0}
+  .glow.a{background:var(--accent);top:-260px;left:-120px}
+  .glow.b{background:var(--accent2);top:-200px;right:-160px}
+  .hero .in{position:relative;z-index:1}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:800;color:var(--accent);background:rgba(255,107,53,.1);border:1px solid rgba(255,107,53,.3);padding:7px 15px;border-radius:100px}
+  .hero h1{font-size:clamp(32px,6.2vw,62px);font-weight:800;letter-spacing:-.035em;line-height:1.08;margin-top:22px}
+  .hero h1 .g{background:linear-gradient(100deg,var(--accent),var(--amber));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .hero p.sub{font-size:clamp(16px,2.4vw,20px);color:var(--sub);margin-top:22px;max-width:680px;margin-left:auto;margin-right:auto}
+  .hero p.sub b{color:var(--ink)}
+  .cta-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:32px}
+  .plat-row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:26px}
+  .pbadge{font-size:12.5px;font-weight:800;padding:6px 13px;border-radius:100px;border:1px solid var(--line);background:var(--panel)}
+  .pbadge.yt{color:var(--yt)}.pbadge.ig{color:var(--ig)}.pbadge.tt{color:#7ef9f4}
+
+  /* hero visual: before/after */
+  .heroimg{position:relative;z-index:1;margin:44px auto 0;max-width:920px;border-radius:22px;overflow:hidden;border:1px solid var(--line);box-shadow:0 30px 80px rgba(0,0,0,.55)}
+  .heroimg img{width:100%;display:block}
+  .heroimg .ovl{position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(10,13,18,.55))}
+  .showcase{position:relative;z-index:1;margin:44px auto 0;max-width:900px;background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+  .scaption{text-align:center;color:var(--mut);font-size:13px;margin:34px 0 -10px;font-weight:600}
+  .sc-grid{display:grid;grid-template-columns:1fr auto 1fr;gap:18px;align-items:center}
+  @media(max-width:680px){.sc-grid{grid-template-columns:1fr;gap:14px}}
+  .sc-col .cap{font-size:12px;font-weight:800;letter-spacing:.04em;margin-bottom:9px;text-align:left}
+  .sc-col.o .cap{color:var(--mut)}.sc-col.r .cap{color:var(--green)}
+  .sc-thumb{aspect-ratio:16/9;border-radius:12px;overflow:hidden;border:1px solid var(--line)}
+  .sc-thumb svg,.sc-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+  .sc-arrow{font-size:26px;color:var(--accent);font-weight:800}
+  @media(max-width:680px){.sc-arrow{transform:rotate(90deg)}}
+
+  /* animated program demo */
+  .demo-window{position:relative;z-index:1;margin:44px auto 0;max-width:860px;background:#0f141c;border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.55)}
+  .dw-bar{display:flex;align-items:center;gap:7px;padding:11px 14px;background:#131a24;border-bottom:1px solid var(--line)}
+  .dw-bar .dot{width:11px;height:11px;border-radius:50%;background:#39424f}
+  .dw-bar .dot:nth-child(1){background:#ff5f57}.dw-bar .dot:nth-child(2){background:#febc2e}.dw-bar .dot:nth-child(3){background:#28c840}
+  .dw-url{margin-left:12px;font-size:12px;color:var(--mut);background:#0b0f16;border:1px solid var(--line);border-radius:7px;padding:4px 12px}
+  .dw-body{padding:20px}
+  .dw-steps{display:flex;gap:8px;justify-content:center;margin-bottom:18px;flex-wrap:wrap}
+  .dw-steps span{font-size:12px;font-weight:800;color:var(--mut);padding:5px 13px;border-radius:100px;border:1px solid var(--line);transition:.3s}
+  .dw-steps span.on{color:#fff;background:var(--accent);border-color:var(--accent)}
+  .dw-stage{position:relative;height:240px}
+  .dp{position:absolute;inset:0;opacity:0;transform:translateY(14px);transition:.5s ease;pointer-events:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px}
+  .dp.active{opacity:1;transform:none}
+  .dp-title{font-size:14px;font-weight:800;color:var(--sub)}
+  .dp-plats{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+  .dpp{font-size:15px;font-weight:800;padding:16px 22px;border-radius:12px;border:1px solid var(--line);background:var(--panel);color:var(--sub);transition:.4s}
+  .dpp.sel{border-color:var(--yt);color:#fff;background:rgba(255,61,61,.12);box-shadow:0 0 0 3px rgba(255,61,61,.15)}
+  .dp-search{display:flex;align-items:center;gap:8px;background:var(--panel);border:1px solid var(--accent);border-radius:12px;padding:14px 16px;min-width:340px;max-width:90%}
+  .dp-search #typed{font-size:17px;font-weight:700;color:#fff}
+  .dp-search .caret{color:var(--accent);font-weight:400;animation:blink 1s step-end infinite}
+  @keyframes blink{50%{opacity:0}}
+  .dp-search .dp-go{margin-left:auto;background:var(--accent);color:#fff;font-weight:800;font-size:13px;padding:8px 16px;border-radius:9px}
+  .dp-recos{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+  .dp-recos span{font-size:12px;color:var(--sub);background:var(--panel);border:1px solid var(--line);border-radius:100px;padding:6px 13px}
+  .dp-rows{display:flex;flex-direction:column;gap:10px;width:100%;max-width:460px}
+  .dr{display:flex;align-items:center;gap:12px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px 12px;opacity:0;transform:translateX(-10px);animation:none}
+  .dp.active .dr{animation:slidein .5s forwards}
+  .dp.active .dr:nth-child(2){animation-delay:.18s}
+  @keyframes slidein{to{opacity:1;transform:none}}
+  .dr-th{width:76px;height:44px;border-radius:6px;flex-shrink:0;background:linear-gradient(135deg,#2a3550,#151d2e)}
+  .dr-th.two{background:linear-gradient(135deg,#3a2740,#1e1524)}
+  .dr-tx{flex:1;display:flex;flex-direction:column}
+  .dr-tx b{font-size:14px;color:#fff}.dr-tx span{font-size:11.5px;color:var(--mut)}
+  .dr-tag{font-size:11px;font-weight:800;color:var(--green);background:rgba(62,207,142,.12);border:1px solid rgba(62,207,142,.4);border-radius:100px;padding:4px 10px}
+  .dp-script{width:100%;max-width:470px;display:flex;flex-direction:column;gap:8px}
+  .dp-script .sl{font-size:13px;color:var(--sub);background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:9px 12px;opacity:0;transform:translateY(8px)}
+  .dp.active .dp-script .sl{animation:slideup .45s forwards}
+  .dp.active .dp-script .sl:nth-child(2){animation-delay:.15s}
+  .dp.active .dp-script .sl:nth-child(3){animation-delay:.3s}
+  .dp.active .dp-script .sl:nth-child(4){animation-delay:.45s}
+  @keyframes slideup{to{opacity:1;transform:none}}
+  .dp-script .tc{font-weight:800;color:var(--accent);margin-right:8px}
+
+  /* section */
+  section{padding:76px 0;position:relative}
+  .kicker{font-size:13px;font-weight:800;letter-spacing:.06em;color:var(--accent);text-align:center}
+  .h2{font-size:clamp(26px,4.4vw,40px);font-weight:800;letter-spacing:-.025em;text-align:center;margin-top:12px;line-height:1.18}
+  .h2 .g{color:var(--accent)}
+  .lead2{color:var(--sub);text-align:center;font-size:16px;max-width:640px;margin:14px auto 0}
+
+  /* problem */
+  .pains{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:42px}
+  @media(max-width:760px){.pains{grid-template-columns:1fr}}
+  .pain{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px}
+  .pain .q{font-size:26px}.pain h3{font-size:16.5px;font-weight:800;margin:10px 0 6px}.pain p{font-size:14px;color:var(--sub)}
+
+  /* steps */
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:44px}
+  @media(max-width:860px){.steps{grid-template-columns:1fr 1fr}}
+  @media(max-width:480px){.steps{grid-template-columns:1fr}}
+  .step{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px;position:relative;overflow:hidden}
+  .step .n{font-size:13px;font-weight:800;color:#fff;background:linear-gradient(135deg,var(--accent),var(--accent2));width:30px;height:30px;border-radius:8px;display:grid;place-items:center}
+  .step h3{font-size:16px;font-weight:800;margin:12px 0 6px}.step p{font-size:13.5px;color:var(--sub)}
+
+  /* why */
+  .why{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:44px}
+  @media(max-width:760px){.why{grid-template-columns:1fr}}
+  .wc{background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid var(--line);border-radius:16px;padding:24px}
+  .wc .ic{font-size:26px}.wc h3{font-size:17px;font-weight:800;margin:10px 0 6px}.wc p{font-size:14px;color:var(--sub)}
+
+  /* stats */
+  .stats{display:flex;justify-content:center;gap:0;flex-wrap:wrap;margin-top:44px;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--panel)}
+  .stat{flex:1;min-width:150px;padding:26px 18px;text-align:center;border-right:1px solid var(--line)}
+  .stat:last-child{border-right:none}
+  .stat .big{font-size:30px;font-weight:800;color:var(--accent)}
+  .stat .lab{font-size:13px;color:var(--sub);margin-top:4px}
+
+  /* audience */
+  .aud{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:44px}
+  @media(max-width:760px){.aud{grid-template-columns:1fr}}
+  .ac{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px;text-align:center}
+  .ac .em{font-size:34px}.ac h3{font-size:16px;font-weight:800;margin:8px 0 5px}.ac p{font-size:13.5px;color:var(--sub)}
+
+  /* pricing */
+  .price{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:44px}
+  @media(max-width:760px){.price{grid-template-columns:1fr}}
+  .pl{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:26px;position:relative}
+  .pl.hot{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent) inset,0 20px 50px rgba(255,107,53,.18)}
+  .pl .flag{position:absolute;top:-12px;left:50%;transform:translateX(-50%);font-size:11px;font-weight:800;color:#fff;background:var(--accent);padding:4px 12px;border-radius:100px}
+  .pl .nm{font-size:14px;font-weight:800;color:var(--sub)}
+  .pl .pr{font-size:32px;font-weight:800;margin:10px 0 4px}.pl .pr small{font-size:13px;color:var(--mut);font-weight:600}
+  .pl ul{list-style:none;margin:16px 0 20px;display:flex;flex-direction:column;gap:9px}
+  .pl li{font-size:13.5px;color:var(--sub);padding-left:22px;position:relative}
+  .pl li::before{content:"✔";position:absolute;left:0;color:var(--green);font-weight:800}
+  .pl .btn{width:100%;justify-content:center}
+
+  /* faq */
+  .faq{max-width:760px;margin:40px auto 0}
+  details{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:6px 20px;margin-bottom:10px}
+  summary{font-size:15.5px;font-weight:700;padding:14px 0;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"+";color:var(--accent);font-size:22px;font-weight:800}
+  details[open] summary::after{content:"–"}
+  details p{font-size:14px;color:var(--sub);padding:0 0 16px}
+
+  /* final cta */
+  .final{text-align:center;background:linear-gradient(160deg,rgba(255,107,53,.12),rgba(255,61,104,.08));border:1px solid rgba(255,107,53,.3);border-radius:24px;padding:56px 28px;margin:20px 0}
+  .final h2{font-size:clamp(26px,4.5vw,42px);font-weight:800;letter-spacing:-.025em;line-height:1.15}
+  .final p{color:var(--sub);font-size:17px;margin-top:14px}
+  .wait{display:flex;gap:10px;max-width:460px;margin:28px auto 0}
+  .wait input{flex:1;padding:15px 18px;border-radius:12px;border:1px solid var(--line);background:var(--panel);color:var(--ink);font-family:inherit;font-size:15px}
+  .wait input:focus{outline:none;border-color:var(--accent)}
+  .waitnote{font-size:12.5px;color:var(--mut);margin-top:12px}
+
+  footer{border-top:1px solid var(--line);padding:34px 0;color:var(--mut);font-size:13px}
+  .footin{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+  .footin .brand{font-size:16px}
+  .footin .fl{margin-left:auto;display:flex;gap:18px}
+  .disc{max-width:1120px;margin:0 auto;padding:14px 24px 0;font-size:11.5px;color:var(--mut)}
+</style>
+</head>
+<body>
+
+<nav><div class="wrap navin">
+  <div class="brand">떡상<span class="d">랩</span></div>
+  <div class="navlinks">
+    <a href="#how">작동 방식</a>
+    <a href="#why">왜 떡상랩</a>
+    <a href="#price">요금</a>
+    <a class="btn pri sm navcta" href="app.html">무료로 시작</a>
+  </div>
+</div></nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="glow a"></div><div class="glow b"></div>
+  <div class="wrap in">
+    <span class="eyebrow">▶ 유튜브 · ◍ 인스타 · ♪ 틱톡 떡상 기획 도구</span>
+    <h1>감으로 찍지 마세요.<br><span class="g">이미 이긴 영상</span>만 베끼세요.</h1>
+    <p class="sub">키워드 하나면 <b>정체된 떡상 레퍼런스 → 썸네일 → 제목 → 촬영 대본</b>까지 5분. 경쟁은 피하고, 조회수는 승계합니다.</p>
+    <div class="cta-row">
+      <a class="btn pri" href="app.html">🚀 무료로 시작하기</a>
+      <a class="btn gho" href="#how">작동 방식 보기</a>
+    </div>
+    <div class="plat-row"><span class="pbadge yt">YouTube 롱폼</span><span class="pbadge ig">Instagram 릴스</span><span class="pbadge tt">TikTok</span></div>
+
+    <div class="demo-window">
+      <div class="dw-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><div class="dw-url">app.떡상랩.kr</div></div>
+      <div class="dw-body">
+        <div class="dw-steps"><span data-s="0">플랫폼</span><span data-s="1">키워드</span><span data-s="2">추천</span><span data-s="3">대본</span></div>
+        <div class="dw-stage">
+          <div class="dp" data-p="0"><div class="dp-title">① 어디에 떡상시킬까요?</div>
+            <div class="dp-plats"><div class="dpp yt sel">▶ YouTube</div><div class="dpp ig">◍ Instagram</div><div class="dpp tt">♪ TikTok</div></div></div>
+          <div class="dp" data-p="1"><div class="dp-title">② 키워드를 입력하세요</div>
+            <div class="dp-search"><span id="typed"></span><span class="caret">|</span><div class="dp-go">발굴</div></div>
+            <div class="dp-recos"><span>쿠팡 위탁 월매출</span><span>셀러 현실</span><span>무자본 부업</span></div></div>
+          <div class="dp" data-p="2"><div class="dp-title">③ 정체된 떡상 5선 + 추천 생성</div>
+            <div class="dp-rows">
+              <div class="dr"><div class="dr-th"></div><div class="dr-tx"><b>쿠팡 셀러 현실후기</b><span>추천 썸네일 · 제목 3안 자동</span></div><div class="dr-tag">추천</div></div>
+              <div class="dr"><div class="dr-th two"></div><div class="dr-tx"><b>월 3천 위탁 인증</b><span>추천 썸네일 · 제목 3안 자동</span></div><div class="dr-tag">추천</div></div>
+            </div></div>
+          <div class="dp" data-p="3"><div class="dp-title">④ 촬영 대본 자동 생성</div>
+            <div class="dp-script">
+              <div class="sl"><span class="tc">0:00</span>후킹 — 10명 중 9명이 사라진다</div>
+              <div class="sl"><span class="tc">0:45</span>문제 — 매출은 나는데 통장엔…</div>
+              <div class="sl"><span class="tc">1:20</span>핵심 ① 매출 ≠ 수익</div>
+              <div class="sl"><span class="tc">4:30</span>CTA — 구독 + 무료 계산표</div>
+            </div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="scaption">↓ 이렇게 바꿔드립니다 · 검증된 원본 → 내 채널용 추천</div>
+    <div class="showcase">
+      <div class="sc-grid">
+        <div class="sc-col o">
+          <div class="cap">검증된 떡상 원본 (실제 · 조회 100만+)</div>
+          <div class="sc-thumb"><img src="https://i.ytimg.com/vi/qxdnNDYgEsM/maxresdefault.jpg" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/qxdnNDYgEsM/hqdefault.jpg'" alt="검증된 떡상 원본 썸네일"></div>
+        </div>
+        <div class="sc-arrow">→</div>
+        <div class="sc-col r">
+          <div class="cap">내 채널용 추천 (구조 복제)</div>
+          <div class="sc-thumb"><svg viewBox="0 0 640 360" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="bglt" cx="72%" cy="40%" r="72%"><stop offset="0" stop-color="#28344f"/><stop offset="55%" stop-color="#131c30"/><stop offset="100%" stop-color="#0a1120"/></radialGradient>
+              <linearGradient id="suit" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#26374f"/><stop offset="1" stop-color="#131f30"/></linearGradient>
+              <linearGradient id="skin" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ecc7a3"/><stop offset="1" stop-color="#c8996f"/></linearGradient>
+            </defs>
+            <rect width="640" height="360" fill="url(#bglt)"/>
+            <g transform="translate(474,0)">
+              <path d="M-152,360 C-152,252 -96,216 0,216 C96,216 152,252 152,360 Z" fill="url(#suit)"/>
+              <path d="M-46,232 h92 v32 q-46,26 -92,0 Z" fill="#eef1f5"/>
+              <path d="M-9,236 l9,46 l9,-46 l15,10 v46 h-48 v-46 Z" fill="#7c1f2b"/>
+              <path d="M-58,150 q0,-88 58,-88 q58,0 58,88 q0,58 -58,58 q-58,0 -58,-58 Z" fill="url(#skin)"/>
+              <path d="M-60,140 q6,-80 60,-80 q54,0 60,80 q-16,-40 -60,-40 q-44,0 -60,40 Z" fill="#2b2320"/>
+              <ellipse cx="-21" cy="150" rx="5.5" ry="7" fill="#33261d"/><ellipse cx="21" cy="150" rx="5.5" ry="7" fill="#33261d"/>
+              <path d="M-30,132 q9,-8 20,-2 M10,130 q11,-6 20,2" stroke="#2b2320" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+              <path d="M-15,180 q15,11 30,0" stroke="#a76a4d" stroke-width="4" fill="none" stroke-linecap="round"/>
+            </g>
+            <circle cx="86" cy="80" r="40" fill="#e2231a"/><circle cx="86" cy="80" r="40" fill="none" stroke="#fff" stroke-width="3" opacity=".45"/><text x="86" y="88" font-size="21" font-weight="800" fill="#fff" text-anchor="middle">100만</text>
+            <rect x="0" y="222" width="640" height="138" fill="#050810" opacity="0.42"/>
+            <text style="paint-order:stroke;stroke:#000;stroke-width:8px;stroke-linejoin:round" x="40" y="290" font-size="46" font-weight="900" fill="#ffd23f">쿠팡 셀러 현실</text>
+            <text style="paint-order:stroke;stroke:#000;stroke-width:8px;stroke-linejoin:round" x="40" y="340" font-size="44" font-weight="900" fill="#fff">월천 벌어도 접는 이유</text>
+          </svg></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- PROBLEM -->
+<section>
+  <div class="wrap">
+    <div class="kicker">이런 적, 있으시죠</div>
+    <div class="h2">아이디어 앞에서 <span class="g">매번 멈춥니다</span></div>
+    <div class="pains">
+      <div class="pain"><div class="q">😵</div><h3>"뭘 찍지?"</h3><p>주제는 있는데 어떤 영상을 만들어야 터질지 감이 안 옵니다.</p></div>
+      <div class="pain"><div class="q">🎯</div><h3>"제목·썸네일 뭐라 하지?"</h3><p>클릭을 부르는 후킹은 매번 백지에서 시작. 시간만 흘러갑니다.</p></div>
+      <div class="pain"><div class="q">📉</div><h3>"지금 뜨는 걸 베끼면?"</h3><p>현재 인기 영상을 따라 하면 원본과 정면 경쟁. 묻혀버립니다.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- SOLUTION / HOW -->
+<section id="how" style="background:linear-gradient(180deg,transparent,rgba(255,107,53,.04),transparent)">
+  <div class="wrap">
+    <div class="kicker">HOW IT WORKS</div>
+    <div class="h2">키워드 하나로, <span class="g">기획 5분 컷</span></div>
+    <p class="lead2">발굴부터 촬영 대본까지 한 흐름. 툴을 갈아탈 필요가 없습니다.</p>
+    <div class="steps">
+      <div class="step"><div class="n">1</div><h3>플랫폼 선택</h3><p>유튜브·인스타·틱톡 중 선택하면 커버·대본 규격이 자동으로 맞춰집니다.</p></div>
+      <div class="step"><div class="n">2</div><h3>키워드 추천</h3><p>"동기부여 영상 추천해줘"처럼 대략만 말해도 터질 키워드를 먼저 제안, 확정.</p></div>
+      <div class="step"><div class="n">3</div><h3>레퍼런스+썸네일+제목</h3><p>정체된 떡상 5선 + 구조 복제 추천 썸네일 + 제목 3안을 자동 생성.</p></div>
+      <div class="step"><div class="n">4</div><h3>촬영 대본</h3><p>번호만 고르면 롱폼 5분 / 숏폼 1~3분 대본(후킹→전개→CTA) 완성.</p></div>
+    </div>
+    <div style="text-align:center;margin-top:34px"><a class="btn pri" href="app.html">🚀 지금 무료로 체험</a></div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section id="why">
+  <div class="wrap">
+    <div class="kicker">WHY 떡상랩</div>
+    <div class="h2">왜 <span class="g">"정체된 승자"</span>를 베끼나</div>
+    <p class="lead2">이미 이겼지만 지금은 조회수가 멈춘 영상 — 벤치마킹의 최적점입니다.</p>
+    <div class="why">
+      <div class="wc"><div class="ic">✅</div><h3>검증된 승리 공식</h3><p>조회 100만+ = 후킹·구조·썸네일이 이미 대중 검증을 통과한 영상만 고릅니다.</p></div>
+      <div class="wc"><div class="ic">📉</div><h3>경쟁 없는 타이밍</h3><p>추가 유입이 멈춘 오래된 영상이라, 같은 포맷을 지금 올려도 원본과 안 부딪힙니다.</p></div>
+      <div class="wc"><div class="ic">🧩</div><h3>3박자 정렬</h3><p>썸네일·제목·대본이 같은 공식으로 맞물려 클릭률 시너지를 냅니다.</p></div>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="big">5분</div><div class="lab">기획 → 대본까지</div></div>
+      <div class="stat"><div class="big">3</div><div class="lab">플랫폼 지원</div></div>
+      <div class="stat"><div class="big">100만+</div><div class="lab">검증 레퍼런스 기준</div></div>
+      <div class="stat"><div class="big">3안</div><div class="lab">제목·후킹 자동 생성</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- AUDIENCE -->
+<section style="background:linear-gradient(180deg,transparent,rgba(74,158,255,.04),transparent)">
+  <div class="wrap">
+    <div class="kicker">누구를 위한 도구인가</div>
+    <div class="h2">유입이 필요한 <span class="g">모든 사람</span></div>
+    <div class="aud">
+      <div class="ac"><div class="em">🛒</div><h3>이커머스 셀러</h3><p>스마트스토어·쿠팡 셀러. 유튜브·릴스로 유입을 키우고 싶지만 기획 시간이 없는 분.</p></div>
+      <div class="ac"><div class="em">🎥</div><h3>1인 크리에이터</h3><p>주제는 있는데 썸네일·제목·대본에서 매번 소진되는 초·중급 크리에이터.</p></div>
+      <div class="ac"><div class="em">🎓</div><h3>강사 · 전문가</h3><p>전문성은 있으나 콘텐츠 포맷화가 약한 분. 검증된 틀로 시리즈를 양산.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="price">
+  <div class="wrap">
+    <div class="kicker">PRICING</div>
+    <div class="h2">부담 없이 <span class="g">지금 시작</span></div>
+    <p class="lead2">무료로 감을 잡고, 필요하면 올리세요. 언제든 해지 가능.</p>
+    <div class="price">
+      <div class="pl"><div class="nm">FREE</div><div class="pr">0<small>원</small></div>
+        <ul><li>월 3회 떡상 발굴</li><li>제목·썸네일 미리보기</li><li>대본 1편 생성</li></ul>
+        <a class="btn gho" href="app.html">무료로 시작</a></div>
+      <div class="pl hot"><div class="flag">가장 인기</div><div class="nm">CREATOR</div><div class="pr">19,900<small>원/월</small></div>
+        <ul><li>무제한 발굴</li><li>썸네일 PNG 무제한(사진 합성)</li><li>대본 무제한 + PDF·워드</li><li>채널 톤 프리셋 저장</li></ul>
+        <a class="btn pri" href="app.html">CREATOR 시작</a></div>
+      <div class="pl"><div class="nm">TEAM / 강의</div><div class="pr">맞춤<small>견적</small></div>
+        <ul><li>다계정·팀 보관함</li><li>강의·B2B 번들</li><li>API 제공</li></ul>
+        <a class="btn gho" href="#start">문의하기</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section style="background:linear-gradient(180deg,transparent,rgba(255,107,53,.04),transparent)">
+  <div class="wrap">
+    <div class="kicker">FAQ</div>
+    <div class="h2">자주 묻는 질문</div>
+    <div class="faq">
+      <details open><summary>남의 영상을 그대로 베끼는 건가요?</summary><p>아니요. 원본은 "구조 참고용"으로만 보고, 썸네일·제목·대본은 당신 콘텐츠로 새로 생성합니다. 이긴 공식(구도·후킹 패턴)만 이식하는 방식이라 저작권 문제 없이 안전합니다.</p></details>
+      <details><summary>왜 지금 뜨는 영상이 아니라 정체된 영상인가요?</summary><p>지금 뜨는 영상을 따라 하면 원본과 정면 경쟁해 묻히기 쉽습니다. 이미 검증됐지만 유입이 멈춘 영상을 재활용하면, 승리 공식은 얻고 경쟁은 피할 수 있습니다.</p></details>
+      <details><summary>유튜브 말고 인스타·틱톡도 되나요?</summary><p>네. 플랫폼을 고르면 커버 비율(9:16)·후킹 위치·대본 분량이 자동으로 맞춰집니다. 릴스·틱톡은 1~3분 숏폼 대본으로 생성됩니다.</p></details>
+      <details><summary>키워드를 뭘 넣어야 할지 모르겠어요.</summary><p>괜찮습니다. "이커머스 영상 추천해줘"처럼 대략만 말하면, 실제로 터질 만한 구체 키워드를 앵글별로 먼저 추천해 드립니다. 고르거나 수정해서 확정만 하면 됩니다.</p></details>
+      <details><summary>성과(수익) 숫자를 그대로 써도 되나요?</summary><p>표시광고법 때문에 과장·수익 보장 표현은 피해야 합니다. 떡상랩은 "경향·사례" 화법 가이드를 제공하고, 숫자는 본인 실제 실적으로 바꾸도록 안내합니다.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section id="start">
+  <div class="wrap">
+    <div class="final">
+      <h2>다음 영상, <span style="color:var(--accent)">감이 아니라 데이터로</span></h2>
+      <p>이미 이긴 공식으로 시작하세요. 베타 얼리액세스를 먼저 열어드립니다.</p>
+      <form class="wait" onsubmit="joinWait(event)">
+        <input type="email" id="email" placeholder="이메일 주소" required>
+        <button class="btn pri" type="submit">얼리액세스 신청</button>
+      </form>
+      <div class="waitnote">신청 즉시 무료 발굴 3회 크레딧 지급 · 스팸 없음 · 언제든 해지</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footin">
+    <div class="brand">떡상<span class="d">랩</span></div>
+    <span style="color:var(--mut)">검증된 떡상 공식으로, 기획은 5분 컷.</span>
+    <div class="fl"><a href="#how">작동 방식</a><a href="#price">요금</a><a href="#start">시작</a></div>
+  </div>
+  <div class="disc">© 2026 떡상랩 · 글로벌셀러창업연구소(안소장). 원본 썸네일·영상의 저작권은 각 채널에 있으며, 서비스는 구조 참고 및 신규 창작물 생성만 제공합니다. 성과·수익 표현은 표시광고법에 따라 사실 기반으로 조정해 사용하세요. 본 페이지는 서비스 소개용 데모입니다.</div>
+</footer>
+
+<script>
+function joinWait(e){e.preventDefault();const em=document.getElementById('email').value;alert('데모: "'+em+'" 얼리액세스 신청이 접수되었습니다. 실서비스에서는 대기자 명단에 등록됩니다.');document.getElementById('email').value='';}
+
+/* 프로그램 구동 데모 애니메이션 */
+(function(){
+  const steps=document.querySelectorAll('.dw-steps span');
+  const panels=document.querySelectorAll('.dp');
+  const typed=document.getElementById('typed');
+  const word='쿠팡 위탁판매';
+  let cur=-1, typeTimer=null;
+  function typeWord(){ if(!typed) return; clearInterval(typeTimer); typed.textContent=''; let i=0; typeTimer=setInterval(()=>{ typed.textContent=word.slice(0,++i); if(i>=word.length) clearInterval(typeTimer); },95); }
+  function setStep(n){
+    steps.forEach((s,i)=>s.classList.toggle('on', i<=n));
+    panels.forEach(p=>{ const on=(+p.dataset.p===n); p.classList.toggle('active',on); });
+    if(n===1) typeWord();
+  }
+  function next(){ cur=(cur+1)%4; setStep(cur); }
+  next(); setInterval(next, 2600);
+})();
+</script>
+</body>
+</html>
