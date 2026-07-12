@@ -374,9 +374,12 @@ function saveLLM(){ const v=(document.getElementById('llmkey').value||'').trim()
 async function genLLM(v,P,kw){
   const key=geminiKey(); if(!key) throw new Error('Gemini 키 없음');
   const len = P.scriptType==='long' ? '롱폼 약 5분, 8개 구간(도입 포함)' : '숏폼 1~3분, 6개 구간';
-  const prompt=`너는 한국 ${P.name} 대본 작가야. 아래 정보로 실제 촬영용 대본을 써.\n키워드: ${kw}\n참고(과거 떡상·현재 정체) 영상 제목: ${v.title}\n분량: ${len}. 구조: 강한 후킹 → 전개(핵심 3가지) → 반전 → CTA. 화자는 '안소장'. 말투는 자연스러운 구어체.\n반드시 아래 JSON만 출력(설명·코드펜스 금지):\n{"titles":["제목1","제목2","제목3"],"cover":{"l1":"썸네일 큰 1줄(6~10자)","l2":"썸네일 큰 2줄(6~12자)","hl":true,"accent":"#ffd23f","badge":"100만"},"segments":[{"time":"0:00–0:15","label":"후킹","narration":"실제 대사 그대로","screen":"화면/B-roll 지시","caption":"자막 한 줄"}]}\ncover는 참고 영상 썸네일의 구조(짧고 강한 2줄 + 강조색 + 조회수 뱃지)를 본떠 만든 '추천 썸네일 문구'다. l1은 핵심 키워드, hl=true면 l1을 accent색으로 강조.\n수익 보장·과장(무조건·100%) 표현 금지(표시광고법). 숫자는 예시로만.`;
+  const prompt=`너는 한국 ${P.name} 대본 작가야. 아래 정보로 실제 촬영용 대본을 써.\n키워드: ${kw}\n참고(과거 떡상·현재 정체) 영상 제목: ${v.title}\n분량: ${len}. 구조: 강한 후킹 → 전개(핵심 3가지) → 반전 → CTA. 화자는 '안소장'. 말투는 자연스러운 구어체.\n반드시 아래 JSON만 출력(설명·코드펜스 금지):\n{"titles":["제목1","제목2","제목3"],"cover":{"l1":"썸네일 큰 1줄(6~10자)","l2":"썸네일 큰 2줄(6~12자)","hl":true,"accent":"#ffd23f","badge":"100만"},"segments":[{"time":"0:00–0:15","label":"후킹","narration":"실제 대사 그대로","screen":"화면/B-roll 지시","caption":"자막 한 줄"}]}\ncover는 참고 영상 썸네일의 구조(짧고 강한 2줄 + 강조색 + 조회수 뱃지)를 본떠 만든 '추천 썸네일 문구'다. 첨부된 원본 썸네일 이미지가 있으면 그 레이아웃·텍스트 위치·강조색·인물 배치를 실제로 분석해서 동일한 구조/느낌으로 cover를 설계해. l1은 핵심 키워드, hl=true면 l1을 accent색으로 강조.\n수익 보장·과장(무조건·100%) 표현 금지(표시광고법). 숫자는 예시로만.`;
+  const parts=[{text:prompt}];
+  const timg = P.real ? `https://i.ytimg.com/vi/${v.id}/hqdefault.jpg` : (v.origImg||'');
+  if(timg){ try{ const b64=await imgToBase64(timg); if(b64) parts.push({inlineData:{mimeType:'image/jpeg',data:b64}}); }catch(e){} }
   const url=`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${encodeURIComponent(key)}`;
-  const res=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({contents:[{parts:[{text:prompt}]}],generationConfig:{temperature:0.85,responseMimeType:'application/json'}})});
+  const res=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({contents:[{parts:parts}],generationConfig:{temperature:0.85,responseMimeType:'application/json'}})});
   const j=await res.json();
   if(j.error) throw new Error(j.error.message||'Gemini 오류');
   let txt=((((j.candidates||[])[0]||{}).content||{}).parts||[{}])[0].text||'';
@@ -551,6 +554,7 @@ async function genScript(n){
        ['85–100초','반전 + CTA',`${s.rev} ${s.cta}`,'팔로우/저장 유도 자막','저장 + 팔로우']];
     }
   }
+  lastScript={title:title,segs:segs,pname:P.name,cover:P.cover,len:P.lenLabel,kw:kw||s.topic,ref:v.n,typeLabel:typeLabel};
   document.getElementById('script').innerHTML=`
    <div class="shead"><span class="tag" style="color:${P.color};background:${P.color}18;border-color:${P.color}55">${P.emoji} ${P.name} 대본 · ${typeLabel}</span>
      <h1>${title}</h1>
@@ -560,10 +564,20 @@ async function genScript(n){
    ${segs.map(g=>`<div class="seg"><div class="segh"><span class="tc">${g[0]}</span><h3>${g[1]}</h3></div>
      <div class="segb"><p class="narr">${g[2]}</p>
      <div class="aux"><div class="box cam"><div class="bt">🎥 화면</div><p>${g[3]}</p></div><div class="box cap"><div class="bt">🔠 자막</div><p class="cl">${g[4]}</p></div></div></div></div>`).join('')}
-   <div class="exp"><button class="pri" onclick="alert('데모: 실서비스에서 PDF로 저장됩니다.')">PDF 저장</button><button onclick="alert('데모: 워드(.docx)로 저장됩니다.')">워드 저장</button><button onclick="alert('데모: 커버 스튜디오로 이동해 사진을 합성합니다.')">이 ${P.cover} 만들기</button></div>
+   <div class="exp"><button class="pri" onclick="exportPDF()">📄 PDF 저장</button><button onclick="exportDoc()">📝 워드 저장</button></div>
    <div class="disc">${aiUsed?'🤖 Gemini가 참고 영상·키워드로 생성한 실제 대본입니다.':'🧪 템플릿 자동 생성 대본입니다. 위 설정에 Gemini 키를 넣으면 AI가 대본·제목을 생성합니다.'} 수치·성과는 실제 실적 기준으로 조정하세요(표시광고법).</div>`;
   go(3);
 }
+/* ===== 내보내기 (PDF / 워드) ===== */
+let lastScript=null;
+function buildExportHTML(ls){
+  if(!ls) return '<p>대본이 없습니다.</p>';
+  const rows=ls.segs.map(g=>`<div style="margin:0 0 14px;padding:12px 14px;border:1px solid #ddd;border-radius:8px"><div style="font-weight:800;color:#d2691e">${g[0]} · ${g[1]}</div><div style="margin:6px 0;font-size:15px">${g[2]}</div><div style="font-size:12px;color:#666">🎥 ${g[3]} ｜ 🔠 ${g[4]}</div></div>`).join('');
+  return `<!doctype html><html><head><meta charset="utf-8"><title>${ls.title}</title><style>body{font-family:'Malgun Gothic','맑은 고딕','Apple SD Gothic Neo',sans-serif;max-width:760px;margin:24px auto;padding:0 18px;color:#111;line-height:1.6}h1{font-size:22px}.meta{color:#666;font-size:13px;margin:6px 0 18px}</style></head><body><h1>${ls.title}</h1><div class="meta">${ls.pname} 대본 · ${ls.typeLabel} · 길이 ${ls.len} · 주제 ${ls.kw} · 화자 안소장 · 레퍼런스 ${ls.ref}번</div>${rows}<div style="margin-top:20px;font-size:11px;color:#999">떡상랩 생성 · 수치·성과는 실제 실적 기준으로 조정하세요(표시광고법)</div></body></html>`;
+}
+function exportPDF(){ if(!lastScript){alert('먼저 대본을 생성하세요.');return;} const w=window.open('','_blank'); if(!w){alert('팝업 차단을 해제해주세요.');return;} w.document.write(buildExportHTML(lastScript)); w.document.close(); w.focus(); setTimeout(()=>{ w.print(); },500); }
+function exportDoc(){ if(!lastScript){alert('먼저 대본을 생성하세요.');return;} const blob=new Blob(['﻿'+buildExportHTML(lastScript)],{type:'application/msword'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=((lastScript.title||'대본').replace(/[^\w가-힣 ]/g,'').trim().slice(0,40)||'대본')+'.doc'; document.body.appendChild(a); a.click(); a.remove(); }
+async function imgToBase64(url){ const p='https://images.weserv.nl/?url='+encodeURIComponent(url); const res=await fetch(p); if(!res.ok) throw new Error('img'); const blob=await res.blob(); return await new Promise((ok,er)=>{ const r=new FileReader(); r.onloadend=()=>ok((''+r.result).split(',')[1]); r.onerror=er; r.readAsDataURL(blob); }); }
 (function(){ updKeyUI(); })();
 </script>
 </body>
