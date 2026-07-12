@@ -50,6 +50,13 @@
   .chipx:hover{border-color:var(--accent);color:var(--ink)}
   .backlink{display:inline-block;margin-top:26px;color:var(--mut);font-size:13px;cursor:pointer;background:none;border:none}
   .kwsub{color:var(--mut);font-size:13.5px;margin-top:8px}
+  .keybar{display:flex;gap:8px;max-width:520px;margin:16px auto 0}
+  .keybar input{flex:1;padding:11px 13px;border-radius:10px;border:1px solid var(--line);background:var(--panel);color:var(--ink);font-size:13px;font-family:inherit}
+  .keybar input:focus{outline:none;border-color:var(--accent)}
+  .keybar button{padding:0 16px;border-radius:10px;border:1px solid var(--line);background:var(--panel2);color:var(--ink);font-weight:800;font-size:13px;cursor:pointer}
+  .keybar #keystat{align-self:center;font-size:12px;font-weight:800;color:var(--green);white-space:nowrap}
+  .keyhelp{max-width:520px;margin:8px auto 0;font-size:11.5px;color:var(--mut);line-height:1.5}
+  .keyhelp a{color:var(--blue)}
   .seedchips{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px}
   .recoOut{margin-top:22px;text-align:left}
   .rgroup{margin-bottom:14px}
@@ -146,6 +153,8 @@
       <span class="badge" id="kwbadge"></span>
       <h2>어떤 영상을 만들고 싶으세요?</h2>
       <p class="kwsub">키워드가 막막하면 대략만 말해도 돼요. 추천 키워드를 먼저 보고 고르면 됩니다.</p>
+      <div class="keybar"><input id="ytkey" type="password" placeholder="YouTube Data API 키 붙여넣기 (실시간 검색)"><button onclick="saveKey()">저장</button><span id="keystat"></span></div>
+      <div class="keyhelp">🔑 실시간 검색을 켜려면 무료 <b>YouTube Data API v3</b> 키가 필요합니다 · <a href="https://console.cloud.google.com/apis/library/youtube.googleapis.com" target="_blank">Google Cloud Console</a>에서 사용 설정 → API 키 생성 → 붙여넣기. 키는 이 브라우저에만 저장됩니다. (미입력 시 데모 데이터로 동작)</div>
       <div class="searchbar"><input id="seed" type="text" placeholder='예: 동기부여 영상 추천해줘' value="동기부여 영상 추천해줘"><button onclick="recoKeywords()">키워드 추천</button></div>
       <div class="seedchips">
         <span class="chipx" onclick="setSeed('이커머스 영상 추천해줘')">이커머스 영상 추천해줘</span>
@@ -336,19 +345,68 @@ function chooseKw(k){
   const cb=document.getElementById('confirmbar'); cb.classList.add('ready');
   cb.scrollIntoView({behavior:'smooth',block:'center'});
 }
-function search(){
+/* ===== 실시간 YouTube 연동 ===== */
+let liveItems=null;
+function ytKey(){ return (localStorage.getItem('ttl_ytkey')||'').trim(); }
+function updKeyStat(){ const el=document.getElementById('keystat'); if(el) el.textContent = ytKey()?'✅ 실시간 연동됨':''; }
+function saveKey(){ const v=(document.getElementById('ytkey').value||'').trim(); localStorage.setItem('ttl_ytkey',v); updKeyStat(); alert(v?'API 키가 저장되었습니다. 이제 YouTube에서 실시간 검색됩니다.':'키를 비웠습니다. 데모 데이터로 동작합니다.'); }
+function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function fmtViews(n){ n=+n||0; if(n>=1e8) return (n/1e8).toFixed(1).replace(/\.0$/,'')+'억'; if(n>=1e4) return Math.round(n/1e4)+'만'; return n.toLocaleString(); }
+function ageLabel(days){ const y=days/365; if(y>=1) return y.toFixed(1)+'년 전'; return Math.max(1,Math.round(days/30))+'개월 전'; }
+function plateauLabel(days){ return days>1095?'완전정체':days>365?'정체 구간':'최근·성장중'; }
+function genRec(kw){ const t=esc(kw).slice(0,12);
+  return svg169(`<rect width="640" height="360" fill="#0f1830"/><circle cx="470" cy="168" r="96" fill="#22314f"/><text x="470" y="200" font-size="80" text-anchor="middle">🧑‍💼</text><circle cx="86" cy="80" r="38" fill="#e2231a"/><text x="86" y="88" font-size="18" font-weight="800" fill="#fff" text-anchor="middle">추천</text><rect x="0" y="230" width="640" height="130" fill="#050810" opacity="0.4"/><text style="paint-order:stroke;stroke:#000;stroke-width:8px;stroke-linejoin:round" x="36" y="292" font-size="44" font-weight="900" fill="#ffd23f">${t}</text><text style="paint-order:stroke;stroke:#000;stroke-width:8px;stroke-linejoin:round" x="36" y="340" font-size="40" font-weight="900" fill="#fff">이렇게 하면 됩니다</text>`); }
+function hookFor(kw){ return `[역발상] "${esc(kw)}, 다들 이건 모릅니다"`; }
+function titlesFor(kw){ const k=esc(kw); return [ `이 순서대로만 하면 왕초보도 ${k} 됩니다 [1편]`, `${k} 찐현실 // 대부분 놓치는 진짜 이유`, `${k}로 월 ○○만원? 방법 전부 공개합니다` ]; }
+function scriptFor(kw){ return {topic:kw,type:'키워드 기반 자동 생성',
+  hook:`${kw}, 지금 시작해도 될까요? 오늘 팩트만 정리합니다.`,
+  intro:`안녕하세요 안소장입니다. ${kw} 관련해서 검증된 흐름만 뽑아왔어요.`,
+  problem:`대부분 ${kw}에서 같은 지점에 막힙니다. 왜 그런지부터 짚을게요.`,
+  p:[['핵심 개념 잡기',`${kw}의 큰 그림부터 이해하면 겁이 사라집니다.`],['실행 단계',`오늘 바로 할 수 있는 순서로 정리했습니다.`],['흔한 실수 회피',`여기서 대부분이 넘어집니다. 미리 피하세요.`]],
+  rev:`결국 재능이 아니라 순서입니다. 알면 누구나 됩니다.`,
+  cta:`도움 됐다면 구독. 관련 자료는 고정 댓글에 무료로 올려둘게요.`}; }
+function mapItem(x,n){ const kw=document.getElementById('kw').value.trim();
+  return {n:n,id:x.id,title:x.title,ch:x.ch,views:fmtViews(x.views),age:ageLabel(x.ageDays),plateau:plateauLabel(x.ageDays),hook:hookFor(kw),titles:titlesFor(kw),rec:genRec(kw),s:scriptFor(kw)}; }
+async function liveYouTube(kw){
+  const key=ytKey(); if(!key) throw new Error('API 키 없음');
+  const s=await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&order=viewCount&maxResults=25&q=${encodeURIComponent(kw)}&key=${key}`).then(r=>r.json());
+  if(s.error) throw new Error((s.error.errors&&s.error.errors[0]&&s.error.errors[0].reason)||s.error.message||'검색 오류');
+  const ids=(s.items||[]).map(i=>i.id&&i.id.videoId).filter(Boolean);
+  if(!ids.length) throw new Error('결과 없음');
+  const v=await fetch(`https://www.googleapis.com/youtube/v3/videos?part=statistics,snippet&id=${ids.join(',')}&key=${key}`).then(r=>r.json());
+  if(v.error) throw new Error(v.error.message||'조회 오류');
+  const now=Date.now();
+  let vids=(v.items||[]).map(it=>({id:it.id,title:it.snippet.title,ch:it.snippet.channelTitle,views:+((it.statistics&&it.statistics.viewCount)||0),ageDays:(now-new Date(it.snippet.publishedAt))/864e5})).filter(x=>x.views>0);
+  vids.sort((a,b)=>b.views-a.views);
+  const pool=vids.slice(0,12);
+  const old=pool.filter(x=>x.ageDays>365);
+  let pick=(old.length>=5?old:pool.slice()).slice(0,5);
+  for(const x of pool){ if(pick.length>=5)break; if(pick.indexOf(x)<0) pick.push(x); }
+  return pick.slice(0,5).map((x,i)=>mapItem(x,i+1));
+}
+async function search(){
   const P=PLATFORMS[PLAT]; const k=document.getElementById('kw').value.trim()||'쿠팡 위탁판매';
   document.getElementById('kwout').textContent=k;
   document.getElementById('platout').innerHTML=`<span style="color:${P.color}">${P.emoji} ${P.name}</span>`;
   document.getElementById('rnote').textContent=P.note;
   const db=document.getElementById('demobanner');
+  liveItems=null;
+  if(PLAT==='youtube' && ytKey()){
+    db.style.display='block'; db.textContent='🔎 실시간 YouTube 검색 중…';
+    document.getElementById('cards').innerHTML='<div style="text-align:center;color:var(--sub);padding:50px 0">🔎 실시간 검색 중…</div>';
+    go(2);
+    try{ liveItems=await liveYouTube(k); db.textContent='✅ 실시간 YouTube 결과 · 조회수·업로드일 실제 데이터 · 오래되고 조회수 높은 순(정체된 승자) 우선'; }
+    catch(e){ liveItems=null; db.textContent='⚠️ 실시간 검색 실패: '+e.message+' — 데모 데이터로 표시합니다. (API 키·쿼터·키 제한 확인)'; }
+    renderCards(); return;
+  }
   if(P.real && k==='쿠팡 위탁판매'){db.style.display='none';}
-  else{db.style.display='block'; db.textContent=P.real?'🧪 데모: 실서비스는 입력 키워드로 YouTube Data API 실시간 조회. 지금은 "쿠팡 위탁판매" 데이터셋 표시.':'🧪 데모: '+P.name+' 데이터는 모의 예시입니다. 실서비스에서는 '+(PLAT==='instagram'?'IG Graph/Apify':'TikTok API/Apify')+'로 실제 정체된 인기 콘텐츠를 조회합니다.';}
+  else{db.style.display='block'; db.textContent=P.real?'🧪 데모: YouTube 실시간 검색은 위 설정에 API 키를 넣으면 켜집니다. 지금은 "쿠팡 위탁판매" 데이터셋 표시.':'🧪 데모: '+P.name+' 데이터는 모의 예시입니다. 실서비스에서는 '+(PLAT==='instagram'?'IG Graph/Apify':'TikTok API/Apify')+'로 실제 정체된 인기 콘텐츠를 조회합니다.';}
   renderCards(); go(2);
 }
 function renderCards(){
   const P=PLATFORMS[PLAT]; const isV=P.ratio==='v916';
-  document.getElementById('cards').innerHTML=P.data.map(v=>{
+  const data=(PLAT==='youtube'&&liveItems)?liveItems:P.data;
+  document.getElementById('cards').innerHTML=data.map(v=>{
     const orig = P.real
       ? `<div class="thw h169"><img src="https://i.ytimg.com/vi/${v.id}/maxresdefault.jpg" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/${v.id}/hqdefault.jpg'"></div>`
       : `<div class="thw v916">${vcover(Object.assign({},v.cov,{bg1:'#20242c',bg2:'#12141a',accent:'#8a94a0',circle:'#333a44'}))}</div>`;
@@ -376,7 +434,7 @@ function renderCards(){
   }).join('');
 }
 function genScript(n){
-  const P=PLATFORMS[PLAT]; const v=P.data.find(x=>x.n===n); const s=v.s;
+  const P=PLATFORMS[PLAT]; const src=(PLAT==='youtube'&&liveItems)?liveItems:P.data; const v=src.find(x=>x.n===n); const s=v.s;
   let segs;
   if(P.scriptType==='long'){
     segs=[
@@ -410,6 +468,7 @@ function genScript(n){
    <div class="disc">🧪 데모 대본입니다. ${P.scriptType==='short'?'숏폼(릴스·틱톡)은 1~3분 기준으로 빠른 전개·강한 후킹에 맞춰 생성됩니다.':'롱폼은 약 5분, 기승전결로 생성됩니다.'} 수치·성과는 실제 실적 기준으로 조정하세요(표시광고법).</div>`;
   go(3);
 }
+(function(){ const el=document.getElementById('ytkey'); if(el){ el.value=ytKey(); updKeyStat(); } })();
 </script>
 </body>
 </html>
