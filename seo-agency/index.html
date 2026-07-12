@@ -40,7 +40,7 @@ a{text-decoration:none;color:inherit}
 /* HERO */
 .hero{padding:64px 0 60px;background:linear-gradient(180deg,#fafcfa 0%,#fff 100%);border-bottom:1px solid var(--line)}
 .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center}
-.hero-img img{width:100%;height:auto;border-radius:16px;display:block}
+.hero-img img,.hero-img video{width:100%;height:auto;border-radius:16px;display:block}
 .hero h1{font-size:2.7rem;margin-bottom:22px}
 .hero h1 em{font-style:normal;color:var(--green);position:relative}
 .hero .sub{font-size:1.2rem;color:var(--body);max-width:680px;margin-bottom:34px}
@@ -144,7 +144,7 @@ section{padding:78px 0}
 
 /* LEAD IMG */
 .lead-img{max-width:720px;margin:0 auto 36px;border-radius:16px;overflow:hidden;border:1px solid var(--line)}
-.lead-img img{width:100%;display:block}
+.lead-img img,.lead-img video{width:100%;display:block}
 
 /* BOARDS */
 .board-legend{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:34px}
@@ -210,7 +210,7 @@ footer a{color:#9fb0a6}
       <p class="trust">이미 웹사이트가 있어도 좋습니다. <b>지금 우리 사이트가 AI 답변에 나오는지</b>부터 무료로 확인해 드립니다.</p>
     </div>
     <div class="hero-img">
-      <img src="hero.gif" alt="한국인 마케팅 전문가 팀이 웹사이트 분석 대시보드를 함께 보며 협업하는 모습">
+      <video src="hero.mp4" autoplay muted loop playsinline poster="hero_frame.png" aria-label="한국인 마케팅 전문가 팀이 웹사이트 분석 대시보드를 함께 보며 협업하는 모습"></video>
     </div>
   </div>
 </header>
@@ -247,7 +247,7 @@ footer a{color:#9fb0a6}
       <h2>자체 운영보다 맡기는 게 나은 이유</h2>
       <p>같은 결과를 원한다면, 무엇이 더 전문적이고 효율적인지 숫자로 비교해 보세요.</p>
     </div>
-    <figure class="lead-img"><img src="experts.gif" alt="한국인 컨설턴트가 소상공인 사장님에게 SEO·AI 검색 대시보드를 설명하는 모습"></figure>
+    <figure class="lead-img"><video src="experts.mp4" autoplay muted loop playsinline poster="experts_frame.png" aria-label="한국인 컨설턴트가 소상공인 사장님에게 SEO·AI 검색 대시보드를 설명하는 모습"></video></figure>
     <div class="cmp-tbl">
       <div class="cmp-row head">
         <div>비교 항목</div>
@@ -492,18 +492,18 @@ footer a{color:#9fb0a6}
       <h3>무료 진단 신청</h3>
       <p class="fp">1영업일 내 진단 결과와 함께 연락드립니다.</p>
       <form onsubmit="handleSubmit(event)">
-        <div class="field"><label>성함 / 담당자</label><input type="text" required placeholder="홍길동"></div>
-        <div class="field"><label>연락처</label><input type="tel" required placeholder="010-0000-0000"></div>
-        <div class="field"><label>웹사이트 주소 <span style="color:var(--muted);font-weight:400">(없으면 비워두세요)</span></label><input type="text" placeholder="https://"></div>
+        <div class="field"><label>성함 / 담당자</label><input id="f-name" type="text" required placeholder="홍길동"></div>
+        <div class="field"><label>연락처</label><input id="f-phone" type="tel" required placeholder="010-0000-0000"></div>
+        <div class="field"><label>웹사이트 주소 <span style="color:var(--muted);font-weight:400">(없으면 비워두세요)</span></label><input id="f-site" type="text" placeholder="https://"></div>
         <div class="field"><label>관심 있는 서비스</label>
-          <select>
+          <select id="f-service">
             <option>AI 발견성 무료 진단</option>
             <option>신규 웹사이트 구축</option>
             <option>기존 사이트 SEO·GEO·AEO 개선</option>
             <option>운영·유지 위탁</option>
           </select>
         </div>
-        <div class="field"><label>남기실 말씀 <span style="color:var(--muted);font-weight:400">(선택)</span></label><textarea rows="3" placeholder="업종, 목표 등을 알려주시면 더 정확히 진단해 드립니다."></textarea></div>
+        <div class="field"><label>남기실 말씀 <span style="color:var(--muted);font-weight:400">(선택)</span></label><textarea id="f-message" rows="3" placeholder="업종, 목표 등을 알려주시면 더 정확히 진단해 드립니다."></textarea></div>
         <button type="submit" class="btn">무료 진단 신청하기</button>
         <p class="form-note">신청 정보는 상담 목적으로만 사용되며 제3자에게 제공되지 않습니다.</p>
       </form>
@@ -555,12 +555,26 @@ function toggleFaq(btn){
   document.querySelectorAll('.faq-item').forEach(function(i){i.classList.remove('open');i.querySelector('.faq-a').style.maxHeight=null;});
   if(!open){item.classList.add('open');a.style.maxHeight=a.scrollHeight+'px';}
 }
+var CONTACT_EMAIL='ceo@globalseller.kr';
+function val(id){var el=document.getElementById(id);return el?el.value.trim():'';}
 function handleSubmit(e){
   e.preventDefault();
+  var name=val('f-name'),phone=val('f-phone'),site=val('f-site'),service=val('f-service'),msg=val('f-message');
+  if(!name||!phone){return;}
+  var subject='[무료 진단 신청] '+name+' ('+service+')';
+  var body=
+    '무료 진단 신청이 접수되었습니다.\n\n'+
+    '■ 성함/담당자: '+name+'\n'+
+    '■ 연락처: '+phone+'\n'+
+    '■ 웹사이트: '+(site||'(없음)')+'\n'+
+    '■ 관심 서비스: '+service+'\n'+
+    '■ 남기실 말씀: '+(msg||'(없음)')+'\n';
+  var mailto='mailto:'+CONTACT_EMAIL+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
+  window.location.href=mailto;
   var btn=e.target.querySelector('button[type=submit]');
-  btn.textContent='신청이 접수되었습니다 ✓';
+  btn.textContent='메일 앱에서 전송을 완료해 주세요 ✓';
   btn.style.background='#1f4a34';
-  setTimeout(function(){e.target.reset();btn.textContent='무료 진단 신청하기';btn.style.background='';},2600);
+  setTimeout(function(){btn.textContent='무료 진단 신청하기';btn.style.background='';},4000);
 }
 </script>
 </body>
