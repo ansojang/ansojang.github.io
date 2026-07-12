@@ -374,7 +374,7 @@ function saveLLM(){ const v=(document.getElementById('llmkey').value||'').trim()
 async function genLLM(v,P,kw){
   const key=geminiKey(); if(!key) throw new Error('Gemini 키 없음');
   const len = P.scriptType==='long' ? '롱폼 약 5분, 8개 구간(도입 포함)' : '숏폼 1~3분, 6개 구간';
-  const prompt=`너는 한국 ${P.name} 대본 작가야. 아래 정보로 실제 촬영용 대본을 써.\n키워드: ${kw}\n참고(과거 떡상·현재 정체) 영상 제목: ${v.title}\n분량: ${len}. 구조: 강한 후킹 → 전개(핵심 3가지) → 반전 → CTA. 화자는 '안소장'. 말투는 자연스러운 구어체.\n반드시 아래 JSON만 출력(설명·코드펜스 금지):\n{"titles":["제목1","제목2","제목3"],"segments":[{"time":"0:00–0:15","label":"후킹","narration":"실제 대사 그대로","screen":"화면/B-roll 지시","caption":"자막 한 줄"}]}\n수익 보장·과장(무조건·100%) 표현 금지(표시광고법). 숫자는 예시로만.`;
+  const prompt=`너는 한국 ${P.name} 대본 작가야. 아래 정보로 실제 촬영용 대본을 써.\n키워드: ${kw}\n참고(과거 떡상·현재 정체) 영상 제목: ${v.title}\n분량: ${len}. 구조: 강한 후킹 → 전개(핵심 3가지) → 반전 → CTA. 화자는 '안소장'. 말투는 자연스러운 구어체.\n반드시 아래 JSON만 출력(설명·코드펜스 금지):\n{"titles":["제목1","제목2","제목3"],"cover":{"l1":"썸네일 큰 1줄(6~10자)","l2":"썸네일 큰 2줄(6~12자)","hl":true,"accent":"#ffd23f","badge":"100만"},"segments":[{"time":"0:00–0:15","label":"후킹","narration":"실제 대사 그대로","screen":"화면/B-roll 지시","caption":"자막 한 줄"}]}\ncover는 참고 영상 썸네일의 구조(짧고 강한 2줄 + 강조색 + 조회수 뱃지)를 본떠 만든 '추천 썸네일 문구'다. l1은 핵심 키워드, hl=true면 l1을 accent색으로 강조.\n수익 보장·과장(무조건·100%) 표현 금지(표시광고법). 숫자는 예시로만.`;
   const url=`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${encodeURIComponent(key)}`;
   const res=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({contents:[{parts:[{text:prompt}]}],generationConfig:{temperature:0.85,responseMimeType:'application/json'}})});
   const j=await res.json();
@@ -391,6 +391,15 @@ function ageLabel(days){ const y=days/365; if(y>=1) return y.toFixed(1)+'년 전
 function plateauLabel(days){ return days>1095?'완전정체':days>365?'정체 구간':'최근·성장중'; }
 function genRec(kw){ const t=esc(kw).slice(0,12);
   return svg169(`<rect width="640" height="360" fill="#0f1830"/><circle cx="470" cy="168" r="96" fill="#22314f"/><text x="470" y="200" font-size="80" text-anchor="middle">🧑‍💼</text><circle cx="86" cy="80" r="38" fill="#e2231a"/><text x="86" y="88" font-size="18" font-weight="800" fill="#fff" text-anchor="middle">추천</text><rect x="0" y="230" width="640" height="130" fill="#050810" opacity="0.4"/><text style="paint-order:stroke;stroke:#000;stroke-width:8px;stroke-linejoin:round" x="36" y="292" font-size="44" font-weight="900" fill="#ffd23f">${t}</text><text style="paint-order:stroke;stroke:#000;stroke-width:8px;stroke-linejoin:round" x="36" y="340" font-size="40" font-weight="900" fill="#fff">이렇게 하면 됩니다</text>`); }
+function coverSVG(c,ratio){
+  const acc=c.accent||'#ffd23f'; const l1=esc(c.l1||''); const l2=esc(c.l2||'');
+  if(ratio==='v916'){
+    const badge=c.badge?`<circle cx="66" cy="70" r="38" fill="#e2231a"/><text x="66" y="78" font-size="17" font-weight="800" fill="#fff" text-anchor="middle">${esc(c.badge)}</text>`:'';
+    return svg916(`<rect width="360" height="640" fill="#12101c"/><circle cx="180" cy="235" r="118" fill="#2a2438"/><text x="180" y="278" font-size="120" text-anchor="middle">🧑‍💼</text>${badge}<rect x="0" y="430" width="360" height="210" fill="#050810" opacity="0.42"/><text style="paint-order:stroke;stroke:#000;stroke-width:9px;stroke-linejoin:round" x="180" y="500" font-size="50" font-weight="900" fill="${c.hl?acc:'#fff'}" text-anchor="middle">${l1}</text><text style="paint-order:stroke;stroke:#000;stroke-width:9px;stroke-linejoin:round" x="180" y="558" font-size="46" font-weight="900" fill="#fff" text-anchor="middle">${l2}</text>`);
+  }
+  const badge=c.badge?`<circle cx="86" cy="80" r="40" fill="#e2231a"/><text x="86" y="88" font-size="19" font-weight="800" fill="#fff" text-anchor="middle">${esc(c.badge)}</text>`:'';
+  return svg169(`<rect width="640" height="360" fill="#0f1830"/><circle cx="470" cy="168" r="96" fill="#22314f"/><text x="470" y="200" font-size="80" text-anchor="middle">🧑‍💼</text>${badge}<rect x="0" y="228" width="640" height="132" fill="#050810" opacity="0.42"/><text style="paint-order:stroke;stroke:#000;stroke-width:8px;stroke-linejoin:round" x="36" y="292" font-size="46" font-weight="900" fill="${c.hl?acc:'#fff'}">${l1}</text><text style="paint-order:stroke;stroke:#000;stroke-width:8px;stroke-linejoin:round" x="36" y="340" font-size="42" font-weight="900" fill="#fff">${l2}</text>`);
+}
 function hookFor(kw){ return `[역발상] "${esc(kw)}, 다들 이건 모릅니다"`; }
 function titlesFor(kw){ const k=esc(kw); return [ `이 순서대로만 하면 왕초보도 ${k} 됩니다 [1편]`, `${k} 찐현실 // 대부분 놓치는 진짜 이유`, `${k}로 월 ○○만원? 방법 전부 공개합니다` ]; }
 function scriptFor(kw){ return {topic:kw,type:'키워드 기반 자동 생성',
@@ -483,9 +492,9 @@ function renderCards(){
     const orig = P.real
       ? `<div class="thw h169"><img src="https://i.ytimg.com/vi/${v.id}/maxresdefault.jpg" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/${v.id}/hqdefault.jpg'"></div>`
       : (v.origImg
-          ? `<div class="thw v916"><img src="${v.origImg}" referrerpolicy="no-referrer" onerror="this.style.display='none';this.parentNode.style.background='#20242c'"></div>`
+          ? `<div class="thw v916" style="position:relative"><div style="position:absolute;inset:0">${vcover(Object.assign({},v.cov,{bg1:'#20242c',bg2:'#12141a',accent:'#8a94a0'}))}</div><img src="${v.origImg}" referrerpolicy="no-referrer" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" onerror="this.style.display='none'"></div>`
           : `<div class="thw v916">${vcover(Object.assign({},v.cov,{bg1:'#20242c',bg2:'#12141a',accent:'#8a94a0',circle:'#333a44'}))}</div>`);
-    const rec = P.real ? `<div class="thw h169">${v.rec}</div>` : `<div class="thw v916">${vcover(v.cov)}</div>`;
+    const rec = v.aiCoverSVG ? `<div class="thw ${isV?'v916':'h169'}">${v.aiCoverSVG}</div>` : (P.real ? `<div class="thw h169">${v.rec}</div>` : `<div class="thw v916">${vcover(v.cov)}</div>`);
     const metrics = P.real
       ? `<span class="m">조회수 <b>${v.views}</b></span><span class="m">${v.age}</span><span class="m">${v.plateau}</span>`
       : `<span class="m">${v.views}</span><span class="m">${v.age}</span><span class="m">${v.plateau}</span>`;
@@ -517,6 +526,7 @@ async function genScript(n){
     try{ const out=await genLLM(v,P,kw);
       if(out.titles&&out.titles[0]) title=out.titles[0];
       segs=out.segments.map(x=>[x.time||'',x.label||'',x.narration||'',x.screen||'',x.caption||'']);
+      if(out.cover&&(out.cover.l1||out.cover.l2)){ v.aiCoverSVG=coverSVG(out.cover,P.ratio); renderCards(); }
       typeLabel='AI 자동 생성 (Gemini)'; aiUsed=true;
     }catch(e){ segs=null; }
   }
@@ -546,6 +556,7 @@ async function genScript(n){
      <h1>${title}</h1>
      <div class="smeta"><span class="m">길이 <b>${P.lenLabel}</b></span><span class="m">주제 <b>${kw||s.topic}</b></span><span class="m">화자 <b>안소장</b></span><span class="m">레퍼런스 <b>${v.n}번</b></span></div>
    </div>
+   ${v.aiCoverSVG?`<div style="max-width:${P.ratio==='v916'?'190px':'360px'};margin-top:10px"><div class="thw ${P.ratio}" style="border-radius:10px;overflow:hidden;border:1px solid var(--line)">${v.aiCoverSVG}</div><div style="font-size:11px;color:var(--sub);margin:6px 0 2px">🤖 AI 추천 ${P.cover} · 원본 구조 기반</div></div>`:''}
    ${segs.map(g=>`<div class="seg"><div class="segh"><span class="tc">${g[0]}</span><h3>${g[1]}</h3></div>
      <div class="segb"><p class="narr">${g[2]}</p>
      <div class="aux"><div class="box cam"><div class="bt">🎥 화면</div><p>${g[3]}</p></div><div class="box cap"><div class="bt">🔠 자막</div><p class="cl">${g[4]}</p></div></div></div></div>`).join('')}
