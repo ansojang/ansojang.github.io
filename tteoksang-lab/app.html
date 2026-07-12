@@ -57,6 +57,12 @@
   .keybar #keystat{align-self:center;font-size:12px;font-weight:800;color:var(--green);white-space:nowrap}
   .keyhelp{max-width:520px;margin:8px auto 0;font-size:11.5px;color:var(--mut);line-height:1.5}
   .keyhelp a{color:var(--blue)}
+  .keyguide{max-width:520px;margin:8px auto 0;text-align:left}
+  .keyguide summary{cursor:pointer;font-size:12px;font-weight:800;color:var(--blue);list-style:none;padding:4px 0}
+  .keyguide summary::-webkit-details-marker{display:none}
+  .keyguide #keyguide{font-size:12px;color:var(--sub);line-height:1.8;margin-top:6px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+  .keyguide #keyguide a{color:var(--blue)}
+  .keyguide #keyguide code{background:var(--panel2);border:1px solid var(--line);border-radius:5px;padding:0 5px;font-size:11px}
   .seedchips{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px}
   .recoOut{margin-top:22px;text-align:left}
   .rgroup{margin-bottom:14px}
@@ -153,8 +159,9 @@
       <span class="badge" id="kwbadge"></span>
       <h2>어떤 영상을 만들고 싶으세요?</h2>
       <p class="kwsub">키워드가 막막하면 대략만 말해도 돼요. 추천 키워드를 먼저 보고 고르면 됩니다.</p>
-      <div class="keybar"><input id="ytkey" type="password" placeholder="YouTube Data API 키 붙여넣기 (실시간 검색)"><button onclick="saveKey()">저장</button><span id="keystat"></span></div>
-      <div class="keyhelp">🔑 실시간 검색을 켜려면 무료 <b>YouTube Data API v3</b> 키가 필요합니다 · <a href="https://console.cloud.google.com/apis/library/youtube.googleapis.com" target="_blank">Google Cloud Console</a>에서 사용 설정 → API 키 생성 → 붙여넣기. 키는 이 브라우저에만 저장됩니다. (미입력 시 데모 데이터로 동작)</div>
+      <div class="keybar"><input id="apikey" type="password" placeholder="API 키"><button onclick="saveKey()">저장</button><span id="keystat"></span></div>
+      <div class="keyhelp" id="keyhelp"></div>
+      <details class="keyguide"><summary>🔑 API 키 발급 방법 단계별 보기</summary><div id="keyguide"></div></details>
       <div class="searchbar"><input id="seed" type="text" placeholder='예: 동기부여 영상 추천해줘' value="동기부여 영상 추천해줘"><button onclick="recoKeywords()">키워드 추천</button></div>
       <div class="seedchips">
         <span class="chipx" onclick="setSeed('이커머스 영상 추천해줘')">이커머스 영상 추천해줘</span>
@@ -280,9 +287,9 @@ const TT=[
 ];
 
 const PLATFORMS={
- youtube:{name:'YouTube',emoji:'▶',color:'#ff3d3d',cover:'썸네일',hook:'후킹 공식',titleWord:'제목',ratio:'h169',real:true,scriptType:'long',lenLabel:'약 5분',data:YT,note:'조회수 높은 순 · 과거 떡상·현재 정체 롱폼'},
- instagram:{name:'Instagram',emoji:'◍',color:'#e1306c',cover:'커버',hook:'후킹 캡션',titleWord:'후킹 캡션',ratio:'v916',real:false,scriptType:'short',lenLabel:'1~3분',data:IG,note:'저장·좋아요 높은 순 · 정체된 릴스 (데모 모의 데이터)'},
- tiktok:{name:'TikTok',emoji:'♪',color:'#25f4ee',cover:'커버',hook:'후킹 자막',titleWord:'후킹 자막',ratio:'v916',real:false,scriptType:'short',lenLabel:'1~3분',data:TT,note:'조회·공유 높은 순 · 정체된 틱톡 (데모 모의 데이터)'}
+ youtube:{name:'YouTube',emoji:'▶',color:'#ff3d3d',cover:'썸네일',hook:'후킹 공식',titleWord:'제목',ratio:'h169',real:true,storeKey:'ttl_ytkey',scriptType:'long',lenLabel:'약 5분',data:YT,note:'조회수 높은 순 · 과거 떡상·현재 정체 롱폼'},
+ instagram:{name:'Instagram',emoji:'◍',color:'#e1306c',cover:'커버',hook:'후킹 캡션',titleWord:'후킹 캡션',ratio:'v916',real:false,storeKey:'ttl_apify',scriptType:'short',lenLabel:'1~3분',data:IG,note:'저장·좋아요 높은 순 · 정체된 릴스 (데모 모의 데이터)'},
+ tiktok:{name:'TikTok',emoji:'♪',color:'#25f4ee',cover:'커버',hook:'후킹 자막',titleWord:'후킹 자막',ratio:'v916',real:false,storeKey:'ttl_apify',scriptType:'short',lenLabel:'1~3분',data:TT,note:'조회·공유 높은 순 · 정체된 틱톡 (데모 모의 데이터)'}
 };
 let PLAT='youtube';
 
@@ -292,6 +299,7 @@ function pickPlat(p){
   const pill=document.getElementById('pill'); pill.textContent=P.emoji+' '+P.name; pill.className='pill on'; pill.style.color=P.color; pill.style.border='1px solid '+P.color+'55'; pill.style.background=P.color+'18';
   const b=document.getElementById('kwbadge'); b.textContent=P.emoji+' '+P.name+' · '+P.lenLabel; b.style.color=P.color; b.style.background=P.color+'18'; b.style.border='1px solid '+P.color+'55';
   document.getElementById('kw').value=''; document.getElementById('confirmbar').classList.remove('ready');
+  updKeyUI();
   recoKeywords();
   go(1);
 }
@@ -347,9 +355,16 @@ function chooseKw(k){
 }
 /* ===== 실시간 YouTube 연동 ===== */
 let liveItems=null;
-function ytKey(){ return (localStorage.getItem('ttl_ytkey')||'').trim(); }
-function updKeyStat(){ const el=document.getElementById('keystat'); if(el) el.textContent = ytKey()?'✅ 실시간 연동됨':''; }
-function saveKey(){ const v=(document.getElementById('ytkey').value||'').trim(); localStorage.setItem('ttl_ytkey',v); updKeyStat(); alert(v?'API 키가 저장되었습니다. 이제 YouTube에서 실시간 검색됩니다.':'키를 비웠습니다. 데모 데이터로 동작합니다.'); }
+const KEYMETA={
+ youtube:{ph:'YouTube Data API 키 붙여넣기',help:'🔑 무료 · 하루 약 100회 검색',guide:`<b>YouTube Data API 키 발급 (무료)</b><br>1. <a href="https://console.cloud.google.com/" target="_blank">Google Cloud Console</a> 접속 → 새 프로젝트 생성<br>2. 상단 검색창에 <b>'YouTube Data API v3'</b> → <b>사용 설정(Enable)</b><br>3. 좌측 <b>API 및 서비스 → 사용자 인증 정보</b> → <b>+ 사용자 인증 정보 만들기 → API 키</b><br>4. 생성된 키 <b>복사</b> → 아래 입력창에 붙여넣고 <b>저장</b><br>5. (권장) 키 제한 → HTTP 리퍼러 <code>ansojang.github.io/*</code>, API는 YouTube Data API v3로 제한`},
+ instagram:{ph:'Apify API 토큰 붙여넣기',help:'🔑 Apify 무료 크레딧 · 검색 1회 1~2분 소요',guide:`<b>Apify 토큰 발급 (무료 크레딧)</b><br>1. <a href="https://apify.com/" target="_blank">apify.com</a> 회원가입<br>2. 로그인 후 우측 상단 <b>Settings → Integrations → API tokens</b><br>3. <b>Personal API token</b> 복사 → 아래 입력창에 붙여넣고 <b>저장</b><br>4. 인스타 릴스는 <code>apify/instagram-hashtag-scraper</code> 액터로 자동 호출됩니다<br>※ 입력 키워드는 해시태그로 변환되어 검색됩니다 (틱톡과 토큰 공용)`},
+ tiktok:{ph:'Apify API 토큰 붙여넣기',help:'🔑 Apify 무료 크레딧 · 검색 1회 1~2분 소요',guide:`<b>Apify 토큰 발급 (무료 크레딧)</b><br>1. <a href="https://apify.com/" target="_blank">apify.com</a> 회원가입<br>2. 우측 상단 <b>Settings → Integrations → API tokens</b> → 토큰 복사<br>3. 아래 입력창에 붙여넣고 <b>저장</b><br>4. 틱톡은 <code>clockworks/tiktok-scraper</code> 액터로 자동 호출됩니다 (인스타와 토큰 공용)`}
+};
+function keyStore(){ return PLATFORMS[PLAT].storeKey; }
+function getKey(){ return (localStorage.getItem(keyStore())||'').trim(); }
+function updKeyStat(){ const el=document.getElementById('keystat'); if(el) el.textContent=getKey()?'✅ 연동됨':''; }
+function updKeyUI(){ const m=KEYMETA[PLAT]||KEYMETA.youtube; const inp=document.getElementById('apikey'); if(inp){ inp.placeholder=m.ph; inp.value=getKey(); } const h=document.getElementById('keyhelp'); if(h) h.innerHTML=m.help+' · 미입력 시 데모 데이터로 동작'; const g=document.getElementById('keyguide'); if(g) g.innerHTML=m.guide; updKeyStat(); }
+function saveKey(){ const v=(document.getElementById('apikey').value||'').trim(); localStorage.setItem(keyStore(),v); updKeyStat(); alert(v?(PLATFORMS[PLAT].name+' 키가 저장되었습니다. 이제 실시간으로 동작합니다.'):'키를 비웠습니다. 데모 데이터로 동작합니다.'); }
 function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 function fmtViews(n){ n=+n||0; if(n>=1e8) return (n/1e8).toFixed(1).replace(/\.0$/,'')+'억'; if(n>=1e4) return Math.round(n/1e4)+'만'; return n.toLocaleString(); }
 function ageLabel(days){ const y=days/365; if(y>=1) return y.toFixed(1)+'년 전'; return Math.max(1,Math.round(days/30))+'개월 전'; }
@@ -368,7 +383,7 @@ function scriptFor(kw){ return {topic:kw,type:'키워드 기반 자동 생성',
 function mapItem(x,n){ const kw=document.getElementById('kw').value.trim();
   return {n:n,id:x.id,title:x.title,ch:x.ch,views:fmtViews(x.views),age:ageLabel(x.ageDays),plateau:plateauLabel(x.ageDays),hook:hookFor(kw),titles:titlesFor(kw),rec:genRec(kw),s:scriptFor(kw)}; }
 async function liveYouTube(kw){
-  const key=ytKey(); if(!key) throw new Error('API 키 없음');
+  const key=getKey(); if(!key) throw new Error('API 키 없음');
   const s=await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&order=viewCount&maxResults=25&q=${encodeURIComponent(kw)}&key=${key}`).then(r=>r.json());
   if(s.error) throw new Error((s.error.errors&&s.error.errors[0]&&s.error.errors[0].reason)||s.error.message||'검색 오류');
   const ids=(s.items||[]).map(i=>i.id&&i.id.videoId).filter(Boolean);
@@ -384,6 +399,40 @@ async function liveYouTube(kw){
   for(const x of pool){ if(pick.length>=5)break; if(pick.indexOf(x)<0) pick.push(x); }
   return pick.slice(0,5).map((x,i)=>mapItem(x,i+1));
 }
+function pickPlateaued(vids,kw,accent){
+  vids.sort((a,b)=>b.views-a.views);
+  const pool=vids.slice(0,12);
+  const old=pool.filter(x=>x.ageDays>365);
+  let pick=(old.length>=5?old:pool.slice()).slice(0,5);
+  for(const x of pool){ if(pick.length>=5)break; if(pick.indexOf(x)<0) pick.push(x); }
+  return pick.slice(0,5).map((x,i)=>mapItemV(x,i+1,kw,accent));
+}
+function mapItemV(x,n,kw,accent){ const ks=esc(kw).slice(0,10);
+  return {n:n,id:x.id,title:esc(x.title),ch:x.ch,handle:x.ch,views:fmtViews(x.views),age:ageLabel(x.ageDays),plateau:plateauLabel(x.ageDays),origImg:x.cover,
+    cov:{uid:'lv'+n,big1:ks,sub:'저장각',accent:accent,emoji:'📱',bg1:'#1a1420',bg2:'#0d0a12'},
+    hook:hookFor(kw),titles:titlesFor(kw),s:scriptFor(kw)}; }
+async function liveApify(actor,input){
+  const token=getKey(); if(!token) throw new Error('Apify 토큰 없음');
+  const url=`https://api.apify.com/v2/acts/${actor}/run-sync-get-dataset-items?token=${encodeURIComponent(token)}&timeout=150`;
+  const res=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(input)});
+  if(!res.ok){ let m=res.status+''; try{const j=await res.json(); m=(j.error&&j.error.message)||m;}catch(e){} throw new Error('Apify '+m); }
+  return await res.json();
+}
+async function liveInstagram(kw){
+  const tag=kw.replace(/[#\s]/g,'');
+  const items=await liveApify('apify~instagram-hashtag-scraper',{hashtags:[tag],resultsLimit:30});
+  const now=Date.now();
+  const vids=(items||[]).map(it=>({id:it.shortCode||it.id,url:it.url,title:(it.caption||'').slice(0,60)||('#'+tag),ch:'@'+(it.ownerUsername||'user'),views:+(it.videoViewCount||it.videoPlayCount||it.likesCount||0),ageDays:it.timestamp?(now-new Date(it.timestamp))/864e5:9999,cover:it.displayUrl||(it.images&&it.images[0])})).filter(x=>x.views>0);
+  if(!vids.length) throw new Error('결과 없음(해시태그 확인)');
+  return pickPlateaued(vids,kw,'#e1306c');
+}
+async function liveTikTok(kw){
+  const items=await liveApify('clockworks~tiktok-scraper',{searchQueries:[kw],resultsPerPage:30,shouldDownloadCovers:false,shouldDownloadVideos:false});
+  const now=Date.now();
+  const vids=(items||[]).map(it=>({id:it.id,url:it.webVideoUrl,title:(it.text||'').slice(0,60)||kw,ch:'@'+((it.authorMeta&&it.authorMeta.name)||'user'),views:+(it.playCount||(it.videoMeta&&it.videoMeta.playCount)||it.diggCount||0),ageDays:it.createTimeISO?(now-new Date(it.createTimeISO))/864e5:(it.createTime?(now-it.createTime*1000)/864e5:9999),cover:(it.videoMeta&&it.videoMeta.coverUrl)||(it.covers&&it.covers[0])||it.coverUrl})).filter(x=>x.views>0);
+  if(!vids.length) throw new Error('결과 없음');
+  return pickPlateaued(vids,kw,'#25f4ee');
+}
 async function search(){
   const P=PLATFORMS[PLAT]; const k=document.getElementById('kw').value.trim()||'쿠팡 위탁판매';
   document.getElementById('kwout').textContent=k;
@@ -391,16 +440,20 @@ async function search(){
   document.getElementById('rnote').textContent=P.note;
   const db=document.getElementById('demobanner');
   liveItems=null;
-  if(PLAT==='youtube' && ytKey()){
-    db.style.display='block'; db.textContent='🔎 실시간 YouTube 검색 중…';
-    document.getElementById('cards').innerHTML='<div style="text-align:center;color:var(--sub);padding:50px 0">🔎 실시간 검색 중…</div>';
+  if(getKey()){
+    db.style.display='block'; db.textContent='🔎 '+P.name+' 실시간 검색 중…'+(PLAT!=='youtube'?' (Apify 스크래핑 최대 1~2분 소요)':'');
+    document.getElementById('cards').innerHTML='<div style="text-align:center;color:var(--sub);padding:50px 0">🔎 '+P.name+' 실시간 검색 중…</div>';
     go(2);
-    try{ liveItems=await liveYouTube(k); db.textContent='✅ 실시간 YouTube 결과 · 조회수·업로드일 실제 데이터 · 오래되고 조회수 높은 순(정체된 승자) 우선'; }
-    catch(e){ liveItems=null; db.textContent='⚠️ 실시간 검색 실패: '+e.message+' — 데모 데이터로 표시합니다. (API 키·쿼터·키 제한 확인)'; }
+    try{
+      if(PLAT==='youtube') liveItems=await liveYouTube(k);
+      else if(PLAT==='instagram') liveItems=await liveInstagram(k);
+      else if(PLAT==='tiktok') liveItems=await liveTikTok(k);
+      db.textContent='✅ '+P.name+' 실시간 결과 · 실제 지표 · 오래되고 인기 높은 순(정체된 승자) 우선';
+    }catch(e){ liveItems=null; db.textContent='⚠️ 실시간 검색 실패: '+e.message+' — 데모 데이터로 표시합니다. (키·쿼터·액터 설정 확인)'; }
     renderCards(); return;
   }
   if(P.real && k==='쿠팡 위탁판매'){db.style.display='none';}
-  else{db.style.display='block'; db.textContent=P.real?'🧪 데모: YouTube 실시간 검색은 위 설정에 API 키를 넣으면 켜집니다. 지금은 "쿠팡 위탁판매" 데이터셋 표시.':'🧪 데모: '+P.name+' 데이터는 모의 예시입니다. 실서비스에서는 '+(PLAT==='instagram'?'IG Graph/Apify':'TikTok API/Apify')+'로 실제 정체된 인기 콘텐츠를 조회합니다.';}
+  else{db.style.display='block'; db.textContent='🧪 데모 데이터입니다. 위 설정에 '+(PLAT==='youtube'?'YouTube API 키':'Apify 토큰')+'를 넣고 저장하면 실시간으로 동작합니다.';}
   renderCards(); go(2);
 }
 function renderCards(){
@@ -409,12 +462,14 @@ function renderCards(){
   document.getElementById('cards').innerHTML=data.map(v=>{
     const orig = P.real
       ? `<div class="thw h169"><img src="https://i.ytimg.com/vi/${v.id}/maxresdefault.jpg" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/${v.id}/hqdefault.jpg'"></div>`
-      : `<div class="thw v916">${vcover(Object.assign({},v.cov,{bg1:'#20242c',bg2:'#12141a',accent:'#8a94a0',circle:'#333a44'}))}</div>`;
+      : (v.origImg
+          ? `<div class="thw v916"><img src="${v.origImg}" referrerpolicy="no-referrer" onerror="this.style.display='none';this.parentNode.style.background='#20242c'"></div>`
+          : `<div class="thw v916">${vcover(Object.assign({},v.cov,{bg1:'#20242c',bg2:'#12141a',accent:'#8a94a0',circle:'#333a44'}))}</div>`);
     const rec = P.real ? `<div class="thw h169">${v.rec}</div>` : `<div class="thw v916">${vcover(v.cov)}</div>`;
     const metrics = P.real
       ? `<span class="m">조회수 <b>${v.views}</b></span><span class="m">${v.age}</span><span class="m">${v.plateau}</span>`
       : `<span class="m">${v.views}</span><span class="m">${v.age}</span><span class="m">${v.plateau}</span>`;
-    const origLbl = P.real ? `원본 <span class="bdg">${v.views} · ${v.age}</span>` : `원본(예시) <span class="bdg">${v.views}</span>`;
+    const origLbl = (P.real||v.origImg) ? `원본 <span class="bdg">${v.views} · ${v.age}</span>` : `원본(예시) <span class="bdg">${v.views}</span>`;
     return `<div class="card"><div class="rank">${v.n}</div>
      <div class="cgrid ${isV?'v':''}">
       <div>
@@ -468,7 +523,7 @@ function genScript(n){
    <div class="disc">🧪 데모 대본입니다. ${P.scriptType==='short'?'숏폼(릴스·틱톡)은 1~3분 기준으로 빠른 전개·강한 후킹에 맞춰 생성됩니다.':'롱폼은 약 5분, 기승전결로 생성됩니다.'} 수치·성과는 실제 실적 기준으로 조정하세요(표시광고법).</div>`;
   go(3);
 }
-(function(){ const el=document.getElementById('ytkey'); if(el){ el.value=ytKey(); updKeyStat(); } })();
+(function(){ updKeyUI(); })();
 </script>
 </body>
 </html>
