@@ -343,12 +343,63 @@ function detectSet(seed){
   if(motiv.some(t=>s.includes(t))) return KW_SETS.motiv;
   return KW_SETS.ecom;
 }
-function recoKeywords(){
-  const seed=document.getElementById('seed').value.trim();
+function renderRecoTemplate(seed,note){
   const set=detectSet(seed);
   document.getElementById('recoOut').innerHTML=
-    `<div style="font-size:12.5px;color:var(--sub);margin-bottom:12px">🔎 "<b style="color:#fff">${seed||'주제'}</b>" → <b style="color:var(--amber)">${set.theme}</b> 관련 추천 키워드입니다. 하나를 고르면 아래에서 확정하세요.</div>`
+    (note?`<div style="font-size:12px;color:#ff9d6b;margin-bottom:8px">⚠ ${esc(note)} — 기본 추천으로 대체합니다.</div>`:'')
+    + `<div style="font-size:12.5px;color:var(--sub);margin-bottom:12px">🔎 "<b style="color:#fff">${esc(seed)||'주제'}</b>" → <b style="color:var(--amber)">${set.theme}</b> 관련 추천 키워드입니다. 하나를 고르면 아래에서 확정하세요.</div>`
     + set.groups.map(g=>`<div class="rgroup"><div class="rglabel">${g.label}</div><div class="rchips">${g.items.map(it=>`<div class="rchip" onclick="chooseKw('${it.k}')"><div class="k">${it.k}</div><div class="mt">${it.mt}</div></div>`).join('')}</div></div>`).join('');
+}
+function extractKeywords(titles,seed){
+  const ta=document.createElement('textarea');
+  const decode=s=>{ta.innerHTML=s;return ta.value;};
+  const stop=new Set(['영상','추천','완벽','정리','방법','하는','이렇게','진짜','그냥','오늘','드디어','공개','리뷰','브이로그','vlog','feat','official','quot','amp','shorts','쇼츠','the','and','for','you','your','with','how','이','그','저','것','수','때','더','또','및','약','최고','최신','제가','정말','너무','완전','바로','전격','구독','좋아요','알림','풀버전','part','full','버는','파는','사는','있는','하는법','했더니','합니다','하기','해서','까지','부터','에서','으로','이건','이게','당신','우리','제발','근데','그리고','만원','원벌','육아맘']);
+  const seedToks=new Set((seed||'').toLowerCase().split(/\s+/).filter(Boolean));
+  const norm=t=>t.toLowerCase().replace(/[^가-힣a-z0-9]/g,'');
+  const freq={};
+  titles.forEach(raw=>{
+    const t=decode(raw);
+    const words=t.replace(/[\[\]\(\)\{\}\|·:;,.!?~"'“”‘’\/\\\-—_#@%…]/g,' ').split(/\s+/).map(w=>w.trim()).filter(Boolean);
+    const toks=words.map(norm).filter(w=>w.length>=2 && w.length<=12 && !/^\d+$/.test(w) && !stop.has(w) && !seedToks.has(w));
+    const uniq=new Set();
+    toks.forEach(w=>uniq.add(w));
+    for(let i=0;i<toks.length-1;i++){const bg=toks[i]+' '+toks[i+1]; if(bg.length<=16) uniq.add(bg);}
+    uniq.forEach(w=>{freq[w]=(freq[w]||0)+1;});
+  });
+  const arr=Object.entries(freq).filter(e=>e[1]>=2).sort((a,b)=>{
+    const ap=a[0].includes(' ')?1:0,bp=b[0].includes(' ')?1:0;
+    return (b[1]-a[1])||(bp-ap)||(b[0].length-a[0].length);
+  });
+  const picked=[];
+  for(const e of arr){
+    const w=e[0],c=e[1];
+    if(picked.length>=9)break;
+    if(picked.some(p=>p.k.replace(/\s/g,'').includes(w.replace(/\s/g,''))||w.replace(/\s/g,'').includes(p.k.replace(/\s/g,''))))continue;
+    picked.push({k:w,mt:c+'개 인기영상에 등장'});
+  }
+  return picked;
+}
+async function recoKeywords(){
+  const seed=document.getElementById('seed').value.trim();
+  const out=document.getElementById('recoOut');
+  const key=getKey();
+  if(!seed||!key){ renderRecoTemplate(seed); return; }
+  out.innerHTML=`<div style="font-size:12.5px;color:var(--sub);margin-bottom:12px">🔎 YouTube에서 "<b style="color:#fff">${esc(seed)}</b>" 인기 영상을 분석해 연관 키워드를 뽑는 중…</div>`;
+  try{
+    const r=await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&order=viewCount&maxResults=25&regionCode=KR&relevanceLanguage=ko&q=${encodeURIComponent(seed)}&key=${key}`).then(r=>r.json());
+    if(r.error) throw new Error((r.error.errors&&r.error.errors[0]&&r.error.errors[0].reason)||r.error.message||'검색 오류');
+    const titles=(r.items||[]).map(i=>i.snippet&&i.snippet.title).filter(Boolean);
+    if(!titles.length) throw new Error('결과 없음');
+    const kws=extractKeywords(titles,seed);
+    if(!kws.length) throw new Error('연관어 추출 실패');
+    out.innerHTML=
+      `<div style="font-size:12.5px;color:var(--sub);margin-bottom:12px">🔎 YouTube 인기 영상 ${titles.length}개 제목에서 뽑은 <b style="color:var(--amber)">"${esc(seed)}" 실시간 연관 키워드</b>입니다. 하나를 고르면 아래에서 확정하세요.</div>`
+      + `<div class="rgroup"><div class="rglabel">유튜브 검색 기반 연관어 (인기 영상 제목 분석)</div><div class="rchips">`
+      + kws.map(it=>`<div class="rchip" onclick="chooseKw('${it.k.replace(/'/g,"\\'")}')"><div class="k">${esc(it.k)}</div><div class="mt">${esc(it.mt)}</div></div>`).join('')
+      + `</div></div>`;
+  }catch(e){
+    renderRecoTemplate(seed, 'YouTube 연관어 실패: '+e.message);
+  }
 }
 function chooseKw(k){
   document.getElementById('kw').value=k;
