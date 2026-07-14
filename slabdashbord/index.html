@@ -1,0 +1,490 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#3366ff">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>StableLab 계산기</title>
+<link rel="stylesheet" as="style" crossorigin
+  href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+<style>
+:root{color-scheme:light;
+  --bg:#f2f4f7;--card:#fff;--ink:#333d4b;--sub:#6b7684;--line:#e5e8eb;--fill:#f2f4f7;
+  --blue:#3366ff;--blue-d:#2b57d6;--blue2:#e8efff;--green:#00c471;--green2:#e7f9f0;--greenL:#f4fdf9;
+  --red:#f04452;--amber:#ff9800;--amber2:#fff4e0;
+  --safe-t:env(safe-area-inset-top);--safe-b:env(safe-area-inset-bottom);}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);
+  font-family:"Pretendard Variable","Pretendard","Apple SD Gothic Neo","Malgun Gothic",-apple-system,BlinkMacSystemFont,sans-serif;
+  font-size:15px;line-height:1.5;-webkit-text-size-adjust:100%}
+.app{max-width:540px;margin:0 auto;padding:10px 12px calc(24px + var(--safe-b))}
+
+/* ── 상단 헤더 (sticky) ── */
+header{position:sticky;top:0;z-index:50;
+  background:var(--blue);color:#fff;border-radius:18px;
+  padding:calc(14px + var(--safe-t)) 18px 15px;margin:0 0 12px;
+  box-shadow:0 6px 18px rgba(51,102,255,.24)}
+header .row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+header h1{margin:0;font-size:18px;font-weight:800;letter-spacing:-.4px}
+header .tag{font-size:11.5px;opacity:.9;margin-top:5px;line-height:1.45;font-weight:500}
+.badge{flex:none;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.32);color:#fff;
+  font-size:10.5px;font-weight:600;padding:5px 10px;border-radius:20px;white-space:nowrap}
+
+/* ── 카드 ── */
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;margin-bottom:12px;
+  box-shadow:0 2px 8px rgba(51,63,75,.05)}
+.card.accent{border:1.5px solid var(--blue);box-shadow:0 4px 14px rgba(51,102,255,.1)}
+.card h2{margin:0 0 14px;font-size:15px;font-weight:800;color:var(--ink);
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;line-height:1.4;letter-spacing:-.3px}
+.card h2 .dot{width:7px;height:7px;border-radius:50%;background:var(--blue);flex:none}
+.card h2 small{font-size:11.5px;color:var(--sub);font-weight:500;flex-basis:100%}
+
+/* ── 폼 ── */
+.field{margin-bottom:14px}
+.field label{display:block;font-size:12.5px;font-weight:600;color:var(--sub);margin-bottom:7px}
+.field .hint{font-size:11px;color:#8b95a1;font-weight:500}
+input,select{width:100%;padding:13px 13px;border:1.5px solid transparent;border-radius:12px;
+  font-size:16px;background:var(--fill);color:var(--ink);font-family:inherit;min-height:48px;font-weight:600;transition:background .12s,border-color .12s}
+input[type=range]{min-height:0;padding:0;background:transparent}
+input:focus,select:focus{outline:none;background:#fff;border-color:var(--blue);box-shadow:0 0 0 3px var(--blue2)}
+.seg{display:flex;gap:7px}
+.seg button{flex:1;padding:13px 4px;border:1.5px solid transparent;background:var(--fill);border-radius:12px;
+  cursor:pointer;font-size:13.5px;font-weight:700;color:var(--sub);font-family:inherit;min-height:48px;transition:.12s}
+.seg button.on{background:var(--blue);border-color:var(--blue);color:#fff}
+.range-row{display:flex;align-items:center;gap:12px}
+.range-row input[type=range]{flex:1;height:26px}
+.range-val{min-width:46px;text-align:right;font-weight:800;color:var(--blue);font-size:15px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+
+/* 시작가 버튼 줄 */
+.btnrow{display:flex;gap:8px;margin-top:9px}
+.fetchbtn,.chartbtn{flex:1;border-radius:12px;font-weight:800;font-size:13.5px;
+  cursor:pointer;font-family:inherit;min-height:48px;padding:0 8px;transition:.12s}
+.fetchbtn{background:var(--blue);color:#fff;border:none}
+.chartbtn{background:var(--blue2);color:var(--blue);border:1.5px solid #cfdcff}
+.fetchbtn:active{background:var(--blue-d)}
+.chartbtn:active{background:#d9e4ff}
+.qstatus{font-size:11.5px;margin-top:8px;line-height:1.5}
+
+/* 그리드 계산기 결과 */
+.coverout{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.cmet{border:none;border-radius:14px;padding:12px 13px;background:var(--blue2)}
+.cmet .k{font-size:10.5px;color:#5b7cff;font-weight:600}
+.cmet .v{font-size:16px;font-weight:800;color:var(--blue-d);margin-top:4px}
+.applybtn{margin-top:14px;width:100%;padding:15px;border:none;border-radius:14px;background:var(--blue);
+  color:#fff;font-weight:800;font-size:13.5px;cursor:pointer;font-family:inherit;min-height:52px;line-height:1.35;transition:.12s}
+.applybtn:active{background:var(--blue-d)}
+
+/* ── 표 ── */
+.tablewrap{overflow:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--line);border-radius:14px;margin-top:6px}
+table{width:100%;border-collapse:collapse;font-size:12.5px;min-width:430px}
+th,td{padding:10px 8px;border-bottom:1px solid #f1f3f5;text-align:right;white-space:nowrap}
+th{background:#f7f8fa;color:var(--sub);font-weight:600;position:sticky;top:0;z-index:1}
+td:first-child,th:first-child{text-align:center;font-weight:700}
+tr.total td{background:var(--green2);font-weight:800;border-top:2px solid #a9ecce}
+tr.start td{background:var(--blue2);font-weight:800;border-top:2px solid var(--blue);border-bottom:2px solid var(--blue)}
+.startchip{display:inline-block;margin-top:2px;font-size:10px;font-weight:800;color:#fff;background:var(--blue);padding:1px 7px;border-radius:8px}
+tr.startline td{background:var(--blue);color:#fff;font-weight:800;text-align:center;font-size:11.5px;padding:8px}
+.pos{color:var(--green)} .negv{color:var(--red)}
+.scrolltip{font-size:10.5px;color:#9ca3af;text-align:center;margin:6px 0 0}
+
+/* 반복 결과 */
+.reps{margin-top:15px;background:var(--greenL);border:1px solid #c7f2e0;border-radius:16px;padding:15px}
+.reps .top{display:flex;align-items:center;gap:12px;margin-bottom:13px}
+.reps .tro{font-size:28px}.reps .lab{font-weight:800;color:var(--ink);font-size:14px}
+.reps .sub{font-size:11.5px;color:var(--sub)}
+.reps .m{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.reps .m>div{background:#fff;border:1px solid #d7f0e4;border-radius:13px;padding:10px 8px;text-align:center}
+.reps .m .k{font-size:10.5px;color:var(--sub);font-weight:600;display:block}
+.reps .m .v{font-size:14px;font-weight:800;color:var(--green);margin-top:4px;display:block;word-break:keep-all}
+
+.warn{background:var(--amber2);border:1px solid #fde68a;color:#92400e;border-radius:11px;padding:10px 12px;
+  font-size:12.5px;font-weight:700;margin:0 0 10px;display:none;line-height:1.5}
+.note{font-size:11.5px;color:var(--sub);margin-top:11px;line-height:1.65}
+.disc{font-size:11px;color:#9ca3af;margin:4px 4px 0;text-align:center;line-height:1.6}
+
+/* 시장조사 */
+.mkt{background:var(--fill);border:1px dashed #cdd4dc;border-radius:14px;padding:15px}
+.rbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.rbadge{font-size:12px;font-weight:700;padding:7px 13px;border-radius:20px}
+.rb-up{background:var(--green2);color:#00915a}.rb-mid{background:var(--amber2);color:#b26a00}.rb-dn{background:#fdeaec;color:#c2333e}
+.rprice{font-size:12.5px;color:var(--ink);font-weight:600}
+.rfacts{display:grid;grid-template-columns:1fr;gap:10px;margin:10px 0}
+.rcol{border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.rcol .t{font-size:12.5px;font-weight:800;margin-bottom:7px}
+.rcol.good .t{color:var(--green)}.rcol.bad .t{color:var(--red)}
+.rcol ul{margin:0;padding-left:17px;font-size:12.5px;color:#4e5968}.rcol li{margin:4px 0;line-height:1.5}
+.rsr{font-size:12.5px;color:var(--ink);background:var(--fill);border:none;border-radius:12px;padding:11px 13px;margin-bottom:10px;line-height:1.5}
+.rscen{display:grid;grid-template-columns:1fr;gap:10px}
+.rsc{border:1px solid var(--line);border-radius:14px;padding:12px 14px;font-size:12.5px}
+.rsc.up{border-left:4px solid var(--green)}.rsc.mid{border-left:4px solid var(--amber)}.rsc.dn{border-left:4px solid var(--red)}
+.rsc .h{font-weight:800;margin-bottom:4px}.rsc .lv{color:#111827;font-weight:700;margin-top:5px}
+.rsrc{font-size:10.5px;color:#9ca3af;margin-top:11px;line-height:1.55}
+
+/* ── 실시간 차트 모달 (모바일 풀스크린) ── */
+.tvmodal{position:fixed;inset:0;z-index:200;display:none;background:#fff}
+.tvmodal.on{display:flex;flex-direction:column}
+.tvbox{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.tvhead{display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:calc(12px + var(--safe-t)) 14px 12px;border-bottom:1px solid var(--line);background:#fff}
+.tvhead .tt{font-size:14.5px;font-weight:800;color:#111827;display:flex;flex-direction:column;gap:2px;min-width:0}
+.tvhead .tt small{font-size:11px;color:var(--sub);font-weight:600}
+.tvclose{flex:none;border:1px solid var(--line);background:#f9fafb;color:#374151;font-size:14px;font-weight:800;
+  cursor:pointer;border-radius:11px;padding:10px 16px;font-family:inherit;min-height:44px}
+.tvclose:active{background:#f3f4f6}
+.tvbody{flex:1;position:relative;background:#f8fafc}
+.tvbody iframe{border:0;width:100%;height:100%;display:block}
+.tvnote{font-size:10.5px;color:#9ca3af;padding:9px 14px calc(9px + var(--safe-b));border-top:1px solid var(--line);line-height:1.5;background:#fff}
+
+/* 태블릿·데스크톱에서도 폰 앱처럼 가운데 정렬 유지 + 살짝 여유 */
+@media(min-width:600px){
+  .app{padding-top:16px}
+  .tvmodal.on{align-items:center;justify-content:center;background:rgba(15,23,42,.6);backdrop-filter:blur(2px);padding:20px}
+  .tvbox{width:min(1040px,96vw);height:min(720px,92vh);background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.35)}
+  .tvhead{padding:13px 16px}.tvnote{padding:9px 16px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div class="row">
+      <div><h1>📊 StableLab 계산기</h1>
+        <div class="tag" id="subtitle">앱과 동일한 계산으로 회차별 손익 미리보기</div></div>
+      <span class="badge">참고용</span>
+    </div>
+  </header>
+
+  <!-- INPUT -->
+  <div class="card">
+    <h2><span class="dot"></span>세팅 입력 (앱과 동일)</h2>
+    <div class="field"><label>종목 유형</label>
+      <div class="seg" id="segType">
+        <button data-v="국내주식" class="on">국내주식</button>
+        <button data-v="해외주식">해외주식</button>
+        <button data-v="현물">현물</button>
+      </div></div>
+    <div class="two">
+      <div class="field"><label>종목명</label><input id="name" value="삼성전자"></div>
+      <div class="field"><label>통화/단위</label><input id="cur" value="원"></div>
+    </div>
+    <div class="field"><label>시작가 <span class="hint">(시세적용 기준가)</span></label>
+      <input id="entry" type="number" inputmode="decimal" value="268000">
+      <div class="btnrow">
+        <button id="fetchBtn" type="button" class="fetchbtn">🔄 시세 불러오기</button>
+        <button id="chartBtn" type="button" class="chartbtn">📈 실시간 차트</button>
+      </div>
+      <div class="qstatus" id="quoteStatus"></div></div>
+    <div class="field" id="symField" style="display:none"><label>코인 심볼 <span class="hint">(현물만)</span></label><input id="sym" value="USDT"></div>
+    <div class="two">
+      <div class="field"><label>회차 (분할 수)</label><input id="rounds" type="number" inputmode="numeric" value="10"></div>
+      <div class="field"><label id="lblBuy">회당 매수수량 (주)</label><input id="buyAmt" type="number" inputmode="decimal" value="1"></div>
+    </div>
+    <div class="two">
+      <div class="field"><label>회당 매수간격 (원)</label><input id="gap" type="number" inputmode="decimal" value="2680"></div>
+      <div class="field"><label>회당 매도간격 (익절폭, 원)</label><input id="sell" type="number" inputmode="decimal" value="2680"></div>
+    </div>
+    <div class="field"><label>분할 방식 <span class="hint">— 회차 가격 배치</span></label>
+      <div class="seg" id="segMode">
+        <button data-v="equal" class="on">균등분할</button>
+        <button data-v="bottom">하단집중</button>
+        <button data-v="top">상단집중</button>
+      </div></div>
+    <div class="field" id="concField" style="opacity:.4"><label>집중도 (%) <span class="hint" id="concHint">— 균등은 위/아래 50% 고정</span></label>
+      <div class="range-row"><input id="conc" type="range" min="0" max="100" value="100" disabled><span class="range-val" id="concVal">100%</span></div></div>
+    <label style="font-size:12.5px;font-weight:700;color:#374151;margin-bottom:6px;display:block">수수료 / 세금 (%)</label>
+    <div class="three">
+      <div class="field" style="margin-bottom:6px"><label style="font-size:11px">매수수수료</label><input id="feeB" type="number" inputmode="decimal" step="0.001" value="0.015"></div>
+      <div class="field" style="margin-bottom:6px"><label style="font-size:11px">매도수수료</label><input id="feeS" type="number" inputmode="decimal" step="0.001" value="0.015"></div>
+      <div class="field" style="margin-bottom:6px"><label style="font-size:11px">매도세금</label><input id="tax" type="number" inputmode="decimal" step="0.001" value="0.2"></div>
+    </div>
+    <div class="field" style="margin-bottom:0"><label>반복 횟수</label><input id="reps" type="number" inputmode="numeric" value="10"></div>
+  </div>
+
+  <!-- 그리드 간격 계산기 -->
+  <div class="card accent">
+    <h2><span class="dot" style="background:#2563eb"></span>🎯 그리드 간격 계산기
+      <small>최고가·최저가·회차·수량 → 매수/매도 간격 자동</small></h2>
+    <div class="two">
+      <div class="field" style="margin-bottom:8px"><label>시드 (총 운영자금, <span id="seedUnit">원</span>)</label><input id="cSeed" type="number" inputmode="decimal" value="10000000"></div>
+      <div class="field" style="margin-bottom:8px"><label>회당 수량 (주/개)</label><input id="cQty" type="number" inputmode="decimal" value="1"></div>
+    </div>
+    <div class="two">
+      <div class="field" style="margin-bottom:8px"><label>최고가</label><input id="cHigh" type="number" inputmode="decimal" value="300000"></div>
+      <div class="field" style="margin-bottom:8px"><label>최저가</label><input id="cLow" type="number" inputmode="decimal" value="240000"></div>
+    </div>
+    <div class="two">
+      <div class="field" style="margin-bottom:8px"><label>회차 (분할 매수)</label><input id="cRounds" type="number" inputmode="numeric" value="10"></div>
+      <div class="field" style="margin-bottom:8px"><label>회당 매도간격 (매수가 +얼마에 익절)</label><input id="cSellGap" type="number" inputmode="decimal" value="6667"></div>
+    </div>
+    <div id="coverOut" class="coverout"></div>
+    <button id="applyBtn" type="button" class="applybtn">▼ 이 값을 미리보기에 적용<br>(시작가=최저가·상단집중)</button>
+    <div class="note" id="coverNote"></div>
+  </div>
+
+  <!-- 회차별 상세 -->
+  <div class="card">
+    <h2><span class="dot"></span>회차별 상세 내역 <span id="rndLabel" style="font-size:12px;color:var(--sub);font-weight:600"></span></h2>
+    <div class="warn" id="warn"></div>
+    <div class="tablewrap"><table id="detail"></table></div>
+    <div class="scrolltip">← 표를 좌우로 밀어 전체 열을 볼 수 있어요 →</div>
+    <div class="reps">
+      <div class="top"><span class="tro">🏆</span>
+        <div><div class="lab">총 <span id="repN">10</span>회 반복 시</div><div class="sub">예상 결과</div></div>
+      </div>
+      <div class="m">
+        <div><span class="k">총 예상 수익</span><span class="v" id="rProfit">-</span></div>
+        <div><span class="k">총 수익률</span><span class="v" id="rRate">-</span></div>
+        <div><span class="k">회당 평균</span><span class="v" id="rAvg">-</span></div>
+      </div></div>
+    <div class="note" id="placeNote"></div>
+  </div>
+
+  <!-- 시장조사 -->
+  <div class="card">
+    <h2><span class="dot" style="background:var(--amber)"></span>시장조사 · 방향 · 시나리오 <span id="mktAsof" style="font-size:11px;color:var(--sub);font-weight:600"></span></h2>
+    <div id="mktPanel"></div>
+  </div>
+
+  <div class="disc">본 대시보드는 입력값 기반 추정 계산기이며 StableLab 앱의 미리보기 계산식을 재현합니다. 수수료·세금·슬리피지·부분 체결 등 실제 체결 환경과 차이가 있을 수 있고, 투자 결과를 보장하지 않습니다. 최종 판단·실행은 사용자 책임입니다.</div>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+const state={type:"국내주식",mode:"equal"};
+const defaults={
+ "국내주식":{cur:"원",entry:268000,name:"삼성전자",sym:"",feeB:0.015,feeS:0.015,tax:0.2,four:1,gap:2680,sell:2680,rounds:10,cHigh:300000,cLow:240000,cQty:1,cSellGap:6667},
+ "해외주식":{cur:"$",entry:203,name:"엔비디아",sym:"",feeB:0.25,feeS:0.25,tax:0,four:1,gap:2,sell:2,rounds:10,cHigh:230,cLow:190,cQty:1,cSellGap:4},
+ "현물":{cur:"원",entry:1478,name:"테더(USDT)",sym:"USDT",feeB:0.02,feeS:0.02,tax:0,four:50000,gap:2,sell:4,rounds:20,cHigh:1500,cLow:1450,cQty:100,cSellGap:3}
+};
+const nameSym={"비트코인":"BTC","테더":"USDT","테더(USDT)":"USDT","이더리움":"ETH","리플":"XRP","솔라나":"SOL","도지코인":"DOGE","에이다":"ADA"};
+const isCrypto=()=>state.type==="현물";
+
+function fmt(n,dec=0){ if(!isFinite(n))return"-"; return n.toLocaleString("ko-KR",{minimumFractionDigits:dec,maximumFractionDigits:dec}); }
+function unit(n){ const d=(Math.abs(n)<100&&n!==0)?2:0; return fmt(n,d)+$("cur").value; }
+function sgn(n){ return (n>=0?"+":"")+fmt(Math.round(n)); }
+function pct(n,d=2){ return (n>=0?"+":"")+(n*100).toLocaleString("ko-KR",{minimumFractionDigits:d,maximumFractionDigits:d})+"%"; }
+function qtyStr(q){ return isFinite(q)?parseFloat(q.toFixed(8)).toString():"-"; }
+
+function anchorIdx(N,mode,c){ const mid=(N+1)/2,span=(N-1)/2;
+  if(mode==="top")return mid+(c/100)*span; if(mode==="bottom")return mid-(c/100)*span; return mid; }
+
+function grid(){
+  const S=+$("entry").value, N=Math.max(1,Math.floor(+$("rounds").value)),
+        four=+$("buyAmt").value, G=+$("gap").value, D=+$("sell").value,
+        feeB=(+$("feeB").value)/100, feeS=(+$("feeS").value)/100, tax=(+$("tax").value)/100,
+        c=(state.mode==="equal")?0:+$("conc").value, cy=isCrypto();
+  const a=anchorIdx(N,state.mode,c);
+  const rows=[]; let totInv=0,totProfit=0,totQty=0,anyNeg=false;
+  for(let n=1;n<=N;n++){
+    const price=S+(a-n)*G;
+    if(price<=0) anyNeg=true;
+    const qty = cy ? (price>0?four/price:0) : four;   // 주식=주수 고정, 현물=금액/가격
+    const buyCost = qty*price;                        // 실투입 KRW/통화
+    const order = buyCost*(1+feeB);                    // 주문금액(매수수수료 포함)
+    const sell = price+D;
+    const sellVal = qty*sell;
+    const profit = sellVal*(1-feeS-tax) - order;      // 매도수수료+세금 반영
+    const rate = order>0?profit/order:0;
+    rows.push({n,price,qty,order,sell,profit,rate,isStart:(Math.round(price)===Math.round(S))});
+    totInv+=order; totProfit+=profit; totQty+=qty;
+  }
+  return {rows,totInv,totProfit,totQty,totRate:totInv>0?totProfit/totInv:0,avg:totProfit/N,N,anyNeg,
+    above:rows.filter(r=>r.price>S).length, below:rows.filter(r=>r.price<S).length};
+}
+
+function render(){
+  const g=grid(), cur=$("cur").value, R=Math.max(1,Math.floor(+$("reps").value||1)), cy=isCrypto();
+  $("subtitle").textContent=`${$("name").value} · ${state.type} · 시작가 ${fmt(+$("entry").value)}${cur} · ${g.N}회 · 🕒 ${new Date().toLocaleTimeString('ko-KR')}`;
+  $("rndLabel").textContent=`(${g.N}회)`;
+  const warn=$("warn"),msgs=[];
+  if(g.anyNeg) msgs.push("매수간격이 커서 일부 회차 매수가가 0 이하입니다. 종목 시세에 맞는 간격인지 확인하세요.");
+  if(msgs.length){warn.style.display="block";warn.innerHTML="⚠ "+msgs.join("<br>⚠ ");}else warn.style.display="none";
+  // 표
+  const S=+$("entry").value, hasExact=g.rows.some(r=>r.isStart);
+  let h=`<thead><tr><th>회차</th><th>매수가(${cur})</th><th>수량${cy?'':'(주)'}</th><th>매도가(${cur})</th><th>순수익(${cur})</th><th>수익률(세후%)</th></tr></thead><tbody>`, prev=null;
+  g.rows.forEach(r=>{
+    if(!hasExact && prev && prev.price>S && r.price<S)
+      h+=`<tr class="startline"><td colspan="6">🎯 진입 시작가 ${fmt(Math.round(S))}${cur} 기준선 — 위 ${g.above}회 · 아래 ${g.below}회</td></tr>`;
+    const pc=r.profit>=0?'pos':'negv';
+    h+=`<tr class="${r.isStart?'start':''}"><td>${r.n}회차${r.isStart?'<br><span class="startchip">🎯 시작가</span>':''}</td>
+      <td>${fmt(Math.round(r.price))}</td><td>${cy?qtyStr(r.qty):fmt(r.qty)}</td><td>${fmt(Math.round(r.sell))}</td>
+      <td class="${pc}">${sgn(r.profit)}</td><td class="${pc}">${pct(r.rate)}</td></tr>`;
+    prev=r;
+  });
+  h+=`<tr class="total"><td>합계</td><td>-</td><td>${cy?qtyStr(g.totQty):fmt(g.totQty)}</td><td>-</td><td class="pos">${sgn(g.totProfit)}</td><td class="pos">${pct(g.totRate)}</td></tr>`;
+  $("detail").innerHTML=h+"</tbody>";
+  $("repN").textContent=R;
+  $("rProfit").textContent=sgn(g.totProfit*R)+cur;
+  $("rRate").textContent=pct(g.totRate*R);
+  $("rAvg").textContent=sgn(g.avg)+cur+" ("+pct(g.totRate)+")";
+  const modeTxt={top:"상단집중 — 시작가가 바닥, 회차가 위로",bottom:"하단집중 — 시작가가 천장, 회차가 아래로",equal:"균등분할 — 시작가 중심 위/아래 50%"}[state.mode];
+  const feeTxt = cy ? `매수 ${$("feeB").value}% + 매도 ${$("feeS").value}%` : `매수 ${$("feeB").value}% + 매도 ${$("feeS").value}% + 매도세금 ${$("tax").value}%`;
+  $("placeNote").innerHTML=`💡 <b>순수익·수익률은 세후 기준</b> — 매수수수료·매도수수료${cy?'':'·매도세금'}을 모두 차감한 값입니다 (적용 수수료: ${feeTxt}). <br>※ ${modeTxt}. 배치: 시작가 위 ${g.above}회·아래 ${g.below}회. ${cy?'현물=매수금액(원) 고정':'주식=회당 매수수량(주) 고정'}. 수치는 예상값이며 실제 체결에 따라 달라질 수 있습니다.`;
+  gapCalc();
+}
+
+// ===== 그리드 간격 계산기 (최고가·최저가·회차·수량 → 매수/매도 간격) =====
+function gapCalc(){
+  const high=+$("cHigh").value, low=+$("cLow").value, N=Math.max(2,Math.floor(+$("cRounds").value)),
+        qty=+$("cQty").value, seed=+$("cSeed").value, sellGap=+$("cSellGap").value,
+        cur=$("cur").value, cy=isCrypto(), feeB=(+$("feeB").value)/100, feeS=(+$("feeS").value)/100, tax=(+$("tax").value)/100;
+  const bad=(high<=low)||(!isFinite(high))||(!isFinite(low));
+  const gap=bad?0:(high-low)/(N-1);                 // 매수간격(자동)
+  const sumP=N*low+gap*N*(N-1)/2;                    // Σ 회차별 매수가
+  const totalCost=qty*sumP*(1+feeB);                 // 총 매수 원금(매수수수료 포함)
+  const bal=seed-totalCost;
+  const totProfit=qty*(1-feeS-tax)*(sumP+N*sellGap)-qty*(1+feeB)*sumP; // 매도간격 반영 총 예상수익
+  const avgProfit=totProfit/N;
+  window._grid={low,high,N,qty,gap:cy?gap:Math.round(gap),sellGap};
+  $("coverOut").innerHTML=`
+   <div class="cmet"><div class="k">회당 매수간격 (자동)</div><div class="v">${unit(gap)}</div></div>
+   <div class="cmet"><div class="k">회당 매도간격 (입력값)</div><div class="v">${unit(sellGap)}</div></div>
+   <div class="cmet"><div class="k">총 필요 자금</div><div class="v">${fmt(Math.round(totalCost))}${cur}</div></div>
+   <div class="cmet"><div class="k">시드 대비</div><div class="v" style="color:${bal>=0?'#16a34a':'#dc2626'}">${bal>=0?'여유 +':'부족 −'}${fmt(Math.round(Math.abs(bal)))}${cur}</div></div>
+   <div class="cmet"><div class="k">총 예상 수익</div><div class="v" style="color:#16a34a">${totProfit>=0?'+':''}${fmt(Math.round(totProfit))}${cur}</div></div>
+   <div class="cmet"><div class="k">회당 평균 수익</div><div class="v" style="color:#16a34a">${avgProfit>=0?'+':''}${fmt(Math.round(avgProfit))}${cur}</div></div>`;
+  $("coverNote").innerHTML= bad
+    ? '<span style="color:#dc2626">⚠ 최고가는 최저가보다 커야 하고 회차는 2 이상이어야 합니다.</span>'
+    : `매수간격 = (최고가 − 최저가) ÷ (회차 − 1) = (${fmt(high)} − ${fmt(low)}) ÷ ${N-1} = <b>${unit(gap)}</b> (자동). 매도간격은 <b>직접 입력</b> — 매수가에서 그만큼 오르면 익절합니다. 값을 바꾸면 예상 수익이 다시 계산돼요${sellGap<gap?' <span style="color:#dc2626">(매도간격이 매수간격보다 작으면 회전은 빠르나 수익이 얇아집니다)</span>':''}. "적용"을 누르면 시작가=최저가·상단집중으로 미리보기에 반영됩니다.`;
+}
+
+function normName(){ const n=$("name").value.trim().toLowerCase();
+  if(n.includes("삼성"))return"삼성전자";
+  if(n.includes("엔비디아")||n.includes("nvidia")||n.includes("nvda"))return"엔비디아";
+  if(n.includes("테더")||n.includes("usdt")||n.includes("tether"))return"테더"; return null; }
+const ASOF="2026-07-14";
+const research={
+ "삼성전자":{view:"중립~상승 우위",vc:"rb-mid",price:"약 268,000~309,500원 (앱 시세 기준 · 고점 대비 조정 후 횡보)",
+   good:["AI 메모리 슈퍼사이클 — 1Q 영업이익 57.2조(+756% YoY), DS가 전사익 94%","2Q 컨센 영업이익 86~100조 → 어닝 서프라이즈 기대","HBM4 세계 최초 양산(2월)·HBM4E 12단 샘플 출하","증권 컨센 목표 368,400원(최고 57만·미래에셋 48만)"],
+   bad:["HBM 점유율 3위 — SK하이닉스 58% 1위","파운드리 적자 지속","대미 관세 리스크","고점 대비 조정, 방향성 미확정"],
+   sr:"지지 ~260,000~300,000원 · 저항 ~360,000원(컨센 목표권) · 낙관 상단 480,000원",
+   scen:[["up","상승","2Q 어닝 서프라이즈 + HBM4E 램프","→ 360,000원+ 재도전"],["mid","횡보","실적 선반영·관세 확인 대기","→ 박스권 등락"],["dn","하락","관세 현실화·HBM 점유율 실망","→ 지지선 테스트"]],
+   tv:"KRX:005930",src:"출처: 삼성전자 1Q 실적·증권가 2Q 컨센·유진투자증권 리포트(2026-07)"},
+ "엔비디아":{view:"상승 우위 (변동성 높음)",vc:"rb-up",price:"$203.53 (2026-07-14)",
+   good:["애널 컨센 Strong Buy(38인)·AI 데이터센터 수요 지속","12개월 목표 컨센 $275~304(+35~48%), 상단 $360","골드만 '21.7x 밸류 매력적' 평가","8/26 실적 EPS 컨센 $2.08"],
+   bad:["DeepSeek 자체 AI칩 등 경쟁 심화","고밸류 → 높은 변동성","$197 바닥론 대두","미·중 수출규제 리스크"],
+   sr:"지지 ~$197 · 저항 ~$275(컨센 하단 목표) · 낙관 상단 $360",
+   scen:[["up","상승","8/26 실적 서프라이즈 + AI 자본지출 지속","→ $275 목표권"],["mid","횡보","실적 대기·경쟁 뉴스 소화","→ $197~$230 박스"],["dn","하락","경쟁 심화·수요 둔화","→ $197 이탈 주의"]],
+   tv:"NASDAQ:NVDA",src:"출처: MarketBeat·TipRanks·StockAnalysis·TradingKey(2026-07-14)"},
+ "테더":{view:"중립 (환율 연동)",vc:"rb-mid",price:"1,477원 (코인원)",
+   good:["원화 약세(고환율) 지속 시 USDT/KRW 상승","김치프리미엄 확대 시 원화 시세 상승","스테이블코인이라 급락 위험 낮음"],
+   bad:["중장기 원화 강세 전환(1,400원대) 시 하락","프리미엄 축소 시 하락","자체 변동성 작아 그리드 수익 규모 작음"],
+   sr:"지지 ~1,460~1,470원 · 저항 ~1,490~1,500원 · 넓게 1,440~1,520원",
+   scen:[["up","원화 약세","환율↑·프리미엄 확대","→ 1,500원+"],["mid","횡보","환율 박스권","→ 1,460~1,490원"],["dn","원화 강세","환율↓·프리미엄 축소","→ 1,450원 이하"]],
+   tv:"UPBIT:USDTKRW",src:"출처: 코인원 실시간·원달러 환율 전망(KB·wonforecast, 2026-07). USDT 방향=환율+프리미엄"}
+};
+function renderMarket(){
+  const key=normName(),el=$("mktPanel"),asof=$("mktAsof");
+  if(!key){asof.textContent="";el.innerHTML='<div class="mkt"><div class="note">종목명을 <b>삼성전자 · 엔비디아 · 테더</b> 중 하나로 입력하면 시장조사·방향·시나리오가 실데이터로 채워집니다.</div></div>';return;}
+  const d=research[key];asof.textContent=`(기준일 ${ASOF} · 참고용)`;
+  const li=a=>a.map(x=>`<li>${x}</li>`).join("");
+  const sc=d.scen.map(s=>`<div class="rsc ${s[0]}"><div class="h">${s[0]==='up'?'📈':s[0]==='dn'?'📉':'➖'} ${s[1]}</div><div>${s[2]}</div><div class="lv">${s[3]}</div></div>`).join("");
+  el.innerHTML=`<div class="rbar"><span class="rbadge ${d.vc}">관점: ${d.view}</span><span class="rprice">현재가 ${d.price}</span></div>
+   <div class="rfacts"><div class="rcol good"><div class="t">▲ 호재 / 상승 요인</div><ul>${li(d.good)}</ul></div>
+   <div class="rcol bad"><div class="t">▼ 악재 / 하락 요인</div><ul>${li(d.bad)}</ul></div></div>
+   <div class="rsr">🎯 <b>지지 / 저항</b> — ${d.sr}</div><div class="rscen">${sc}</div>
+   <div class="rsrc">${d.src} · 데이터 기반 시나리오이며 <b>매수/매도 권유가 아닙니다</b>. 최종 판단은 본인 책임입니다.</div>`;
+}
+
+function toggleSym(){ $("symField").style.display=isCrypto()?"block":"none"; }
+async function fetchPrice(){
+  const st=$("quoteStatus");
+  if(!isCrypto()){ st.innerHTML='<span style="color:#b45309">⚠ 국내·해외 주식은 다운로드형 파일에서 증권사 시세를 직접 불러올 수 없습니다(CORS·인증키 제한). 시작가를 직접 입력하거나, 챗에서 종목명을 말씀하시면 최신가를 조회해 드립니다.</span>'; return; }
+  const sym=(($("sym").value)||"USDT").trim().toUpperCase(); st.innerHTML="시세 불러오는 중…"; const now=new Date().toLocaleTimeString("ko-KR");
+  try{ const r=await fetch(`https://api.coinone.co.kr/public/v2/ticker_new/KRW/${sym}`);const j=await r.json();
+    if(j.result==="success"&&j.tickers&&j.tickers[0]){const t=j.tickers[0],last=+t.last,chg=(last-(+t.first))/(+t.first);
+      $("entry").value=Math.round(last);st.innerHTML=`✅ <b>코인원</b> ${sym}/KRW <b>${fmt(last)}원</b> · 당일 ${(chg*100).toFixed(2)}% · ${now}`;render();return;} }catch(e){}
+  try{ const r=await fetch(`https://api.upbit.com/v1/ticker?markets=KRW-${sym}`);const j=await r.json();
+    if(j&&j[0]&&j[0].trade_price){const t=j[0];$("entry").value=Math.round(t.trade_price);
+      st.innerHTML=`✅ <b>업비트</b> ${sym}/KRW <b>${fmt(t.trade_price)}원</b> · 당일 ${(t.signed_change_rate*100).toFixed(2)}% · ${now}`;render();return;} }catch(e){}
+  st.innerHTML='<span style="color:#dc2626">시세를 불러오지 못했습니다. 심볼을 확인하거나 직접 입력해 주세요.</span>';
+}
+
+function applyType(){
+  const d=defaults[state.type];
+  $("cur").value=d.cur; $("entry").value=d.entry; $("name").value=d.name;
+  $("feeB").value=d.feeB; $("feeS").value=d.feeS; $("tax").value=d.tax;
+  $("buyAmt").value=d.four; $("gap").value=d.gap; $("sell").value=d.sell; $("rounds").value=d.rounds;
+  $("lblBuy").textContent=isCrypto()?"회당 매수금액 (원)":"회당 매수수량 (주)";
+  $("seedUnit").textContent=d.cur;
+  $("cHigh").value=d.cHigh; $("cLow").value=d.cLow; $("cQty").value=d.cQty; $("cRounds").value=d.rounds; $("cSellGap").value=d.cSellGap;
+  if(isCrypto()) $("sym").value=d.sym||"BTC";
+  toggleSym(); $("quoteStatus").innerHTML=""; renderMarket();
+}
+
+$("segType").addEventListener("click",e=>{ if(!e.target.dataset.v)return;
+  state.type=e.target.dataset.v; [...$("segType").children].forEach(b=>b.classList.toggle("on",b===e.target));
+  applyType(); render(); });
+$("segMode").addEventListener("click",e=>{ if(!e.target.dataset.v)return;
+  state.mode=e.target.dataset.v; [...$("segMode").children].forEach(b=>b.classList.toggle("on",b===e.target));
+  const eq=(state.mode==="equal"); $("concField").style.opacity=eq?.4:1; $("conc").disabled=eq;
+  $("concHint").textContent=eq?"— 균등은 위/아래 50% 고정":(state.mode==="top"?"— 100%=회차 전부 시작가 위":"— 100%=회차 전부 시작가 아래");
+  render(); });
+$("conc").addEventListener("input",()=>{$("concVal").textContent=$("conc").value+"%";render();});
+$("fetchBtn").addEventListener("click",fetchPrice);
+$("chartBtn").addEventListener("click",openChartCurrent);
+$("name").addEventListener("input",()=>{ if(isCrypto()&&nameSym[$("name").value.trim()]) $("sym").value=nameSym[$("name").value.trim()]; });
+$("applyBtn").addEventListener("click",()=>{ const g=window._grid; if(!g||g.high<=g.low)return;
+  $("entry").value=Math.round(g.low); $("rounds").value=g.N;
+  $("buyAmt").value=isCrypto()?Math.round(g.qty*g.low):g.qty;
+  $("gap").value=g.gap; $("sell").value=g.sellGap;
+  state.mode="top"; [...$("segMode").children].forEach(b=>b.classList.toggle("on",b.dataset.v==="top"));
+  $("concField").style.opacity=1; $("conc").disabled=false; $("conc").value=100; $("concVal").textContent="100%"; $("concHint").textContent="— 100%=회차 전부 시작가 위";
+  render();
+  document.querySelector('.card:nth-of-type(3)')?.scrollIntoView({behavior:"smooth",block:"start"});
+});
+["name","cur","entry","rounds","buyAmt","gap","sell","feeB","feeS","tax","reps","sym"].forEach(id=>{$(id).addEventListener("input",render);$(id).addEventListener("change",render);});
+["cSeed","cQty","cHigh","cLow","cRounds","cSellGap"].forEach(id=>{$(id).addEventListener("input",gapCalc);$(id).addEventListener("change",gapCalc);});
+// 시장조사·방향·시나리오: 종목 검색(입력 확정) 시 한 번만 최신 자료 표시
+$("name").addEventListener("change",renderMarket);
+$("name").addEventListener("keydown",e=>{ if(e.key==="Enter"){renderMarket();e.target.blur();} });
+
+// 실시간 차트 (TradingView 임베드)
+function openChart(sym,name){
+  const f=$("tvFrame");
+  f.src="https://s.tradingview.com/widgetembed/?frameElementId=tvFrame&symbol="+encodeURIComponent(sym)
+    +"&interval=D&hidesidetoolbar=0&symboledit=1&saveimage=1&toolbarbg=f1f3f6&theme=light&style=1"
+    +"&timezone=Asia%2FSeoul&withdateranges=1&hideideas=1&locale=kr";
+  $("tvTitle").textContent=name+" 실시간 차트";
+  $("tvSym").textContent=sym;
+  $("tvModal").classList.add("on");
+  document.body.style.overflow="hidden";
+}
+function closeChart(){
+  $("tvModal").classList.remove("on");
+  $("tvFrame").src="about:blank";
+  document.body.style.overflow="";
+}
+function currentTV(){
+  const key=normName();
+  if(key&&research[key]&&research[key].tv) return {sym:research[key].tv,name:key};
+  if(isCrypto()){ const s=(($("sym").value)||"").trim().toUpperCase(); if(s) return {sym:"UPBIT:"+s+"KRW",name:($("name").value.trim()||s)}; }
+  return null;
+}
+function openChartCurrent(){
+  const t=currentTV();
+  if(!t){ $("quoteStatus").innerHTML='<span style="color:#b45309">⚠ 이 종목은 실시간 차트 심볼이 없습니다. 코인은 심볼(예: BTC)을 입력하거나, 삼성전자·엔비디아·테더를 검색해 주세요.</span>'; return; }
+  openChart(t.sym,t.name);
+}
+document.addEventListener("keydown",e=>{ if(e.key==="Escape") closeChart(); });
+
+render(); renderMarket();
+</script>
+
+<div class="tvmodal" id="tvModal" onclick="if(event.target===this)closeChart()">
+  <div class="tvbox">
+    <div class="tvhead">
+      <div class="tt">📈 <span id="tvTitle">실시간 차트</span> <small id="tvSym"></small></div>
+      <button type="button" class="tvclose" onclick="closeChart()">✕ 닫기</button>
+    </div>
+    <div class="tvbody"><iframe id="tvFrame" title="실시간 차트" allowtransparency="true" scrolling="no" allowfullscreen></iframe></div>
+    <div class="tvnote">실시간 시세·차트는 TradingView에서 제공합니다. 거래소·데이터에 따라 지연이 있을 수 있으며, 투자 판단과 실행은 본인 책임입니다.</div>
+  </div>
+</div>
+</body>
+</html>
