@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#f2f4f7">
+<title>스테이블랩 계산기</title>
+<link rel="stylesheet" as="style" crossorigin
+  href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+<style>
+  :root{
+    /* Wanted 스타일 — 밝은 화이트 테마 · Wanted 블루 */
+    --bg:#f2f4f7; --card:#ffffff; --card2:#f4f6fa; --line:#e5e8ee;
+    --text:#17181c; --muted:#6b7684; --accent:#3366ff; --accent2:#2a55e0;
+    --green:#12b76a; --red:#f04438; --gold:#dd8500; --purple:#7a5af8;
+    --sym:'$';
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html{-webkit-text-size-adjust:100%;}
+  body{margin:0;font-family:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,"Segoe UI","Malgun Gothic","Apple SD Gothic Neo",sans-serif;
+    background:radial-gradient(900px 520px at 85% -8%,#e2ebff 0,transparent 58%),var(--bg);
+    color:var(--text);min-height:100vh;padding:0;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:500px;margin:0 auto;padding:14px 14px calc(env(safe-area-inset-bottom,0px) + 36px);}
+  header{text-align:center;padding:16px 6px 12px;}
+  header h1{font-size:22px;margin:0 0 5px;font-weight:800;letter-spacing:-.6px;color:var(--text);}
+  header p{margin:0 auto;max-width:340px;color:var(--muted);font-size:12.5px;line-height:1.55;}
+  .card{background:var(--card);border:1px solid var(--line);
+    border-radius:20px;padding:18px 16px;margin-bottom:14px;box-shadow:0 4px 18px rgba(16,24,40,.05);}
+  .grid{display:grid;grid-template-columns:1fr;gap:14px;}
+  @media(min-width:600px){.grid{grid-template-columns:1fr 1fr;}}
+  .full{grid-column:1 / -1;}
+  label{display:block;font-size:13px;color:var(--text);margin-bottom:7px;font-weight:700;}
+  .field{position:relative;}
+  input[type=number]{width:100%;padding:14px;background:var(--card2);
+    border:1px solid var(--line);border-radius:13px;color:var(--text);font-size:16px;font-weight:600;
+    outline:none;transition:border .15s,box-shadow .15s;-webkit-appearance:none;appearance:none;}
+  input::placeholder{color:#adb4c0;font-weight:500;}
+  input:focus{border-color:var(--accent);background:#fff;box-shadow:0 0 0 3px rgba(51,102,255,.14);}
+  .prefix input{padding-left:28px;}
+  .prefix::before{content:var(--sym);position:absolute;left:13px;top:42px;color:var(--muted);font-size:15px;font-weight:700;}
+  .toggle{display:flex;gap:4px;margin-bottom:8px;background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:4px;}
+  .tg{flex:1;padding:11px 6px;border:none;background:transparent;color:var(--muted);
+    border-radius:10px;font-size:13.5px;font-weight:700;cursor:pointer;transition:.18s;}
+  .tg.active{background:var(--accent);color:#fff;box-shadow:0 2px 8px rgba(51,102,255,.32);}
+  .marginwrap{position:relative;}
+  .marginwrap .suf{position:absolute;right:14px;top:15px;color:var(--muted);font-size:15px;font-weight:700;}
+  .marginwrap input{padding-right:34px;}
+  .btn{width:100%;margin-top:16px;padding:16px;border:none;border-radius:14px;
+    background:var(--accent);color:#fff;font-size:16px;font-weight:800;
+    cursor:pointer;box-shadow:0 6px 16px rgba(51,102,255,.28);transition:.15s;}
+  .btn:hover{background:var(--accent2);}
+  .btn:active{transform:translateY(1px);}
+  .hint{font-size:12px;color:var(--muted);margin-top:6px;line-height:1.55;}
+  .err{color:var(--red);font-size:13.5px;margin-top:12px;text-align:center;display:none;font-weight:700;}
+  .kpis{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .kpi{background:var(--card2);border:1px solid var(--line);border-radius:15px;padding:14px 12px;text-align:center;}
+  .kpi .k{font-size:11.5px;color:var(--muted);margin-bottom:7px;line-height:1.4;font-weight:600;}
+  .kpi .v{font-size:19px;font-weight:800;letter-spacing:-.3px;color:var(--text);}
+  .v.blue{color:var(--accent);} .v.green{color:var(--green);} .v.gold{color:var(--gold);} .v.purple{color:var(--purple);}
+  .badge{display:inline-block;font-size:14px;color:var(--accent);font-weight:800;margin-bottom:6px;
+    background:#eaf0ff;padding:5px 12px;border-radius:20px;}
+  .sub{color:var(--muted);font-size:12.5px;margin-bottom:14px;text-align:center;line-height:1.5;}
+  .tablewrap{overflow-x:auto;margin:14px -16px 0;padding:0 16px;-webkit-overflow-scrolling:touch;}
+  table{width:100%;border-collapse:collapse;font-size:13px;min-width:560px;}
+  th,td{padding:11px 8px;text-align:center;border-bottom:1px solid var(--line);white-space:nowrap;}
+  th{color:var(--muted);font-size:11px;font-weight:700;background:var(--card2);position:sticky;top:0;}
+  tbody tr:active{background:#f5f8ff;}
+  td.round{color:var(--text);font-weight:800;background:linear-gradient(90deg,#fff,#fff 72%,transparent);position:sticky;left:0;}
+  td.buy{font-weight:700;}
+  td.sell{color:var(--gold);font-weight:700;}
+  .tag-hi{color:var(--red);font-size:10px;font-weight:700;}
+  .tag-lo{color:var(--green);font-size:10px;font-weight:700;}
+  .foot{color:var(--muted);font-size:11.5px;text-align:center;margin-top:14px;line-height:1.7;}
+  details{margin-top:14px;background:var(--card2);border:1px solid var(--line);border-radius:13px;padding:12px 15px;}
+  summary{cursor:pointer;font-size:13.5px;font-weight:700;color:var(--accent);}
+  details p{font-size:12.5px;color:var(--muted);line-height:1.7;margin:10px 0 0;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>📊 스테이블랩 계산기</h1>
+    <p>최고가·최저가만 넣으면 어떤 종목이든 동일하게 계산 · 각 차시 매도 시 실수익률까지</p>
+  </header>
+
+  <div class="card">
+    <div class="grid">
+      <div class="field full">
+        <label>표시 통화</label>
+        <div class="toggle" id="ccyToggle">
+          <button type="button" class="tg active" data-ccy="usd" onclick="setCcy('usd')">달러 (US)</button>
+          <button type="button" class="tg" data-ccy="krw" onclick="setCcy('krw')">원화 (KR)</button>
+          <button type="button" class="tg" data-ccy="dt" onclick="setCcy('dt')">코인 (DT)</button>
+        </div>
+      </div>
+      <div class="field prefix full">
+        <label>💰 내 시드 (총 투자 가능 금액) <span style="color:var(--muted);font-weight:400">먼저 입력</span></label>
+        <input type="number" id="seed" placeholder="예: 40000" step="any" min="0">
+        <div class="hint">시드를 넣으면 이 금액으로 지금 차시수가 가능한지, 부족하면 최대 몇 차시까지 되는지 알려드립니다.</div>
+      </div>
+      <div class="full" id="seedCheck" style="display:none;border-radius:10px;padding:11px 14px;font-size:13px;text-align:center;border:1px solid var(--line);background:var(--card2);"></div>
+      <div class="field prefix">
+        <label>희망 최고가 <span style="color:var(--muted);font-weight:400">(1차시 매수가)</span></label>
+        <input type="number" id="high" placeholder="최고가 입력" step="0.01">
+      </div>
+      <div class="field prefix">
+        <label>희망 최저가 <span style="color:var(--muted);font-weight:400">(마지막 차시)</span></label>
+        <input type="number" id="low" placeholder="최저가 입력" step="0.01">
+      </div>
+      <div class="field">
+        <label>📏 가격 구간 갭 (%) <span style="color:var(--muted);font-weight:400">양방향 자동</span></label>
+        <div class="marginwrap">
+          <input type="number" id="gapInput" step="0.01" min="0" placeholder="예: 5">
+          <span class="suf">%</span>
+        </div>
+        <div class="hint">갭%를 넣으면 최고가 기준으로 <b>최저가를 자동 계산</b>. 가격을 직접 넣으면 갭%가 자동 표시.</div>
+      </div>
+      <div class="field">
+        <label>분할 매수 차시 수 (회)</label>
+        <input type="number" id="splits" placeholder="차시수 입력" step="1" min="2">
+      </div>
+      <div class="field">
+        <label id="qtyLabel">차시당 매수 수량 <span style="color:var(--muted);font-weight:400">(주/개)</span></label>
+        <input type="number" id="qty" placeholder="예: 1" step="any" min="0" value="1">
+        <div class="hint" id="qtyHint" style="display:none;"></div>
+      </div>
+      <div class="field">
+        <label>🎯 매도 마진 <span style="color:var(--muted);font-weight:400">(차시별 목표 수익)</span></label>
+        <div class="toggle" id="mToggle">
+          <button type="button" class="tg active" data-mode="usd" onclick="setMode('usd')">금액 고정</button>
+          <button type="button" class="tg" data-mode="pct" onclick="setMode('pct')">% 수익률</button>
+        </div>
+        <div class="marginwrap">
+          <input type="number" id="margin" placeholder="예: 25" step="0.01" min="0" value="25">
+          <span class="suf" id="mSuf">$</span>
+        </div>
+        <div class="toggle" id="bToggle" style="margin-top:7px;">
+          <button type="button" class="tg active" data-basis="net" onclick="setBasis('net')">실수익 보정</button>
+          <button type="button" class="tg" data-basis="gross" onclick="setBasis('gross')">총액 그대로</button>
+        </div>
+        <div class="hint">실수익 보정 = 수수료·세금만큼 매도가를 올려 <b>입력 마진이 실수익으로 그대로</b> 나오게. 총액 그대로 = 매수가에 마진만 더함.</div>
+      </div>
+      <div class="field">
+        <label>매수 수수료 (%)</label>
+        <input type="number" id="buyFee" step="0.001" min="0" value="0.25">
+      </div>
+      <div class="field">
+        <label>매도 수수료 (%)</label>
+        <input type="number" id="sellFee" step="0.001" min="0" value="0.25">
+      </div>
+      <div class="field">
+        <label>제세금/세금 (%)</label>
+        <input type="number" id="tax" step="0.00001" min="0" value="0.00206">
+        <div class="hint">통화 전환 시 자동 반영 — 달러: 0.25/0.25/0.00206% · 원화: 0.015/0.015/0.2% · 코인(코인원): 0.2/0.2/0%. 필요하면 직접 수정 가능.</div>
+      </div>
+      <div class="full" id="gapLive" style="display:none;background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:11px 14px;font-size:13px;text-align:center;"></div>
+    </div>
+    <button class="btn" onclick="calc()">대시보드 계산</button>
+    <div class="err" id="err"></div>
+  </div>
+
+  <div class="card" id="result" style="display:none;">
+    <div style="text-align:center;"><span class="badge" id="rTitle"></span></div>
+    <div class="sub" id="rSub"></div>
+    <div class="kpis">
+      <div class="kpi" style="border-color:var(--gold);"><div class="k">📏 가격 구간 갭 <span style="font-size:10px">(고점 대비)</span></div><div class="v gold" id="kGapPct">-</div></div>
+      <div class="kpi"><div class="k">소요예수금 (총 매수금)</div><div class="v blue" id="kDeposit">-</div></div>
+      <div class="kpi"><div class="k">회차 수</div><div class="v" id="kRounds">-</div></div>
+      <div class="kpi"><div class="k">차시별 매수 간격</div><div class="v gold" id="kGap">-</div></div>
+      <div class="kpi"><div class="k" id="kMarginLbl">매도 마진 / 주</div><div class="v purple" id="kMargin">-</div></div>
+      <div class="kpi"><div class="k">평균 실제 수익률 <span style="font-size:10px">(수수료·세금 후)</span></div><div class="v green" id="kAvgRate">-</div></div>
+      <div class="kpi"><div class="k">전량 매도 시 실제 실현손익 <span style="font-size:10px">(순)</span></div><div class="v green" id="kTotal">-</div></div>
+    </div>
+
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr>
+            <th>차시</th>
+            <th>목표 매수가</th>
+            <th id="thCol3">간격</th>
+            <th>목표 매도가</th>
+            <th>총 수익률</th>
+            <th>실 수익률<br><span style="font-size:9.5px">(수수료·세금 후)</span></th>
+            <th>실 수익금<br><span style="font-size:9.5px">(순)</span></th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+    <div class="foot" id="foot"></div>
+    <details><summary>세팅 로직 / 수식 보기</summary><p id="formula"></p></details>
+  </div>
+
+  <div class="foot">
+    수식 &nbsp;·&nbsp; 차시별 간격 = (최고가 − 최저가) ÷ (차시수 − 1) &nbsp;|&nbsp; N차시 매수가 = 최고가 − 간격 × (N−1)<br>
+    투자 참고용 계산기이며, 실제 매매 판단과 결과 책임은 투자자 본인에게 있습니다.
+  </div>
+</div>
+
+<script>
+let CCY='usd', MODE='usd', BASIS='net';
+const FEES={usd:{buy:0.25,sell:0.25,tax:0.00206}, krw:{buy:0.015,sell:0.015,tax:0.2}, dt:{buy:0.2,sell:0.2,tax:0}};
+function applyFeePreset(){
+  const f=FEES[CCY];
+  document.getElementById('buyFee').value=f.buy;
+  document.getElementById('sellFee').value=f.sell;
+  document.getElementById('tax').value=f.tax;
+}
+function isWon(){return CCY==='krw'||CCY==='dt';}
+function sym(){return CCY==='usd'?'$':'₩';}
+function decP(){return CCY==='usd'?2:0;}
+function fmt(n,d=2){return n.toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});}
+function M(n){return sym()+n.toLocaleString(isWon()?'ko-KR':'en-US',{minimumFractionDigits:decP(),maximumFractionDigits:decP()});}
+
+function setCcy(c){
+  CCY=c;
+  document.querySelectorAll('#ccyToggle .tg').forEach(b=>b.classList.toggle('active',b.dataset.ccy===c));
+  document.documentElement.style.setProperty('--sym', c==='usd' ? "'$'" : "'₩'");
+  applyFeePreset();
+  updateQtyField();
+  resetInputs();
+  updateGap(); feasibility();
+}
+function resetInputs(){
+  ['high','low','gapInput','splits','seed'].forEach(id=>document.getElementById(id).value='');
+  const mg=document.getElementById('margin'); mg.value=25;
+  MODE='usd';
+  document.querySelectorAll('#mToggle .tg').forEach(b=>b.classList.toggle('active',b.dataset.mode==='usd'));
+  document.getElementById('mSuf').textContent=sym(); mg.placeholder='예: 25';
+  BASIS='net';
+  document.querySelectorAll('#bToggle .tg').forEach(x=>x.classList.toggle('active',x.dataset.basis==='net'));
+  ['result','err','gapLive','seedCheck'].forEach(id=>document.getElementById(id).style.display='none');
+}
+function updateQtyField(){
+  const lbl=document.getElementById('qtyLabel'), inp=document.getElementById('qty'), hint=document.getElementById('qtyHint');
+  if(CCY==='dt'){
+    lbl.innerHTML='💰 차시당 매수 금액 (원) <span style="color:var(--muted);font-weight:400">동일 금액 매수</span>';
+    inp.step='1000'; inp.value=5000; inp.placeholder='예: 5000';
+    hint.style.display='block';
+    hint.innerHTML='차시마다 <b>동일한 금액</b>으로 매수(코인원 최소 5,000원). 매수 수량은 가격에 따라 자동 계산됩니다.';
+  } else {
+    lbl.innerHTML='차시당 매수 수량 <span style="color:var(--muted);font-weight:400">(주/개)</span>';
+    inp.step='any'; inp.value=1; inp.placeholder='예: 1';
+    hint.style.display='none';
+  }
+}
+function setMode(m){
+  MODE=m;
+  document.querySelectorAll('#mToggle .tg').forEach(b=>b.classList.toggle('active',b.dataset.mode===m));
+  document.getElementById('mSuf').textContent=(m==='usd'?sym():'%');
+  document.getElementById('margin').placeholder=(m==='usd'?'예: 25':'예: 1');
+  if(typeof autoCalc==='function') autoCalc();
+}
+function setBasis(b){
+  BASIS=b;
+  document.querySelectorAll('#bToggle .tg').forEach(x=>x.classList.toggle('active',x.dataset.basis===b));
+  if(typeof autoCalc==='function') autoCalc();
+}
+
+function updateGap(){
+  const high=parseFloat(document.getElementById('high').value);
+  const low=parseFloat(document.getElementById('low').value);
+  const el=document.getElementById('gapLive');
+  if(isNaN(high)||isNaN(low)||high<=0||low<=0||high<=low){el.style.display='none';return;}
+  const diff=high-low;
+  el.innerHTML=`📏 최고가 ${M(high)} ↔ 최저가 ${M(low)} 갭 : `+
+    `<b style="color:var(--gold)">${fmt(diff/high*100,2)}%</b> <span style="color:var(--muted)">(고점 대비 하락폭)</span> · `+
+    `${M(diff)} · <span style="color:var(--muted)">저점 대비 +${fmt(diff/low*100,2)}%</span>`;
+  el.style.display='block';
+}
+function syncGapField(){
+  const high=parseFloat(document.getElementById('high').value);
+  const low=parseFloat(document.getElementById('low').value);
+  if(!isNaN(high)&&!isNaN(low)&&high>low&&high>0)
+    document.getElementById('gapInput').value=fmt((high-low)/high*100,2);
+}
+function applyGapToPrices(){
+  const gap=parseFloat(document.getElementById('gapInput').value);
+  const highEl=document.getElementById('high'), lowEl=document.getElementById('low');
+  const high=parseFloat(highEl.value);
+  if(isNaN(gap)||gap<=0||gap>=100) return;
+  if(isNaN(high)||high<=0){ lowEl.value=''; return; }
+  lowEl.value=(high*(1-gap/100)).toFixed(decP());
+  updateGap();
+}
+function autoCalc(){
+  const high=parseFloat(document.getElementById('high').value);
+  const low=parseFloat(document.getElementById('low').value);
+  const splits=parseInt(document.getElementById('splits').value,10);
+  const qv=parseFloat(document.getElementById('qty').value);
+  const margin=parseFloat(document.getElementById('margin').value);
+  const valid = !isNaN(high)&&!isNaN(low)&&high>0&&low>0&&high>low
+    && !isNaN(splits)&&splits>=2 && !isNaN(qv)&&qv>0 && !isNaN(margin)&&margin>0;
+  if(valid){ calc(); }
+  else { document.getElementById('result').style.display='none'; document.getElementById('err').style.display='none'; }
+}
+['high','low'].forEach(id=>document.getElementById(id).addEventListener('input',()=>{updateGap();syncGapField();feasibility();autoCalc();}));
+document.getElementById('gapInput').addEventListener('input',()=>{applyGapToPrices();feasibility();autoCalc();});
+['seed','splits','qty','margin','buyFee','sellFee','tax'].forEach(id=>document.getElementById(id).addEventListener('input',()=>{feasibility();autoCalc();}));
+
+function feasibility(){
+  const el=document.getElementById('seedCheck');
+  const seed=parseFloat(document.getElementById('seed').value);
+  const high=parseFloat(document.getElementById('high').value);
+  const low=parseFloat(document.getElementById('low').value);
+  const splits=parseInt(document.getElementById('splits').value,10);
+  const qv=parseFloat(document.getElementById('qty').value);
+  const amountMode=(CCY==='dt');
+  if(isNaN(seed)||seed<=0){el.style.display='none';return null;}
+  if(isNaN(splits)||splits<1||isNaN(qv)||qv<=0){el.style.display='none';return null;}
+  if(!amountMode && (isNaN(high)||isNaN(low)||high<=low)){el.style.display='none';return null;}
+  let need, maxSplits;
+  if(amountMode){ need=qv*splits; maxSplits=Math.floor(seed/qv); }
+  else { const avg=(high+low)/2; need=avg*splits*qv; maxSplits=Math.floor(seed/(avg*qv)); }
+  const ok=need<=seed;
+  el.style.borderColor = ok?'var(--green)':'var(--red)';
+  if(ok){
+    el.innerHTML=`✅ <b style="color:var(--green)">가능</b> — 소요예수금 <b>${M(need)}</b> ≤ 시드 ${M(seed)} · 여유 ${M(seed-need)}`+
+      `<br><span style="color:var(--muted)">이 시드로 최대 <b style="color:var(--green)">${maxSplits}차시</b>까지 가능 (현재 ${splits}차시)</span>`;
+  } else {
+    el.innerHTML=`⚠️ <b style="color:var(--red)">시드 부족</b> — 소요예수금 <b>${M(need)}</b> > 시드 ${M(seed)} · <b style="color:var(--red)">${M(need-seed)} 부족</b>`+
+      `<br>👉 차시수를 <b style="color:var(--gold)">${Math.max(maxSplits,1)}차시 이하</b>로 줄이면 가능합니다.`;
+  }
+  el.style.display='block';
+  return {ok,need,maxSplits};
+}
+
+function calc(){
+  const amountMode=(CCY==='dt');
+  const high=parseFloat(document.getElementById('high').value);
+  const low=parseFloat(document.getElementById('low').value);
+  const splits=parseInt(document.getElementById('splits').value,10);
+  const qty=parseFloat(document.getElementById('qty').value);
+  const margin=parseFloat(document.getElementById('margin').value);
+  const buyFee=parseFloat(document.getElementById('buyFee').value)||0;
+  const sellFee=parseFloat(document.getElementById('sellFee').value)||0;
+  const tax=parseFloat(document.getElementById('tax').value)||0;
+  const err=document.getElementById('err'), res=document.getElementById('result');
+  const fail=m=>{err.textContent=m;err.style.display='block';res.style.display='none';};
+  err.style.display='none';
+
+  if(isNaN(high)||isNaN(low)) return fail('희망 최고가와 최저가를 입력해 주세요.');
+  if(high<=0||low<=0) return fail('가격은 0보다 커야 합니다.');
+  if(high<=low) return fail('최고가는 최저가보다 커야 합니다.');
+  if(isNaN(splits)||splits<2) return fail('분할 차시 수는 2 이상 입력해 주세요.');
+  if(isNaN(qty)||qty<=0) return fail(amountMode?'차시당 매수 금액을 입력해 주세요.':'차시당 수량을 입력해 주세요.');
+  if(isNaN(margin)||margin<=0) return fail('매도 마진을 입력해 주세요.');
+
+  const gap=(high-low)/(splits-1);
+  const bf=buyFee/100, sf=sellFee/100, tx=tax/100;
+
+  let rows=[], totalOrder=0, totalNet=0, netRateSum=0, grossRateSum=0, grossUsdSum=0;
+  for(let i=0;i<splits;i++){
+    const buy=high-gap*i;
+    let sell;
+    if(BASIS==='net'){
+      sell = MODE==='usd' ? (buy*(1+bf)+margin)/(1-sf-tx) : buy*(1+bf)*(1+margin/100)/(1-sf-tx);
+    } else {
+      sell = MODE==='usd' ? buy+margin : buy*(1+margin/100);
+    }
+    const marginUsd=sell-buy; grossUsdSum+=marginUsd;
+    const grossRate=(sell-buy)/buy*100;
+    let order, buyTotal, sellNet, coinQty=null;
+    if(amountMode){
+      const amt=qty;
+      coinQty=amt/buy;
+      order=amt;
+      buyTotal=amt*(1+bf);
+      sellNet=coinQty*sell*(1-sf-tx);
+    } else {
+      order=buy*qty;
+      buyTotal=buy*qty*(1+bf);
+      sellNet=sell*qty*(1-sf-tx);
+    }
+    const netProfit=sellNet-buyTotal;
+    const netRate=netProfit/buyTotal*100;
+    totalOrder+=order; totalNet+=netProfit; netRateSum+=netRate; grossRateSum+=grossRate;
+    rows.push({n:i+1,buy,sell,gap:i===0?null:gap,grossRate,netRate,netProfit,marginUsd,order,coinQty});
+  }
+  const avgNetRate=netRateSum/splits, avgGrossRate=grossRateSum/splits;
+  const avgBuy=(high+low)/2, avgMarginUsd=grossUsdSum/splits;
+  const minMU=Math.min(...rows.map(r=>r.marginUsd)), maxMU=Math.max(...rows.map(r=>r.marginUsd));
+
+  document.getElementById('rTitle').textContent =
+    (CCY==='usd'?'달러($)':CCY==='krw'?'원화(₩)':'코인 · 원화(₩)')+' 기준 · 분할매수 세팅';
+  document.getElementById('rSub').textContent =
+    `${M(low)} ~ ${M(high)} / ${splits}차시 / ${amountMode?'차시당 '+M(qty):qty.toLocaleString('en-US',{maximumFractionDigits:8})+'주'} / 마진 ${MODE==='usd'?M(margin):fmt(margin,2)+'%'}`;
+  document.getElementById('thCol3').textContent = amountMode?'매수 수량(개)':'간격';
+  document.getElementById('kMarginLbl').textContent = amountMode?'매도 마진 / 코인':'매도 마진 / 주';
+  document.getElementById('kGapPct').innerHTML=fmt((high-low)/high*100,2)+' <span style="font-size:11px;color:var(--muted);font-weight:600">'+M(high-low)+'</span>';
+  document.getElementById('kDeposit').textContent=M(totalOrder);
+  document.getElementById('kRounds').textContent=splits+'회';
+  document.getElementById('kGap').textContent=M(gap);
+  const rangeTxt=Math.abs(maxMU-minMU)>=(isWon()?1:0.01)?M(minMU)+'~'+M(maxMU):M(avgMarginUsd);
+  document.getElementById('kMargin').innerHTML = MODE==='usd'
+    ? M(margin)+' <span style="font-size:11px;color:var(--muted);font-weight:600">≈ '+fmt(avgGrossRate,2)+'%</span>'
+    : fmt(margin,2)+'% <span style="font-size:11px;color:var(--muted);font-weight:600">≈ '+rangeTxt+'/주</span>';
+  document.getElementById('kAvgRate').textContent='+'+fmt(avgNetRate,2)+'%';
+  document.getElementById('kTotal').textContent='+'+M(totalNet);
+
+  const tb=document.getElementById('tbody'); tb.innerHTML='';
+  rows.forEach(r=>{
+    let tag='';
+    if(r.n===1) tag=' <span class="tag-hi">최고가</span>';
+    if(r.n===splits) tag=' <span class="tag-lo">최저가</span>';
+    const col3 = amountMode
+      ? '<span style="color:var(--accent)">'+r.coinQty.toLocaleString('en-US',{maximumFractionDigits:8})+'개</span>'
+      : (r.gap===null?'<span style="color:var(--muted)">기준</span>':'−'+M(r.gap));
+    const nc=r.netProfit>=0?'var(--green)':'var(--red)';
+    tb.innerHTML+=`<tr>
+      <td class="round">${r.n}차</td>
+      <td class="buy">${M(r.buy)}${tag}</td>
+      <td>${col3}</td>
+      <td class="sell">${M(r.sell)}<br><span style="font-size:10px;color:var(--muted);font-weight:600">마진 +${M(r.marginUsd)}/${amountMode?'코인':'주'}</span></td>
+      <td style="color:var(--muted)">+${fmt(r.grossRate,2)}%</td>
+      <td style="color:${nc};font-weight:700">${r.netRate>=0?'+':''}${fmt(r.netRate,2)}%</td>
+      <td style="color:${nc}">${r.netProfit>=0?'+':''}${M(r.netProfit)}</td>
+    </tr>`;
+  });
+
+  document.getElementById('foot').innerHTML=
+    `평균 매수가 ${M(avgBuy)} · 최저가 매수(${splits}차) 실수익률 <b style="color:var(--green)">+${fmt(rows[splits-1].netRate,2)}%</b> (가장 높음) · 수수료·세금 차감 후 기준`;
+
+  document.getElementById('formula').innerHTML=
+    `① 1차시 목표매수가 = 최고가 ${M(high)}에서 시작<br>`+
+    `② 차시마다 매수가를 <b>${M(gap)}</b>씩 하락 (= (${M(high)}−${M(low)}) ÷ (${splits}−1))<br>`+
+    `③ 목표매도가 = ${BASIS==='net'
+        ? '수수료·세금 보정해 <b>실수익 '+(MODE==='usd'?M(margin):fmt(margin,2)+'%')+'</b> 나오게 역산'
+        : '매수가 '+(MODE==='usd'?'+ '+M(margin):'× (1+'+fmt(margin,2)+'%)')}<br>`+
+    `④ 실 투입금 = 매수가 × 수량 × (1 + 매수수수료 ${fmt(buyFee,3)}%)<br>`+
+    `⑤ 실 수령액 = 매도가 × 수량 × (1 − 매도수수료 ${fmt(sellFee,3)}% − 제세금 ${fmt(tax,5)}%)<br>`+
+    `⑥ <b>실 수익률 = (수령액 − 투입금) ÷ 투입금 × 100</b><br>`+
+    `⑦ 소요예수금 = ${amountMode?'매수금액 × 차시수':'평균매수가 × 차시수 × 수량'} (수수료 제외 원금)`;
+
+  feasibility();
+  res.style.display='block';
+}
+window.addEventListener('DOMContentLoaded',()=>{updateQtyField();updateGap();syncGapField();feasibility();});
+</script>
+</body>
+</html>
