@@ -439,25 +439,48 @@ function calc(){
 window.addEventListener('DOMContentLoaded',()=>{updateQtyField();updateGap();syncGapField();feasibility();});
 </script>
 
-<!-- ===== StableLab 인앱 차트(트레이딩뷰 Lightweight Charts + 차시선) : 이 블록을 </body> 앞에 붙여넣으세요 ===== -->
+<!-- ===== StableLab 인앱 차트(트레이딩뷰 Lightweight Charts + 차시선) v2 : 이 블록을 </body> 앞에 붙여넣으세요 ===== -->
 <script>
 (function(){
   if (window.__slabChartLoaded) return;
   window.__slabChartLoaded = true;
 
-  var LIB_URL = 'https://unpkg.com/lightweight-charts@4.1.3/dist/lightweight-charts.standalone.production.js';
+  // 여러 CDN 폴백 (jsdelivr → cdnjs → unpkg), 각 CDN 타임아웃
+  var LIBS = [
+    'https://cdn.jsdelivr.net/npm/lightweight-charts@4.1.3/dist/lightweight-charts.standalone.production.js',
+    'https://cdnjs.cloudflare.com/ajax/libs/lightweight-charts/4.1.3/lightweight-charts.standalone.production.js',
+    'https://unpkg.com/lightweight-charts@4.1.3/dist/lightweight-charts.standalone.production.js'
+  ];
   var libP = null;
+  function loadOne(url, ms){
+    return new Promise(function(res, rej){
+      var done = false;
+      var s = document.createElement('script');
+      var t = setTimeout(function(){ if(!done){ done=true; try{s.remove();}catch(e){} rej(new Error('timeout')); } }, ms||8000);
+      s.src = url;
+      s.onload = function(){ if(!done){ done=true; clearTimeout(t); (window.LightweightCharts ? res() : rej(new Error('no global'))); } };
+      s.onerror = function(){ if(!done){ done=true; clearTimeout(t); try{s.remove();}catch(e){} rej(new Error('error')); } };
+      document.head.appendChild(s);
+    });
+  }
   function loadLib(){
     if (window.LightweightCharts) return Promise.resolve();
     if (libP) return libP;
-    libP = new Promise(function(res, rej){
-      var s = document.createElement('script');
-      s.src = LIB_URL;
-      s.onload = function(){ res(); };
-      s.onerror = function(){ rej(new Error('차트 라이브러리를 불러오지 못했습니다.')); };
-      document.head.appendChild(s);
-    });
+    libP = (async function(){
+      for (var i=0;i<LIBS.length;i++){
+        try{ await loadOne(LIBS[i], 8000); if (window.LightweightCharts) return; }catch(e){}
+      }
+      libP = null; // 다음 시도 때 재시도 허용
+      throw new Error('차트 라이브러리를 불러오지 못했습니다. 네트워크를 확인하고 다시 시도해 주세요.');
+    })();
     return libP;
+  }
+
+  // 타임아웃 fetch
+  function tfetch(url, ms){
+    var ctrl = new AbortController();
+    var t = setTimeout(function(){ ctrl.abort(); }, ms||8000);
+    return fetch(url, {signal:ctrl.signal}).then(function(r){ clearTimeout(t); return r; }, function(e){ clearTimeout(t); throw e; });
   }
 
   function parseNum(s){
@@ -496,36 +519,45 @@ window.addEventListener('DOMContentLoaded',()=>{updateQtyField();updateGap();syn
     return [raw.toUpperCase()];
   }
 
-  async function fetchBinance(sym){
-    var r = await fetch('https://api.binance.com/api/v3/klines?symbol='+encodeURIComponent(sym)+'&interval=1d&limit=180');
-    if (!r.ok) throw new Error('binance '+r.status);
-    var j = await r.json();
-    if (!Array.isArray(j)) throw new Error('binance data');
+  function mapKlines(j){
     return j.map(function(k){ return {time:Math.floor(k[0]/1000), open:+k[1], high:+k[2], low:+k[3], close:+k[4]}; });
+  }
+  async function fetchBinance(sym){
+    var hosts = ['https://api.binance.com', 'https://data-api.binance.vision'];
+    var lastErr = null;
+    for (var i=0;i<hosts.length;i++){
+      try{
+        var r = await tfetch(hosts[i]+'/api/v3/klines?symbol='+encodeURIComponent(sym)+'&interval=1d&limit=180', 8000);
+        if (!r.ok) { lastErr = new Error('binance '+r.status); continue; }
+        var j = await r.json();
+        if (Array.isArray(j) && j.length) return mapKlines(j);
+        lastErr = new Error('binance empty');
+      }catch(e){ lastErr = e; }
+    }
+    throw (lastErr || new Error('binance fail'));
   }
   async function fetchYahoo(sym){
     var yq = 'https://query1.finance.yahoo.com/v8/finance/chart/'+encodeURIComponent(sym)+'?interval=1d&range=6mo';
     var proxies = [
       function(u){ return 'https://corsproxy.io/?url='+encodeURIComponent(u); },
-      function(u){ return 'https://api.allorigins.win/raw?url='+encodeURIComponent(u); }
+      function(u){ return 'https://api.allorigins.win/raw?url='+encodeURIComponent(u); },
+      function(u){ return 'https://api.codetabs.com/v1/proxy/?quest='+u; }
     ];
-    var j = null;
+    var lastErr = null;
     for (var i=0;i<proxies.length;i++){
       try{
-        var r = await fetch(proxies[i](yq));
-        if (!r.ok) continue;
+        var r = await tfetch(proxies[i](yq), 9000);
+        if (!r.ok) { lastErr = new Error('proxy '+r.status); continue; }
         var t = await r.json();
-        if (t && t.chart && t.chart.result) { j = t; break; }
-      }catch(e){}
+        if (t && t.chart && t.chart.result){
+          var res = t.chart.result[0], ts = res.timestamp || [], q = (res.indicators.quote||[])[0]||{}, out = [];
+          for (var k=0;k<ts.length;k++){ if (q.open[k]==null || q.close[k]==null) continue; out.push({time:ts[k], open:q.open[k], high:q.high[k], low:q.low[k], close:q.close[k]}); }
+          if (out.length) return {data:out, meta:res.meta};
+        }
+        lastErr = new Error('no data');
+      }catch(e){ lastErr = e; }
     }
-    if (!j) throw new Error('no data');
-    var res = j.chart.result[0], ts = res.timestamp || [], q = (res.indicators.quote||[])[0]||{}, out = [];
-    for (var i=0;i<ts.length;i++){
-      if (q.open[i]==null || q.close[i]==null) continue;
-      out.push({time:ts[i], open:q.open[i], high:q.high[i], low:q.low[i], close:q.close[i]});
-    }
-    if (!out.length) throw new Error('empty');
-    return {data:out, meta:res.meta};
+    throw (lastErr || new Error('stock fail'));
   }
   async function loadCandles(market, raw){
     var syms = resolveSyms(market, raw);
@@ -544,6 +576,8 @@ window.addEventListener('DOMContentLoaded',()=>{updateQtyField();updateGap();syn
     if (chart){ try{chart.remove();}catch(e){} chart=null; series=null; }
   }
   async function render(container, market, raw, opts, statusEl){
+    function setStatus(txt, col){ if(statusEl){ statusEl.textContent=txt; statusEl.style.color=col||'var(--muted,#6b7684)'; } }
+    setStatus('차트 라이브러리 불러오는 중…');
     await loadLib();
     destroyChart();
     chart = LightweightCharts.createChart(container, {
@@ -559,10 +593,11 @@ window.addEventListener('DOMContentLoaded',()=>{updateQtyField();updateGap();syn
     ro.observe(container);
 
     var rows = readRows();
-    if (!rows.length){ if(statusEl){ statusEl.textContent='먼저 [대시보드 계산]을 눌러 차시 표를 만들어 주세요.'; statusEl.style.color='#f04438'; } return; }
+    if (!rows.length){ setStatus('먼저 [대시보드 계산]을 눌러 차시 표를 만들어 주세요.', '#f04438'); return; }
 
-    var loaded = null, err = null;
-    try{ loaded = await loadCandles(market, raw); }catch(e){ err = e; }
+    setStatus('시세 불러오는 중…');
+    var loaded = null;
+    try{ loaded = await loadCandles(market, raw); }catch(e){ loaded = null; }
 
     if (loaded && loaded.data.length){
       series.setData(loaded.data);
@@ -578,15 +613,11 @@ window.addEventListener('DOMContentLoaded',()=>{updateQtyField();updateGap();syn
     });
     chart.timeScale().fitContent();
 
-    if (statusEl){
-      if (loaded && loaded.data.length){
-        var last = loaded.data[loaded.data.length-1].close;
-        statusEl.style.color='#12b76a';
-        statusEl.textContent = loaded.symUsed+' · 현재가 '+Number(last).toLocaleString()+' · 차시선 '+ (rows.length*((opts.showSell?1:0)+(opts.showBuy?1:0))) +'개';
-      } else {
-        statusEl.style.color='#dd8500';
-        statusEl.textContent = '시세뵼 불러오지 몹해 차시선만 표시합니다. (좱목/심볼을 확인하거나 잠시 후 다시 시도)';
-      }
+    if (loaded && loaded.data.length){
+      var last = loaded.data[loaded.data.length-1].close;
+      setStatus(loaded.symUsed+' · 현재가 '+Number(last).toLocaleString()+' · 차시선 '+ (rows.length*((opts.showSell?1:0)+(opts.showBuy?1:0))) +'개', '#12b76a');
+    } else {
+      setStatus('시세를 불러오지 못해 차시선만 표시합니다. 종목/심볼을 확인하거나 [불러오기]를 다시 눌러 주세요.', '#dd8500');
     }
   }
 
@@ -618,11 +649,11 @@ window.addEventListener('DOMContentLoaded',()=>{updateQtyField();updateGap();syn
         '<select id="slabMarket" style="padding:8px 10px;border:1px solid var(--line,#e5e8ee);border-radius:8px;font-size:13px">'+
           '<option value="coin">코인</option><option value="kr">국내주식</option><option value="us">미국주식</option>'+
         '</select>'+
-        '<input id="slabChartSym" placeholder="종목/심뻼" style="flex:1;min-width:130px;padding:8px 10px;border:1px solid var(--line,#e5e8ee);border-radius:8px;font-size:13px">'+
+        '<input id="slabChartSym" placeholder="종목/심볼" style="flex:1;min-width:130px;padding:8px 10px;border:1px solid var(--line,#e5e8ee);border-radius:8px;font-size:13px">'+
         '<button id="slabChartLoad" style="padding:8px 14px;border:none;border-radius:8px;background:var(--accent,#3366ff);color:#fff;font-weight:700;font-size:13px;cursor:pointer">불러오기</button>'+
         '<label style="font-size:13px;display:flex;align-items:center;gap:4px;cursor:pointer"><input type="checkbox" id="slabTglSell" checked> 매도선</label>'+
         '<label style="font-size:13px;display:flex;align-items:center;gap:4px;cursor:pointer"><input type="checkbox" id="slabTglBuy"> 매수선</label>'+
-        '<label style="font-size:13px;display:flex;align-items:center;gap:4px;cursor:pointer"><input type="checkbox" id="slabTglLbl"> 라뚨</label>'+
+        '<label style="font-size:13px;display:flex;align-items:center;gap:4px;cursor:pointer"><input type="checkbox" id="slabTglLbl"> 라벨</label>'+
       '</div>'+
       '<div id="slabChartBox" style="flex:1 1 auto;position:relative;min-height:0"></div>'+
       '<div style="flex:0 0 auto;padding:8px 14px;border-top:1px solid var(--line,#e5e8ee)"><span id="slabChartStatus" style="font-size:12px;color:var(--muted,#6b7684)"></span></div>';
@@ -635,8 +666,7 @@ window.addEventListener('DOMContentLoaded',()=>{updateQtyField();updateGap();syn
 
     function opts(){ return { showSell: m.querySelector('#slabTglSell').checked, showBuy: m.querySelector('#slabTglBuy').checked, labels: m.querySelector('#slabTglLbl').checked }; }
     function draw(){
-      statusEl.style.color = 'var(--muted,#6b7684)'; statusEl.textContent = '불러오는 중…';
-      render(box, marketSel.value, symInput.value, opts(), statusEl).catch(function(e){ statusEl.style.color='#f04438'; statusEl.textContent = (e&&e.message)||'오류가 발생했습니다.'; });
+      render(box, marketSel.value, symInput.value, opts(), statusEl).catch(function(e){ statusEl.style.color='#f04438'; statusEl.textContent = (e&&e.message)||'오류가 발생했습니다. 다시 시도해 주세요.'; });
     }
     function openModal(){
       var mk = marketFromCcy(activeCcy());
@@ -657,5 +687,6 @@ window.addEventListener('DOMContentLoaded',()=>{updateQtyField();updateGap();syn
   else buildUI();
 })();
 </script>
+
 </body>
 </html>
