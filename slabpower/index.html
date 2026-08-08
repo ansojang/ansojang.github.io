@@ -438,5 +438,146 @@ function calc(){
 }
 window.addEventListener('DOMContentLoaded',()=>{updateQtyField();updateGap();syncGapField();feasibility();});
 </script>
+<!-- ===== StableLab 차시별 그래프(트레이딩뷰 Pine) 기능 : 이 블록을 index.html 의 </body> 바로 앞에 붙여넣으세요 ===== -->
+<script>
+(function(){
+  if(window.__slabGraphLoaded) return;
+  window.__slabGraphLoaded = true;
+
+  function parseNum(s){
+    var first=(s||'').trim().split(/\s+/)[0];
+    var v=parseFloat(first.replace(/[^0-9.]/g,''));
+    return isFinite(v)?v:null;
+  }
+  function readRows(){
+    var rows=[].slice.call(document.querySelectorAll('#tbody tr'));
+    var out=[];
+    rows.forEach(function(r,i){
+      var c=r.cells; if(!c||c.length<4) return;
+      var buy=parseNum(c[1].innerText), sell=parseNum(c[3].innerText);
+      if(buy!=null && sell!=null) out.push({cha:i+1, buy:buy, sell:sell});
+    });
+    return out;
+  }
+  function genPine(rows, sym){
+    var f=function(v){return Number.isInteger(v)?v.toFixed(1):String(v);};
+    var buys=rows.map(function(r){return f(r.buy);}).join(', ');
+    var sells=rows.map(function(r){return f(r.sell);}).join(', ');
+    var title='StableLab 차시선'+(sym?(' · '+sym):'');
+    return '//@version=5\n'+
+'indicator("'+title+'", overlay=true, max_lines_count=500, max_labels_count=500)\n'+
+'showBuy  = input.bool(false, "매수선 표시")\n'+
+'showSell = input.bool(true,  "매도선 표시")\n'+
+'showLbl  = input.bool(true,  "차시 번호 라벨")\n'+
+'lblEvery = input.int(5, "라벨 표시 간격(N차마다)", minval=1)\n'+
+'buyCol   = input.color(#12b76a, "매수선 색")\n'+
+'sellCol  = input.color(#f04438, "매도선 색")\n'+
+'wdt      = input.int(1, "선 두께", minval=1, maxval=4)\n'+
+'\n'+
+'var float[] buy  = array.from('+buys+')\n'+
+'var float[] sell = array.from('+sells+')\n'+
+'n = array.size(buy)\n'+
+'\n'+
+'var line[]  L = array.new_line()\n'+
+'var label[] B = array.new_label()\n'+
+'\n'+
+'if barstate.islast\n'+
+'    if array.size(L) > 0\n'+
+'        for i = 0 to array.size(L) - 1\n'+
+'            line.delete(array.get(L, i))\n'+
+'    if array.size(B) > 0\n'+
+'        for i = 0 to array.size(B) - 1\n'+
+'            label.delete(array.get(B, i))\n'+
+'    array.clear(L)\n'+
+'    array.clear(B)\n'+
+'    x1 = bar_index - 2\n'+
+'    x2 = bar_index\n'+
+'    for i = 0 to n - 1\n'+
+'        cha = i + 1\n'+
+'        bp = array.get(buy, i)\n'+
+'        sp = array.get(sell, i)\n'+
+'        if showBuy\n'+
+'            array.push(L, line.new(x1, bp, x2, bp, extend=extend.both, color=buyCol, width=wdt))\n'+
+'        if showSell\n'+
+'            array.push(L, line.new(x1, sp, x2, sp, extend=extend.both, color=sellCol, width=wdt))\n'+
+'        if showLbl and cha % lblEvery == 0\n'+
+'            if showBuy\n'+
+'                array.push(B, label.new(x2, bp, str.tostring(cha) + "차 매수", style=label.style_label_left, textcolor=buyCol, color=color.new(buyCol,85), size=size.small))\n'+
+'            if showSell\n'+
+'                array.push(B, label.new(x2, sp, str.tostring(cha) + "차 매도", style=label.style_label_left, textcolor=sellCol, color=color.new(sellCol,85), size=size.small))\n';
+  }
+
+  function buildUI(){
+    if(document.getElementById('slabGraphWrap')) return;
+    var calcBtn=[].slice.call(document.querySelectorAll('button')).find(function(b){return /대시보드 계산/.test(b.textContent)||(b.getAttribute('onclick')||'').indexOf('calc(')>-1;});
+    if(!calcBtn) return;
+
+    var wrap=document.createElement('div');
+    wrap.id='slabGraphWrap'; wrap.style.cssText='margin-top:8px';
+    var gbtn=document.createElement('button');
+    gbtn.type='button'; gbtn.id='slabGraphBtn';
+    gbtn.textContent='📈 차시별 그래프 보기 (트레이딩뷰)';
+    gbtn.style.cssText='width:100%;padding:12px;border:1px solid var(--accent,#3366ff);background:var(--card,#fff);color:var(--accent,#3366ff);border-radius:12px;font-weight:700;font-size:15px;cursor:pointer';
+    wrap.appendChild(gbtn);
+    calcBtn.parentNode.insertBefore(wrap, calcBtn.nextSibling);
+
+    var m=document.createElement('div');
+    m.id='slabGraphModal';
+    m.style.cssText='display:none;position:fixed;inset:0;z-index:9999;background:rgba(10,15,25,.55);align-items:center;justify-content:center;padding:16px';
+    m.innerHTML=''+
+     '<div style="background:var(--card,#fff);color:var(--text,#17181c);max-width:640px;width:100%;max-height:88vh;overflow:auto;border-radius:16px;padding:20px;box-shadow:0 20px 60px rgba(0,0,0,.3)">'+
+       '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">'+
+         '<h3 style="margin:0;font-size:18px;font-weight:800">📈 트레이딩뷰 차시선 스크립트</h3>'+
+         '<button id="slabClose" style="border:none;background:transparent;font-size:22px;cursor:pointer;color:var(--muted,#6b7684)">×</button>'+
+       '</div>'+
+       '<p style="margin:0 0 10px;font-size:13px;color:var(--muted,#6b7684);line-height:1.5">아래 코드를 <b>복사</b> → 트레이딩뷰 차트 하단 <b>Pine 편집기</b>에 붙여넣기 → <b>차트에 추가</b> 하면 차시별 매수·매도선이 그려집니다.</p>'+
+       '<div style="display:flex;gap:8px;align-items:center;margin-bottom:10px;flex-wrap:wrap">'+
+         '<label style="font-size:13px;color:var(--muted,#6b7684)">종목/심볼(선택)</label>'+
+         '<input id="slabSym" placeholder="예: 삼성전자 / KRX:005930 / BINANCE:BTCUSDT" style="flex:1;min-width:180px;padding:8px 10px;border:1px solid var(--line,#e5e8ee);border-radius:8px;font-size:13px">'+
+       '</div>'+
+       '<textarea id="slabPine" readonly spellcheck="false" style="width:100%;height:240px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11.5px;line-height:1.45;border:1px solid var(--line,#e5e8ee);border-radius:10px;padding:12px;background:var(--card2,#f4f6fa);color:var(--text,#17181c);resize:vertical"></textarea>'+
+       '<div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">'+
+         '<button id="slabCopy" style="flex:1;min-width:140px;padding:12px;border:none;border-radius:10px;background:var(--accent,#3366ff);color:#fff;font-weight:700;font-size:14px;cursor:pointer">📋 코드 복사</button>'+
+         '<button id="slabOpenTV" style="flex:1;min-width:140px;padding:12px;border:1px solid var(--accent,#3366ff);border-radius:10px;background:var(--card,#fff);color:var(--accent,#3366ff);font-weight:700;font-size:14px;cursor:pointer">↗ 트레이딩뷰 차트 열기</button>'+
+       '</div>'+
+       '<p id="slabHint" style="margin:10px 0 0;font-size:12px;color:var(--green,#12b76a);min-height:16px"></p>'+
+     '</div>';
+    document.body.appendChild(m);
+
+    function regen(){
+      var rows=readRows(); var sym=document.getElementById('slabSym').value.trim();
+      if(rows.length) document.getElementById('slabPine').value=genPine(rows, sym);
+      return rows;
+    }
+    function openModal(){
+      var rows=readRows();
+      var hint=document.getElementById('slabHint');
+      if(!rows.length){ document.getElementById('slabPine').value=''; hint.textContent='먼저 [대시보드 계산]을 눌러 표를 만들어 주세요.'; hint.style.color='var(--red,#f04438)'; m.style.display='flex'; return; }
+      document.getElementById('slabPine').value=genPine(rows, document.getElementById('slabSym').value.trim());
+      hint.textContent=rows.length+'개 차시(매수·매도선 '+(rows.length*2)+'개)가 준비되었습니다.'; hint.style.color='var(--green,#12b76a)';
+      m.style.display='flex';
+    }
+    gbtn.addEventListener('click',openModal);
+    m.addEventListener('click',function(e){ if(e.target===m) m.style.display='none'; });
+    document.getElementById('slabClose').addEventListener('click',function(){m.style.display='none';});
+    document.getElementById('slabSym').addEventListener('input',regen);
+    document.getElementById('slabCopy').addEventListener('click',function(){
+      var ta=document.getElementById('slabPine'); ta.select();
+      var done=function(){ var h=document.getElementById('slabHint'); h.textContent='✅ 복사됨! 트레이딩뷰 Pine 편집기에 붙여넣기(Ctrl+V) 하세요.'; h.style.color='var(--green,#12b76a)'; };
+      if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(ta.value).then(done,function(){document.execCommand('copy');done();}); }
+      else { document.execCommand('copy'); done(); }
+    });
+    document.getElementById('slabOpenTV').addEventListener('click',function(){
+      var sym=document.getElementById('slabSym').value.trim();
+      var url=sym?('https://www.tradingview.com/chart/?symbol='+encodeURIComponent(sym)):'https://www.tradingview.com/chart/';
+      window.open(url,'_blank');
+    });
+  }
+
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',buildUI);
+  else buildUI();
+})();
+</script>
+
 </body>
 </html>
