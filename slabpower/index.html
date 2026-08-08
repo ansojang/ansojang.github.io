@@ -579,5 +579,223 @@ window.addEventListener('DOMContentLoaded',()=>{updateQtyField();updateGap();syn
 })();
 </script>
 
+<!-- ===== StableLab 인앱 차트(트레이딩뷰 Lightweight Charts + 차시선) : 이 블록을 </body> 앞에 붙여넣으세요 ===== -->
+<script>
+(function(){
+  if (window.__slabChartLoaded) return;
+  window.__slabChartLoaded = true;
+
+  var LIB_URL = 'https://unpkg.com/lightweight-charts@4.1.3/dist/lightweight-charts.standalone.production.js';
+  var libP = null;
+  function loadLib(){
+    if (window.LightweightCharts) return Promise.resolve();
+    if (libP) return libP;
+    libP = new Promise(function(res, rej){
+      var s = document.createElement('script');
+      s.src = LIB_URL;
+      s.onload = function(){ res(); };
+      s.onerror = function(){ rej(new Error('차트 라이브러리를 불러오지 못했습니다.')); };
+      document.head.appendChild(s);
+    });
+    return libP;
+  }
+
+  function parseNum(s){
+    var f = (s||'').trim().split(/\s+/)[0];
+    var v = parseFloat(f.replace(/[^0-9.]/g,''));
+    return isFinite(v) ? v : null;
+  }
+  function readRows(){
+    var rs = Array.prototype.slice.call(document.querySelectorAll('#tbody tr'));
+    var out = [];
+    rs.forEach(function(r,i){
+      var c = r.cells; if(!c || c.length<4) return;
+      var b = parseNum(c[1].innerText), s = parseNum(c[3].innerText);
+      if (b!=null && s!=null) out.push({cha:i+1, buy:b, sell:s});
+    });
+    return out;
+  }
+  function activeCcy(){
+    var btns = Array.prototype.slice.call(document.querySelectorAll('button'));
+    var b = btns.find(function(x){ return /active/.test(x.className) && /\((US|KR|DT)\)/.test(x.textContent); });
+    if (!b) return 'krw';
+    if (/DT/.test(b.textContent)) return 'dt';
+    if (/US/.test(b.textContent)) return 'us';
+    return 'krw';
+  }
+  function marketFromCcy(c){ return c==='dt' ? 'coin' : (c==='us' ? 'us' : 'kr'); }
+  function defaultSym(market){ return market==='coin' ? 'BTCUSDT' : (market==='us' ? 'NVDA' : '005930'); }
+
+  function resolveSyms(market, raw){
+    raw = (raw||'').trim();
+    if (!raw) raw = defaultSym(market);
+    if (market==='coin') return [raw.toUpperCase()];
+    if (market==='us') return [raw.toUpperCase()];
+    if (/\./.test(raw)) return [raw.toUpperCase()];
+    if (/^\d{6}$/.test(raw)) return [raw+'.KS', raw+'.KQ'];
+    return [raw.toUpperCase()];
+  }
+
+  async function fetchBinance(sym){
+    var r = await fetch('https://api.binance.com/api/v3/klines?symbol='+encodeURIComponent(sym)+'&interval=1d&limit=180');
+    if (!r.ok) throw new Error('binance '+r.status);
+    var j = await r.json();
+    if (!Array.isArray(j)) throw new Error('binance data');
+    return j.map(function(k){ return {time:Math.floor(k[0]/1000), open:+k[1], high:+k[2], low:+k[3], close:+k[4]}; });
+  }
+  async function fetchYahoo(sym){
+    var yq = 'https://query1.finance.yahoo.com/v8/finance/chart/'+encodeURIComponent(sym)+'?interval=1d&range=6mo';
+    var proxies = [
+      function(u){ return 'https://corsproxy.io/?url='+encodeURIComponent(u); },
+      function(u){ return 'https://api.allorigins.win/raw?url='+encodeURIComponent(u); }
+    ];
+    var j = null;
+    for (var i=0;i<proxies.length;i++){
+      try{
+        var r = await fetch(proxies[i](yq));
+        if (!r.ok) continue;
+        var t = await r.json();
+        if (t && t.chart && t.chart.result) { j = t; break; }
+      }catch(e){}
+    }
+    if (!j) throw new Error('no data');
+    var res = j.chart.result[0], ts = res.timestamp || [], q = (res.indicators.quote||[])[0]||{}, out = [];
+    for (var i=0;i<ts.length;i++){
+      if (q.open[i]==null || q.close[i]==null) continue;
+      out.push({time:ts[i], open:q.open[i], high:q.high[i], low:q.low[i], close:q.close[i]});
+    }
+    if (!out.length) throw new Error('empty');
+    return {data:out, meta:res.meta};
+  }
+  async function loadCandles(market, raw){
+    var syms = resolveSyms(market, raw);
+    if (market==='coin'){ return {data:await fetchBinance(syms[0]), symUsed:syms[0]}; }
+    var lastErr = null;
+    for (var i=0;i<syms.length;i++){
+      try{ var y = await fetchYahoo(syms[i]); return {data:y.data, symUsed:syms[i], meta:y.meta}; }
+      catch(e){ lastErr = e; }
+    }
+    throw (lastErr || new Error('no data'));
+  }
+
+  var chart=null, series=null, ro=null;
+  function destroyChart(){
+    if (ro){ try{ro.disconnect();}catch(e){} ro=null; }
+    if (chart){ try{chart.remove();}catch(e){} chart=null; series=null; }
+  }
+  async function render(container, market, raw, opts, statusEl){
+    await loadLib();
+    destroyChart();
+    chart = LightweightCharts.createChart(container, {
+      layout:{ background:{color:'#ffffff'}, textColor:'#333', fontFamily:'inherit' },
+      grid:{ vertLines:{color:'#f0f2f5'}, horzLines:{color:'#f0f2f5'} },
+      rightPriceScale:{ borderColor:'#e5e8ee' },
+      timeScale:{ borderColor:'#e5e8ee', timeVisible:false },
+      crosshair:{ mode:0 },
+      width: container.clientWidth, height: container.clientHeight
+    });
+    series = chart.addCandlestickSeries({ upColor:'#f04438', downColor:'#3366ff', borderVisible:false, wickUpColor:'#f04438', wickDownColor:'#3366ff' });
+    ro = new ResizeObserver(function(){ if(chart) chart.resize(container.clientWidth, container.clientHeight); });
+    ro.observe(container);
+
+    var rows = readRows();
+    if (!rows.length){ if(statusEl){ statusEl.textContent='먼저 [대시보드 계산]을 눌러 차시 표를 만들어 주세요.'; statusEl.style.color='#f04438'; } return; }
+
+    var loaded = null, err = null;
+    try{ loaded = await loadCandles(market, raw); }catch(e){ err = e; }
+
+    if (loaded && loaded.data.length){
+      series.setData(loaded.data);
+    } else {
+      var lows = rows.map(function(r){return r.buy;}), highs = rows.map(function(r){return r.sell;});
+      var mn = Math.min.apply(null, lows), mx = Math.max.apply(null, highs);
+      series.setData([{time:1,open:mn,high:mx,low:mn,close:mx},{time:2,open:mn,high:mx,low:mn,close:mx}]);
+    }
+
+    rows.forEach(function(r){
+      if (opts.showSell) series.createPriceLine({ price:r.sell, color:'#f04438', lineWidth:1, lineStyle:0, axisLabelVisible:!!opts.labels, title: opts.labels ? (r.cha+'차 매도') : '' });
+      if (opts.showBuy)  series.createPriceLine({ price:r.buy,  color:'#12b76a', lineWidth:1, lineStyle:0, axisLabelVisible:!!opts.labels, title: opts.labels ? (r.cha+'차 매수') : '' });
+    });
+    chart.timeScale().fitContent();
+
+    if (statusEl){
+      if (loaded && loaded.data.length){
+        var last = loaded.data[loaded.data.length-1].close;
+        statusEl.style.color='#12b76a';
+        statusEl.textContent = loaded.symUsed+' · 현재가 '+Number(last).toLocaleString()+' · 차시선 '+ (rows.length*((opts.showSell?1:0)+(opts.showBuy?1:0))) +'개';
+      } else {
+        statusEl.style.color='#dd8500';
+        statusEl.textContent = '시세뵼 불러오지 몹해 차시선만 표시합니다. (좱목/심볼을 확인하거나 잠시 후 다시 시도)';
+      }
+    }
+  }
+
+  function buildUI(){
+    if (document.getElementById('slabChartWrap')) return;
+    var calcBtn = Array.prototype.slice.call(document.querySelectorAll('button')).find(function(b){ return /대시보드 계산/.test(b.textContent) || (b.getAttribute('onclick')||'').indexOf('calc(')>-1; });
+    if (!calcBtn) return;
+
+    var wrap = document.createElement('div');
+    wrap.id = 'slabChartWrap'; wrap.style.cssText = 'margin-top:8px';
+    var btn = document.createElement('button');
+    btn.type = 'button'; btn.id = 'slabChartBtn';
+    btn.textContent = '📊 차트에서 차시선 바로 보기';
+    btn.style.cssText = 'width:100%;padding:13px;border:none;border-radius:12px;background:var(--accent,#3366ff);color:#fff;font-weight:800;font-size:15px;cursor:pointer';
+    wrap.appendChild(btn);
+    var anchor = document.getElementById('slabGraphWrap') || calcBtn.parentNode.querySelector('#slabGraphWrap');
+    if (anchor && anchor.parentNode) anchor.parentNode.insertBefore(wrap, anchor.nextSibling);
+    else calcBtn.parentNode.insertBefore(wrap, calcBtn.nextSibling);
+
+    var m = document.createElement('div');
+    m.id = 'slabChartModal';
+    m.style.cssText = 'display:none;position:fixed;inset:0;z-index:10000;background:#fff;flex-direction:column';
+    m.innerHTML = ''+
+      '<div style="flex:0 0 auto;padding:10px 14px;border-bottom:1px solid var(--line,#e5e8ee);display:flex;align-items:center;justify-content:space-between;gap:8px">'+
+        '<strong style="font-size:16px">📊 차시선 차트</strong>'+
+        '<button id="slabChartClose" style="border:none;background:transparent;font-size:24px;line-height:1;cursor:pointer;color:var(--muted,#6b7684)">×</button>'+
+      '</div>'+
+      '<div style="flex:0 0 auto;padding:10px 14px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;border-bottom:1px solid var(--line,#e5e8ee)">'+
+        '<select id="slabMarket" style="padding:8px 10px;border:1px solid var(--line,#e5e8ee);border-radius:8px;font-size:13px">'+
+          '<option value="coin">코인</option><option value="kr">국내주식</option><option value="us">미국주식</option>'+
+        '</select>'+
+        '<input id="slabChartSym" placeholder="종목/심뻼" style="flex:1;min-width:130px;padding:8px 10px;border:1px solid var(--line,#e5e8ee);border-radius:8px;font-size:13px">'+
+        '<button id="slabChartLoad" style="padding:8px 14px;border:none;border-radius:8px;background:var(--accent,#3366ff);color:#fff;font-weight:700;font-size:13px;cursor:pointer">불러오기</button>'+
+        '<label style="font-size:13px;display:flex;align-items:center;gap:4px;cursor:pointer"><input type="checkbox" id="slabTglSell" checked> 매도선</label>'+
+        '<label style="font-size:13px;display:flex;align-items:center;gap:4px;cursor:pointer"><input type="checkbox" id="slabTglBuy"> 매수선</label>'+
+        '<label style="font-size:13px;display:flex;align-items:center;gap:4px;cursor:pointer"><input type="checkbox" id="slabTglLbl"> 라뚨</label>'+
+      '</div>'+
+      '<div id="slabChartBox" style="flex:1 1 auto;position:relative;min-height:0"></div>'+
+      '<div style="flex:0 0 auto;padding:8px 14px;border-top:1px solid var(--line,#e5e8ee)"><span id="slabChartStatus" style="font-size:12px;color:var(--muted,#6b7684)"></span></div>';
+    document.body.appendChild(m);
+
+    var symInput = m.querySelector('#slabChartSym');
+    var marketSel = m.querySelector('#slabMarket');
+    var box = m.querySelector('#slabChartBox');
+    var statusEl = m.querySelector('#slabChartStatus');
+
+    function opts(){ return { showSell: m.querySelector('#slabTglSell').checked, showBuy: m.querySelector('#slabTglBuy').checked, labels: m.querySelector('#slabTglLbl').checked }; }
+    function draw(){
+      statusEl.style.color = 'var(--muted,#6b7684)'; statusEl.textContent = '불러오는 중…';
+      render(box, marketSel.value, symInput.value, opts(), statusEl).catch(function(e){ statusEl.style.color='#f04438'; statusEl.textContent = (e&&e.message)||'오류가 발생했습니다.'; });
+    }
+    function openModal(){
+      var mk = marketFromCcy(activeCcy());
+      marketSel.value = mk;
+      if (!symInput.value.trim()) symInput.placeholder = defaultSym(mk);
+      m.style.display = 'flex';
+      setTimeout(draw, 60);
+    }
+    btn.addEventListener('click', openModal);
+    m.querySelector('#slabChartClose').addEventListener('click', function(){ m.style.display='none'; destroyChart(); });
+    m.querySelector('#slabChartLoad').addEventListener('click', draw);
+    symInput.addEventListener('keydown', function(e){ if(e.key==='Enter') draw(); });
+    marketSel.addEventListener('change', function(){ symInput.value=''; symInput.placeholder=defaultSym(marketSel.value); draw(); });
+    ['slabTglSell','slabTglBuy','slabTglLbl'].forEach(function(id){ m.querySelector('#'+id).addEventListener('change', draw); });
+  }
+
+  if (document.readyState==='loading') document.addEventListener('DOMContentLoaded', buildUI);
+  else buildUI();
+})();
+</script>
 </body>
 </html>
