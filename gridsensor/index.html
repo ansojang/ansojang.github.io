@@ -14,6 +14,10 @@
 <style>
 .profpic{display:block}
 @media (max-width:545px){.profpic{max-width:500px;margin:0 auto}}
+.rms{display:flex;flex-wrap:wrap;gap:14px;max-width:1000px;margin:0 auto 24px}
+.rms>div{flex:0 0 auto;width:calc((100% - 14px)/2);box-sizing:border-box}
+.rms>div.full{width:100%}
+@media (max-width:545px){.rms>div{width:100%}}
 .shorts{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;max-width:1020px;margin:0 auto}
 .shorts>figure{flex:0 0 auto;width:calc((100% - 28px)/3);max-width:250px;margin:0}
 .shorts .fr{position:relative;width:100%;padding-top:177.78%;border-radius:14px;overflow:hidden;background:#000;box-shadow:0 10px 26px rgba(16,32,64,.16)}
@@ -407,6 +411,59 @@
       <p style="margin:0 0 10px;font-size:clamp(21px,3.4vw,25px);font-weight:800;color:#FFFFFF;letter-spacing:-.02em;">반복합니다</p>
       <p style="margin:0;font-size:clamp(15px,2.4vw,16px);color:#A6BCDD;">50개 차시가 각자 이 일을 합니다. 사람의 판단은 한 번도 끼어들지 않습니다.</p>
     </div>
+  </div>
+
+  <!-- ▼▼▼ RMS 매매 시스템 5룰 ▼▼▼ -->
+  <div style="max-width:1000px;margin:0 auto 26px;padding-top:clamp(14px,2.5vw,22px);border-top:1px solid #27375C;">
+    <p style="margin:0 0 10px;font-size:clamp(12.5px,2.1vw,14px);letter-spacing:.16em;font-weight:800;color:#7FD4FF;text-align:center;">RMS &middot; RULE-BASED MANAGEMENT SYSTEM</p>
+    <p style="margin:0 0 14px;font-size:clamp(21px,4.2vw,32px);font-weight:800;letter-spacing:-.03em;line-height:1.4;color:#FFFFFF;text-align:center;">
+      정할 것은 <span style="color:#0FC7A9;">다섯 가지</span>뿐입니다
+    </p>
+    <p style="margin:0 auto 30px;max-width:680px;font-size:clamp(15px,2.4vw,17px);color:#93A9CC;text-align:center;line-height:1.8;">
+      이 다섯 가지를 정하고 나면, 그 다음부터는 손댈 일이 없습니다.
+    </p>
+  </div>
+
+  <div class="rms">
+      <div style="background:#131E3A;border:1px solid #27375C;border-radius:16px;padding:clamp(22px,4.2vw,26px) clamp(18px,3.8vw,24px);">
+        <p style="margin:0 0 9px;font-size:clamp(12.5px,2.1vw,13px);letter-spacing:.14em;font-weight:800;color:#0FC7A9;">RULE 01</p>
+        <p style="margin:0 0 9px;font-size:clamp(19px,3.2vw,23px);font-weight:800;color:#FFFFFF;letter-spacing:-.03em;">종목 선정</p>
+        <p style="margin:0;font-size:clamp(15px,2.4vw,16px);color:#A6BCDD;line-height:1.75;">5년을 들고 있어도 괜찮을 만한 <b style="color:#fff;">우량주 위주</b>로 고릅니다. 오늘 오를 종목이 아니라, 오래 버텨도 되는 종목입니다.</p>
+      </div>
+      <div style="background:#131E3A;border:1px solid #27375C;border-radius:16px;padding:clamp(22px,4.2vw,26px) clamp(18px,3.8vw,24px);">
+        <p style="margin:0 0 9px;font-size:clamp(12.5px,2.1vw,13px);letter-spacing:.14em;font-weight:800;color:#0FC7A9;">RULE 02</p>
+        <p style="margin:0 0 9px;font-size:clamp(19px,3.2vw,23px);font-weight:800;color:#FFFFFF;letter-spacing:-.03em;">상단 가격</p>
+        <p style="margin:0;font-size:clamp(15px,2.4vw,16px);color:#A6BCDD;line-height:1.75;">최근 1~3개월 안에 <b style="color:#fff;">여기까지는 오르겠다</b> 싶은 가격을 잡습니다.</p>
+      </div>
+      <div style="background:#131E3A;border:1px solid #27375C;border-radius:16px;padding:clamp(22px,4.2vw,26px) clamp(18px,3.8vw,24px);">
+        <p style="margin:0 0 9px;font-size:clamp(12.5px,2.1vw,13px);letter-spacing:.14em;font-weight:800;color:#0FC7A9;">RULE 03</p>
+        <p style="margin:0 0 9px;font-size:clamp(19px,3.2vw,23px);font-weight:800;color:#FFFFFF;letter-spacing:-.03em;">하단 가격</p>
+        <p style="margin:0;font-size:clamp(15px,2.4vw,16px);color:#A6BCDD;line-height:1.75;">최근 1~3개월 안에 떨어져도 <b style="color:#fff;">이 아래로는 안 가겠다</b> 싶은 가격을 잡습니다.</p>
+      </div>
+      <div style="background:#131E3A;border:1px solid #27375C;border-radius:16px;padding:clamp(22px,4.2vw,26px) clamp(18px,3.8vw,24px);">
+        <p style="margin:0 0 9px;font-size:clamp(12.5px,2.1vw,13px);letter-spacing:.14em;font-weight:800;color:#0FC7A9;">RULE 04</p>
+        <p style="margin:0 0 9px;font-size:clamp(19px,3.2vw,23px);font-weight:800;color:#FFFFFF;letter-spacing:-.03em;">매수 간격</p>
+        <p style="margin:0;font-size:clamp(15px,2.4vw,16px);color:#A6BCDD;line-height:1.75;">가격이 한 차시 내려올 때마다 <b style="color:#fff;">얼마씩 살지</b> 그 간격을 정합니다.</p>
+      </div>
+      <div class="full" style="background:#152B4F;border:1px solid #0FC7A9;border-radius:16px;padding:clamp(22px,4.2vw,26px) clamp(18px,3.8vw,24px);">
+        <p style="margin:0 0 9px;font-size:clamp(12.5px,2.1vw,13px);letter-spacing:.14em;font-weight:800;color:#0FC7A9;">RULE 05</p>
+        <p style="margin:0 0 9px;font-size:clamp(19px,3.2vw,23px);font-weight:800;color:#FFFFFF;letter-spacing:-.03em;">매도 간격</p>
+        <p style="margin:0;font-size:clamp(15px,2.4vw,16px);color:#BBD6F2;line-height:1.75;">
+          가격이 한 차시 올라갈 때마다 <b style="color:#fff;">그 차시만 팔아서 이익을 만듭니다.</b>
+          한 번에 다 파는 게 아니라 차시별로 나눠 파는 것 &mdash; 앞에서 말씀드린 <b style="color:#7FD4FF;">다섯 번째 분산(익절 분산)</b>이 바로 이 룰입니다.
+        </p>
+      </div>
+  </div>
+
+  <div style="max-width:1000px;margin:0 auto 28px;background:#0E2438;border:2px solid #0FC7A9;border-radius:16px;padding:clamp(24px,4vw,32px) clamp(20px,4vw,30px);text-align:center;">
+    <p style="margin:0 0 12px;font-size:clamp(18px,3.4vw,26px);font-weight:800;color:#FFFFFF;letter-spacing:-.03em;line-height:1.45;">
+      이 다섯 가지를 <span style="color:#FF8FA3;">사람이 판단하지 않습니다.</span><br>
+      정해둔 규칙대로 <span style="color:#0FC7A9;">시스템이 대신 관리합니다.</span>
+    </p>
+    <p style="margin:0;font-size:clamp(15px,2.4vw,17px);color:#A6BCDD;line-height:1.85;">
+      그래서 이 방식을 <b style="color:#fff;">RMS &mdash; Rule(룰베이스) &middot; Management(매니지먼트) &middot; System(시스템)</b> 이라고 부릅니다.<br>
+      오르든 내리든 그날의 기분과 상관없이, <b style="color:#fff;">정한 규칙만 그대로 돌아갑니다.</b>
+    </p>
   </div>
 
   <div style="max-width:1000px;margin:0 auto 28px;background:#101A33;border:1px dashed #3A5A8C;border-radius:16px;padding:clamp(24px,4vw,32px) clamp(20px,4vw,30px);">
