@@ -14,6 +14,36 @@
 <style>
 .profpic{display:block}
 @media (max-width:545px){.profpic{max-width:500px;margin:0 auto}}
+.cmp{max-width:1000px;margin:0 auto}
+.cmp .r{display:flex;gap:10px;align-items:stretch;margin-bottom:10px}
+.cmp .lab{flex:0 0 132px;display:flex;align-items:center;justify-content:center;text-align:center;
+ background:#101A33;border:1px solid #27375C;border-radius:12px;padding:14px 10px;
+ font-size:clamp(14px,2.3vw,15px);font-weight:800;color:#9FB8DD;letter-spacing:-.03em}
+.cmp .a,.cmp .b{flex:1;border-radius:12px;padding:14px clamp(13px,2.6vw,18px);
+ font-size:clamp(14.5px,2.4vw,16px);font-weight:700;line-height:1.55;letter-spacing:-.03em;
+ display:flex;align-items:center;gap:9px}
+.cmp .a{background:rgba(255,107,134,.07);border:1px solid rgba(255,107,134,.34);color:#E7B8C2}
+.cmp .b{background:rgba(15,199,169,.09);border:1px solid rgba(15,199,169,.42);color:#CFEFE7}
+.cmp .m{font-weight:900;flex:0 0 auto}
+.cmp .a .m{color:#FF8FA3}.cmp .b .m{color:#0FC7A9}
+.cmp .hd{display:flex;gap:10px;margin-bottom:10px}
+.cmp .hd i{flex:0 0 132px}
+.cmp .hd span{flex:1;text-align:center;padding:9px 8px;border-radius:10px;
+ font-size:clamp(13px,2.2vw,14.5px);font-weight:900;letter-spacing:-.02em}
+.cmp .hd .h1{background:rgba(255,107,134,.14);color:#FF8FA3}
+.cmp .hd .h2{background:rgba(15,199,169,.16);color:#0FC7A9}
+@media (max-width:545px){
+  .cmp .r{flex-direction:column;gap:7px;margin-bottom:16px}
+  .cmp .lab{flex:0 0 auto;justify-content:flex-start;text-align:left;padding:10px 14px;
+   background:transparent;border:0;border-left:3px solid #3A5A8C;border-radius:0;
+   font-size:14px;color:#7FA6E8;letter-spacing:.04em}
+  .cmp .hd{display:none}
+  .cmp .a::before{content:"일반 투자";flex:0 0 66px;font-size:12.5px;font-weight:900;color:#FF8FA3}
+  .cmp .b::before{content:"RMS 투자";flex:0 0 66px;font-size:12.5px;font-weight:900;color:#0FC7A9}
+}
+.strat{display:flex;flex-wrap:wrap;gap:14px;max-width:1000px;margin:0 auto}
+.strat>div{flex:0 0 auto;width:calc((100% - 14px)/2);box-sizing:border-box}
+@media (max-width:545px){.strat>div{width:100%}}
 .sched{display:flex;flex-wrap:wrap;gap:14px;max-width:900px;margin:0 auto 20px}
 .sched>div{flex:0 0 auto;width:calc((100% - 28px)/3);box-sizing:border-box}
 @media (max-width:545px){.sched>div{width:100%}}
@@ -465,6 +495,7 @@
     </p>
     <p style="margin:0;font-size:clamp(15px,2.4vw,17px);color:#A6BCDD;line-height:1.85;">
       그래서 이 방식을 <b style="color:#fff;">RMS &mdash; Rule(룰베이스) &middot; Management(매니지먼트) &middot; System(시스템)</b> 이라고 부릅니다.<br>
+      <span style="color:#7FD4FF;">사용자가 정한 규칙에 따라 주문 조건과 실행 과정을 관리하는 소프트웨어</span>입니다.<br>
       오르든 내리든 그날의 기분과 상관없이, <b style="color:#fff;">정한 규칙만 그대로 돌아갑니다.</b>
     </p>
   </div>
@@ -482,6 +513,49 @@
   <!-- ▼▼▼ 티저 GIF 삽입 위치 — src를 업로드한 이미지 주소로 교체하세요 ▼▼▼ -->
   <div style="max-width:1000px;margin:0 auto;">
     <img src="grid.gif" alt="그리드센서 50차시 분할 매매 작동 방식" style="width:100%;height:auto;display:block;border-radius:16px;border:1px solid #27375C;">
+  </div>
+
+  <div style="max-width:1000px;margin:34px auto 0;padding-top:clamp(26px,4vw,34px);border-top:1px solid #27375C;">
+    <p style="margin:0 0 10px;font-size:clamp(12.5px,2.1vw,14px);letter-spacing:.16em;font-weight:800;color:#7FD4FF;text-align:center;">일반 투자 &nbsp;VS&nbsp; RMS 투자</p>
+    <p style="margin:0 0 26px;font-size:clamp(21px,4.2vw,32px);font-weight:800;letter-spacing:-.03em;line-height:1.4;color:#FFFFFF;text-align:center;">
+      무엇이 달라지는지<br><span style="color:#0FC7A9;">한 줄씩 비교해 보시죠</span>
+    </p>
+  </div>
+
+  <div class="cmp">
+    <div class="hd"><i></i><span class="h1">일반 투자</span><span class="h2">RMS 투자</span></div>
+      <div class="r">
+        <div class="lab">매매 기준</div>
+        <div class="a"><span class="m">&#10005;</span>감 · 뉴스 · 분위기로 판단합니다</div>
+        <div class="b"><span class="m">&#10003;</span>미리 정한 규칙대로 실행합니다</div>
+      </div>
+      <div class="r">
+        <div class="lab">하락할 때</div>
+        <div class="a"><span class="m">&#10005;</span>불안한 손절, 감에 의존한 물타기</div>
+        <div class="b"><span class="m">&#10003;</span>차시별 가격에서 규칙대로 매수</div>
+      </div>
+      <div class="r">
+        <div class="lab">매도 타이밍</div>
+        <div class="a"><span class="m">&#10005;</span>욕심과 공포에 좌우됩니다</div>
+        <div class="b"><span class="m">&#10003;</span>목표가에 닿으면 그 차시만 매도</div>
+      </div>
+      <div class="r">
+        <div class="lab">시장 감시</div>
+        <div class="a"><span class="m">&#10005;</span>하루 종일 차트를 봅니다</div>
+        <div class="b"><span class="m">&#10003;</span>시스템이 대신 지켜봅니다</div>
+      </div>
+      <div class="r">
+        <div class="lab">수익 구조</div>
+        <div class="a"><span class="m">&#10005;</span>올라야만 수익이 납니다</div>
+        <div class="b"><span class="m">&#10003;</span>오르내리는 변동에서 반복 익절</div>
+      </div>
+  </div>
+
+  <div style="max-width:1000px;margin:22px auto 0;text-align:center;">
+    <p style="margin:0;font-size:clamp(17px,3.2vw,25px);font-weight:800;color:#FFFFFF;letter-spacing:-.03em;line-height:1.5;">
+      <span style="color:#FF8FA3;">방향을 맞히는 투자</span>에서<br>
+      <span style="color:#0FC7A9;">규칙을 지키는 투자</span>로.
+    </p>
   </div>
 </div>
 
@@ -740,7 +814,60 @@
     강의만 들으려고 오지 마세요.<br><span style="color:#0FC7A9;">부자의 돈 버는 방식을<br>그대로 복제하고 싶은 분만 오세요</span>
   </p>
   <p style="margin:0 auto 34px;max-width:680px;font-size:clamp(15px,2.4vw,17px);color:#A6BCDD;text-align:center;line-height:1.8;">
-    특강에 오신 분 전원께 <b style="color:#fff;">그리드센서 1개월 이용</b>을 무료로 드립니다.
+    특강에 오신 분 전원께 <b style="color:#fff;">RMS 클라우드 1개월 이용</b>을 무료로 드립니다.
+  </p>
+
+  <!-- ▼▼▼ 특전 · RMS 클라우드 1개월 무료 ▼▼▼ -->
+  <div style="max-width:900px;margin:0 auto 34px;background:linear-gradient(135deg,rgba(15,199,169,.16),rgba(47,107,255,.14));border:2px solid #0FC7A9;border-radius:20px;padding:clamp(28px,4.6vw,38px) clamp(22px,4vw,32px);text-align:center;">
+    <p style="margin:0 0 12px;display:inline-block;padding:8px 20px;border-radius:999px;background:#0FC7A9;font-size:clamp(12.5px,2.2vw,14px);font-weight:900;letter-spacing:.04em;color:#04231F;">참석자 전원 · 조건 없음</p>
+    <p style="margin:0 0 14px;font-size:clamp(24px,5vw,42px);font-weight:800;color:#FFFFFF;letter-spacing:-.04em;line-height:1.3;">
+      RMS 클라우드<br><span style="color:#0FC7A9;">1개월 무료 이용</span>
+    </p>
+    <p style="margin:0 auto 24px;max-width:640px;font-size:clamp(15px,2.4vw,17px);color:#CFE0F8;line-height:1.85;">
+      RMS 클라우드는 <b style="color:#fff;">그리드센서를 웹에서 바로 쓰는 서비스</b>입니다.<br>
+      설치할 것도, 켜 둘 컴퓨터도 없습니다. 접속만 하면 됩니다.
+    </p>
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:9px;">
+      <span style="padding:9px 17px;border-radius:11px;background:rgba(10,18,38,.55);border:1px solid #3A5A8C;font-size:clamp(13.5px,2.3vw,15px);font-weight:800;color:#DCE8FA;white-space:nowrap;">설치 불필요</span>
+      <span style="padding:9px 17px;border-radius:11px;background:rgba(10,18,38,.55);border:1px solid #3A5A8C;font-size:clamp(13.5px,2.3vw,15px);font-weight:800;color:#DCE8FA;white-space:nowrap;">PC · 모바일 어디서든</span>
+      <span style="padding:9px 17px;border-radius:11px;background:rgba(10,18,38,.55);border:1px solid #3A5A8C;font-size:clamp(13.5px,2.3vw,15px);font-weight:800;color:#DCE8FA;white-space:nowrap;">KR &middot; US &middot; DT</span>
+      <span style="padding:9px 17px;border-radius:11px;background:rgba(10,18,38,.55);border:1px solid #3A5A8C;font-size:clamp(13.5px,2.3vw,15px);font-weight:800;color:#DCE8FA;white-space:nowrap;">이용료 0원</span>
+    </div>
+  </div>
+
+  <!-- ▼▼▼ 특강에서 배우는 두 전략 ▼▼▼ -->
+  <div style="max-width:1000px;margin:0 auto 22px;">
+    <p style="margin:0 0 10px;font-size:clamp(12.5px,2.1vw,14px);letter-spacing:.16em;font-weight:800;color:#7FD4FF;text-align:center;">특강에서 배우는 두 전략</p>
+    <p style="margin:0 0 24px;font-size:clamp(20px,4vw,30px);font-weight:800;color:#FFFFFF;letter-spacing:-.03em;line-height:1.4;text-align:center;">
+      파동형과 적립형, <span style="color:#0FC7A9;">설계법을 모두</span> 알려드립니다
+    </p>
+  </div>
+
+  <div class="strat">
+    <div style="background:#131E3A;border:1px solid #27375C;border-radius:18px;padding:clamp(24px,4.4vw,30px) clamp(20px,4vw,26px);">
+      <p style="margin:0 0 9px;font-size:clamp(12.5px,2.1vw,13px);letter-spacing:.14em;font-weight:800;color:#7FD4FF;">STRATEGY 01</p>
+      <p style="margin:0 0 12px;font-size:clamp(22px,3.6vw,27px);font-weight:800;color:#FFFFFF;letter-spacing:-.04em;">파동형</p>
+      <p style="margin:0 0 16px;font-size:clamp(15px,2.4vw,16.5px);color:#A6BCDD;line-height:1.8;">
+        차시마다 <b style="color:#fff;">따로 사고, 따로 팝니다.</b> 같은 차시끼리만 청산하기 때문에, 짧은 반등이 올 때마다 그 차시의 차익이 실현됩니다.
+      </p>
+      <p style="margin:0;padding:13px 16px;border-radius:11px;background:#0A1226;border:1px solid #3A5A8C;font-size:clamp(14px,2.3vw,15px);font-weight:700;color:#7FD4FF;line-height:1.6;">
+        하락 &middot; 횡보 구간에서 차익을 쌓는 방식
+      </p>
+    </div>
+    <div style="background:#131E3A;border:1px solid #27375C;border-radius:18px;padding:clamp(24px,4.4vw,30px) clamp(20px,4vw,26px);">
+      <p style="margin:0 0 9px;font-size:clamp(12.5px,2.1vw,13px);letter-spacing:.14em;font-weight:800;color:#0FC7A9;">STRATEGY 02</p>
+      <p style="margin:0 0 12px;font-size:clamp(22px,3.6vw,27px);font-weight:800;color:#FFFFFF;letter-spacing:-.04em;">적립형</p>
+      <p style="margin:0 0 16px;font-size:clamp(15px,2.4vw,16.5px);color:#A6BCDD;line-height:1.8;">
+        정한 구간마다 <b style="color:#fff;">나눠 사서 수량을 모읍니다.</b> 담을수록 평균 단가가 내려가고, 목표가에 닿으면 모아둔 수량을 한 번에 정리합니다.
+      </p>
+      <p style="margin:0;padding:13px 16px;border-radius:11px;background:#0A1226;border:1px solid #3A5A8C;font-size:clamp(14px,2.3vw,15px);font-weight:700;color:#0FC7A9;line-height:1.6;">
+        회복에 필요한 반등 폭을 줄이는 방식
+      </p>
+    </div>
+  </div>
+
+  <p style="margin:24px auto 30px;max-width:760px;font-size:clamp(15px,2.4vw,17px);color:#A6BCDD;text-align:center;line-height:1.8;">
+    두 전략 모두 <b style="color:#fff;">현장에서 직접 설계해 보시게</b> 됩니다.
   </p>
 
   <p style="margin:0 auto;max-width:760px;font-size:clamp(12.5px,2.1vw,14px);color:#7E93B8;text-align:center;line-height:1.75;">
@@ -885,7 +1012,7 @@
     </div>
     <div style="flex:1 1 260px;box-sizing:border-box;background:#131A2E;border:1px solid #26304A;border-radius:14px;padding:clamp(19px,3.8vw,22px);">
       <p style="margin:0 0 6px;font-size:clamp(12.5px,2.1vw,13px);letter-spacing:.1em;font-weight:800;color:#7FB6FF;">참석 특전</p>
-      <p style="margin:0;font-size:clamp(15.5px,2.5vw,18px);font-weight:700;color:#FFFFFF;">그리드센서 1개월 이용<br><span style="font-size:.85em;color:#93A9CC;font-weight:400;">오신 분께 현장에서 안내드립니다</span></p>
+      <p style="margin:0;font-size:clamp(15.5px,2.5vw,18px);font-weight:700;color:#FFFFFF;">RMS 클라우드 1개월 이용<br><span style="font-size:.85em;color:#93A9CC;font-weight:400;">오신 분께 현장에서 안내드립니다</span></p>
     </div>
   </div>
 
