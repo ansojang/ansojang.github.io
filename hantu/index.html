@@ -335,6 +335,269 @@
         font-size: 24px;
       }
     }
+
+    /* ===== 추가 안내 (계좌 상태 확인) ===== */
+    .section-break {
+      margin-top: 44px;
+      padding: 34px 32px;
+      border: 1px solid #c8dcff;
+      border-radius: 8px;
+      background: var(--blue-soft);
+      text-align: center;
+    }
+
+    .section-break h2 {
+      font-size: 30px;
+      line-height: 1.3;
+      font-weight: 900;
+    }
+
+    .section-break p {
+      margin-top: 12px;
+      font-size: 20px;
+      line-height: 1.7;
+      font-weight: 850;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .mini-card {
+      padding: 24px 22px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcff;
+    }
+
+    .mini-card.accent {
+      border: 2px solid var(--ink);
+      background: #ffffff;
+    }
+
+    .pill {
+      display: inline-block;
+      margin-bottom: 14px;
+      padding: 5px 14px;
+      border-radius: 999px;
+      font-size: 15px;
+      font-weight: 900;
+      line-height: 1.4;
+    }
+
+    .pill-kr {
+      background: var(--blue);
+      color: #ffffff;
+    }
+
+    .pill-us {
+      background: var(--ink);
+      color: #ffffff;
+    }
+
+    .mini-card h4 {
+      margin: 0 0 6px;
+      font-size: 21px;
+      font-weight: 900;
+      line-height: 1.4;
+    }
+
+    .mini-card p {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.7;
+      font-weight: 800;
+      color: var(--muted);
+    }
+
+    .num-list {
+      display: grid;
+      gap: 9px;
+      margin-top: 4px;
+    }
+
+    .num-list div {
+      font-size: 18px;
+      line-height: 1.65;
+      font-weight: 800;
+    }
+
+    .num-list b {
+      display: inline-block;
+      min-width: 26px;
+      color: var(--blue);
+      font-weight: 900;
+    }
+
+    .mini-card p.danger {
+      color: #dc2626;
+      font-weight: 900;
+    }
+
+    .note-row {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      margin-top: 10px;
+      padding: 18px 20px;
+      border-radius: 8px;
+      background: var(--panel);
+    }
+
+    .note-row span.tag {
+      flex: 0 0 auto;
+      margin-top: 3px;
+      padding: 3px 12px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 900;
+      line-height: 1.5;
+      color: #ffffff;
+    }
+
+    .tag-warn {
+      background: #ef4444;
+    }
+
+    .tag-info {
+      background: var(--blue);
+    }
+
+    .note-row p {
+      margin: 0 !important;
+      font-size: 18px;
+      line-height: 1.72;
+      font-weight: 800;
+    }
+
+    .kv-table {
+      width: 100%;
+      margin-top: 18px;
+      border-collapse: collapse;
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .kv-table th,
+    .kv-table td {
+      padding: 14px 12px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      line-height: 1.55;
+    }
+
+    .kv-table thead th {
+      border-bottom: 2px solid var(--ink);
+      color: var(--muted);
+      font-size: 16px;
+      font-weight: 900;
+    }
+
+    .kv-table tbody th {
+      font-weight: 900;
+    }
+
+    .ok {
+      color: var(--green);
+      font-weight: 900;
+    }
+
+    .bad {
+      color: #dc2626;
+      font-weight: 900;
+    }
+
+    .memo-box {
+      margin-top: 18px;
+      padding: 20px 22px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      font-size: 18px;
+      font-weight: 900;
+      line-height: 2;
+    }
+
+    .memo-box em {
+      margin-right: 10px;
+      color: var(--muted);
+      font-size: 15px;
+      font-style: normal;
+      font-weight: 900;
+    }
+
+    .phone-shot {
+      margin-top: 18px;
+      padding: 22px 16px;
+      border-radius: 8px;
+      background: var(--panel);
+      text-align: center;
+    }
+
+    .phone-shot img {
+      width: min(100%, 320px);
+      margin: 0 auto;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+    }
+
+    .phone-shot figcaption {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 16px;
+      font-weight: 800;
+    }
+
+    .lead {
+      margin-top: 18px !important;
+      font-size: 20px;
+      font-weight: 900;
+      line-height: 1.7;
+    }
+
+    @media (max-width: 960px) {
+      .section-break {
+        width: calc(100vw - 4px);
+        margin-left: 2px;
+        margin-right: 2px;
+        padding: 26px 16px;
+      }
+
+      .section-break h2 {
+        font-size: 25px;
+      }
+
+      .two-col {
+        grid-template-columns: 1fr;
+      }
+
+      .mini-card,
+      .note-row,
+      .memo-box {
+        padding: 16px;
+      }
+
+      .section-break p,
+      .mini-card p,
+      .num-list div,
+      .note-row p,
+      .kv-table,
+      .memo-box,
+      .lead {
+        font-size: 17px;
+      }
+
+      .kv-table th,
+      .kv-table td {
+        padding: 12px 6px;
+      }
+
+      .phone-shot {
+        padding: 16px 8px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -443,6 +706,165 @@
       <section class="success-card">
         <h3>✅ 잠깐!</h3>
         <p>그리드센서 KR, US는 한국투자증권 API 연동을 한 번만 하면 둘 다 이용할 수 있습니다.</p>
+      </section>
+
+      <section class="section-break">
+        <p class="eyebrow">전략 세팅 전 필수 점검</p>
+        <h2>원화 입금 · 환전 · 계좌 상태 확인</h2>
+        <p>API 연동을 마쳤다면,<br />전략을 만들기 전에 아래 항목을 반드시 확인하십시오.</p>
+      </section>
+
+      <section class="step-card">
+        <p class="step-label">1-2</p>
+        <h3>원화 입금 및 환전</h3>
+        <div class="two-col">
+          <div class="mini-card">
+            <span class="pill pill-kr">KR 국내주식</span>
+            <div class="num-list">
+              <div><b>01</b> 개설한 계좌로 원화 입금</div>
+              <div><b>02</b> 입금 후 주문 가능 금액 확인</div>
+            </div>
+          </div>
+          <div class="mini-card accent">
+            <span class="pill pill-us">US 미국주식 — 환전을 먼저 하십시오</span>
+            <p class="danger" style="margin-bottom: 12px;">달러로 환전해 두지 않으면 매수·매도가 진행되지 않습니다.</p>
+            <div class="num-list">
+              <div><b>01</b> 개설한 계좌로 원화 입금</div>
+              <div><b>02</b> 미국주식 거래 신청 (메뉴 &gt; 트레이딩 &gt; 주식 &gt; 해외)</div>
+              <div><b>03</b> 원화를 달러(USD)로 환전</div>
+              <div><b>04</b> 환전 후 달러 주문 가능 금액 확인</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="step-card">
+        <p class="step-label">1-2 · 반드시 확인</p>
+        <h3>환전은 US 전략 세팅 「전에」 미리 해두십시오</h3>
+        <div class="note-row">
+          <span class="tag tag-warn">주의</span>
+          <p>그리드센서 US는 달러로 주문을 냅니다. 계좌에 원화만 있으면 전략은 만들어지지만 매수가 체결되지 않습니다. “세팅했는데 아무 일도 안 일어난다”는 문의의 대표적인 원인입니다.</p>
+        </div>
+        <div class="note-row">
+          <span class="tag tag-warn">주의</span>
+          <p>회차 수만큼의 달러를 미리 확보해 두십시오. 예를 들어 50회차 전략을 돌린다면 50회차 전부가 체결됐을 때 필요한 금액이 달러로 있어야 합니다. 소요예수금은 계산기(6-10)로 미리 확인하실 수 있습니다.</p>
+        </div>
+        <div class="note-row">
+          <span class="tag tag-warn">주의</span>
+          <p>통합증거금을 해지하셨으므로 자동환전이 되지 않습니다. 의도한 설계입니다(1-3 참조) — 대신 본인이 직접 환전해 두셔야 합니다.</p>
+        </div>
+        <div class="note-row">
+          <span class="tag tag-info">참고</span>
+          <p>환전은 거래 시간과 환율 우대를 확인하고 하십시오. 증권사별로 환전 수수료(스프레드)가 다릅니다.</p>
+        </div>
+        <div class="memo-box">
+          <em>적어두기</em>
+          원화 입금액: __________원 &nbsp;&nbsp; 환전한 달러: $__________ &nbsp;&nbsp; 환전일: __________
+        </div>
+      </section>
+
+      <section class="step-card">
+        <p class="step-label">1-3</p>
+        <h3>신용거래 · 통합증거금 「미신청」 확인</h3>
+        <p><span class="highlight">두 가지 모두 「미신청」 상태여야 합니다.</span></p>
+        <p>새로 계좌를 만드셨다면 대부분 이미 미신청입니다. 확인만 하고 넘어가시면 됩니다. 이미 신청되어 있다면 해지하셔야 합니다. 두 항목은 해지해야 하는 이유가 서로 다릅니다. 각각 이해하고 넘어가십시오.</p>
+        <div class="two-col">
+          <div class="mini-card">
+            <h4>① 신용거래</h4>
+            <p>지금 가진 자산 밖으로 투자가 나가지 않게 막아두는 장치</p>
+          </div>
+          <div class="mini-card">
+            <h4>② 통합증거금</h4>
+            <p>KR 자산과 US 자산을 따로 관리하기 위한 분리</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="step-card">
+        <p class="step-label">1-3 ①</p>
+        <h3>신용거래 — 「미신청」이어야 합니다</h3>
+        <p><strong>확인 방법 — 한국투자증권 앱</strong></p>
+        <div class="num-list" style="margin-top: 14px;">
+          <div><b>01</b> 앱에서 [신용거래 신청 · 변경] 화면으로 이동</div>
+          <div><b>02</b> 상단에서 본인 계좌 선택 (예: ○○○○○○○○-01 위탁, 홍길동)</div>
+          <div><b>03</b> 「신용거래 신청상태」를 확인</div>
+        </div>
+        <table class="kv-table">
+          <thead>
+            <tr><th>표시</th><th>상태</th><th>해야 할 일</th></tr>
+          </thead>
+          <tbody>
+            <tr><th>미신청</th><td class="ok">정상</td><td>그대로 두십시오. 아무것도 하지 마십시오</td></tr>
+            <tr><th>신청 (신청일자 표시됨)</th><td class="bad">조치 필요</td><td>해지하십시오</td></tr>
+          </tbody>
+        </table>
+        <figure class="phone-shot">
+          <img src="shot-credit.jpg" alt="한국투자증권 앱 신용거래 신청·변경 화면에서 신청상태가 미신청으로 표시된 예시" loading="lazy" decoding="async" />
+          <figcaption>화면 예시 — 신용거래 신청·변경 · 신청상태 「미신청」</figcaption>
+        </figure>
+      </section>
+
+      <section class="step-card">
+        <p class="step-label">1-3 ①</p>
+        <h3>왜 신용을 쓰지 않는가</h3>
+        <div class="note-row">
+          <span class="tag tag-warn">주의</span>
+          <p>이 화면에는 [신용거래 신청] 버튼이 있습니다. 누르지 마십시오. 우리는 신청하러 온 게 아니라 확인하러 온 것입니다.</p>
+        </div>
+        <div class="note-row">
+          <span class="tag tag-warn">주의</span>
+          <p>화면에 보이는 「신용종류」(투자형 · 주식담보/현금 증거금)나 「융자금 자동상환신청」 체크박스도 건드리지 마십시오. 신청을 전제로 한 항목들입니다.</p>
+        </div>
+        <p class="lead">지금 가진 자산 밖으로는 투자가 나가지 않게 막아두는 장치입니다.</p>
+        <p>신용은 내 돈이 아닌 돈입니다. 회차 설계의 전제는 이것입니다 — “내가 정한 하단까지 내려가면 매수가 멈추고, 그래서 최대 투입액이 확정된다.”</p>
+        <p>신용이 열려 있으면 그 상한선 자체가 무의미해집니다. 내가 계산한 금액을 넘어 돈이 들어갈 수 있고, 담보가 부족해지면 반대매매를 당합니다. 빌린 돈으로 사서 반대매매를 당하는 것 — 이것이 손실이 나는 가장 흔한 경로입니다.</p>
+      </section>
+
+      <section class="step-card">
+        <p class="step-label">1-3 ②</p>
+        <h3>통합증거금 — 「미신청」이어야 합니다</h3>
+        <p><strong>확인 방법 — 한국투자증권 앱</strong></p>
+        <div class="num-list" style="margin-top: 14px;">
+          <div><b>01</b> 앱에서 [통합증거금 신청] 화면으로 이동</div>
+          <div><b>02</b> 상단에서 본인 계좌 선택</div>
+          <div><b>03</b> 「거래신청 상태」를 확인</div>
+        </div>
+        <table class="kv-table">
+          <thead>
+            <tr><th>표시</th><th>상태</th><th>해야 할 일</th></tr>
+          </thead>
+          <tbody>
+            <tr><th>미신청</th><td class="ok">정상</td><td>그대로 두십시오</td></tr>
+            <tr><th>신청 (신청일자 표시됨)</th><td class="bad">조치 필요</td><td>해지하십시오</td></tr>
+          </tbody>
+        </table>
+        <div class="note-row">
+          <span class="tag tag-warn">주의</span>
+          <p>하단 [서비스 신청] 버튼을 누르지 마십시오. 확인만 하고 뒤로 가시면 됩니다.</p>
+        </div>
+        <div class="note-row">
+          <span class="tag tag-info">참고</span>
+          <p>이 화면은 신청과 해지를 모두 하는 화면입니다. 이미 신청된 상태라면 같은 화면에서 해지하실 수 있습니다. 신청·해지는 점검시간(23:40~익일 00:10)을 제외한 24시간 가능합니다.</p>
+        </div>
+        <figure class="phone-shot">
+          <img src="shot-margin.jpg" alt="한국투자증권 앱 통합증거금 신청 화면에서 거래신청 상태가 미신청으로 표시된 예시" loading="lazy" decoding="async" />
+          <figcaption>화면 예시 — 통합증거금 신청 · 거래신청 상태 「미신청」</figcaption>
+        </figure>
+      </section>
+
+      <section class="step-card">
+        <p class="step-label">1-3 ②</p>
+        <h3>왜 통합증거금을 쓰지 않는가</h3>
+        <p class="lead">국내주식(KR) 자산과 미국주식(US) 자산을 따로 관리하기 위해서입니다.</p>
+        <p>통합증거금은 원화와 외화를 하나로 묶어 쓰는 서비스입니다. 대상 통화는 한국(KRW)·미국(USD)·일본(JPY)·중국(CNY)·홍콩(HKD)이고, 국내주식 결제일과 해외주식 결제일에 자동으로 환전이 일어납니다.</p>
+        <p>편리해 보이지만, 그리드센서는 KR과 US를 별도 전략으로 운영합니다. 자산이 묶여 있으면 이런 일이 생깁니다.</p>
+        <div class="two-col">
+          <div class="mini-card"><p>KR 전략이 매수에 들어갔는데 US 쪽 예수금까지 같이 빠져나간다</p></div>
+          <div class="mini-card"><p>각 시장에 얼마를 배정했는지 내가 계산한 예산 경계가 무너진다</p></div>
+          <div class="mini-card"><p>자동환전 조건에 따라 원화 미수금이 발생할 수 있다 (한투 안내 문구)</p></div>
+          <div class="mini-card"><p>어느 쪽에서 얼마가 나갔는지 추적이 어려워진다</p></div>
+        </div>
+        <p class="lead">KR 예산은 KR 안에서, US 예산은 US 안에서만 돌게 하십시오. 시장별로 자산을 분리해 두어야 각 전략의 최대 투입액이 계산한 대로 지켜집니다.</p>
       </section>
 
       <section class="next-card">
