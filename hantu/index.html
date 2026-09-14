@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>한국투자증권 API 연동 가이드 | 그리드센서KR</title>
+  <meta name="description" content="한국투자증권 KIS Developers에서 APP Key·APP Secret을 발급받아 그리드센서KR에 등록하는 방법을 8단계로 안내합니다." />
+  <meta name="author" content="그리드센서KR" />
+  <meta name="theme-color" content="#2458f0" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://ansojang.github.io/hantu/" />
+
+  <meta property="og:type" content="article" />
+  <meta property="og:locale" content="ko_KR" />
+  <meta property="og:site_name" content="그리드센서KR" />
+  <meta property="og:title" content="한국투자증권 API 연동 가이드" />
+  <meta property="og:description" content="한국투자증권 APP Key를 발급받고 그리드센서KR에 등록하는 8단계 가이드." />
+  <meta property="og:url" content="https://ansojang.github.io/hantu/" />
+  <meta property="og:image" content="https://ansojang.github.io/hantu/step-06.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="한국투자증권 API 연동 가이드" />
+  <meta name="twitter:description" content="한국투자증권 APP Key를 발급받고 그리드센서KR에 등록하는 8단계 가이드." />
+  <meta name="twitter:image" content="https://ansojang.github.io/hantu/step-06.jpg" />
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+CiAgPHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiMyNDU4ZjAiLz4KICA8cGF0aCBkPSJNMTQgNDIgTDI0IDI4IEwzMyAzNiBMNTAgMTgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSI2IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KICA8Y2lyY2xlIGN4PSI1MCIgY3k9IjE4IiByPSI1IiBmaWxsPSIjZmZmMjAwIi8+Cjwvc3ZnPgo=" />
+  <link rel="preload" as="image" href="step-02.jpg" />
+  <link rel="stylesheet" as="style" crossorigin
+    href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+  <style>
+    :root {
+      --blue: #2458f0;
+      --blue-soft: #eaf3ff;
+      --ink: #050816;
+      --muted: #4b5563;
+      --green: #047857;
+      --yellow: #fff200;
+      --line: #dbe3ef;
+      --panel: #f8fafc;
+      --card: #ffffff;
+      --shadow: 0 14px 34px rgba(15, 23, 42, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: #ffffff;
+      color: var(--ink);
+      font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "Segoe UI", sans-serif;
+      font-size: 16px;
+      font-weight: 800;
+      line-height: 1.72;
+      letter-spacing: 0;
+      word-break: keep-all;
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    h1,
+    h2,
+    h3,
+    p,
+    figure {
+      margin: 0;
+    }
+
+    a {
+      color: var(--green);
+      text-decoration: none;
+      font-weight: 900;
+    }
+
+    .page {
+      width: min(100%, 1180px);
+      margin: 0 auto;
+      padding: 28px 8px 72px;
+      border-top: 1px solid #d1d5db;
+    }
+
+    .page-title {
+      margin-bottom: 74px;
+      font-size: 30px;
+      line-height: 1.22;
+      font-weight: 900;
+    }
+
+    .guide {
+      width: min(100%, 980px);
+      margin: 0 auto;
+    }
+
+    .hero {
+      padding: 42px 32px 40px;
+      border: 1px solid #c8dcff;
+      border-radius: 8px;
+      background: var(--blue-soft);
+      text-align: center;
+    }
+
+    .eyebrow {
+      margin-bottom: 10px;
+      color: var(--blue);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+
+    .hero h2 {
+      font-size: 34px;
+      line-height: 1.28;
+      font-weight: 900;
+    }
+
+    .hero p {
+      margin-top: 12px;
+      font-size: 20px;
+      line-height: 1.65;
+      font-weight: 900;
+    }
+
+    .step-card {
+      margin-top: 30px;
+      padding: 34px 32px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--card);
+      box-shadow: var(--shadow);
+    }
+
+    .step-label {
+      color: var(--blue);
+      font-size: 16px;
+      line-height: 1.2;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .step-card h3 {
+      margin-top: 14px;
+      font-size: 28px;
+      line-height: 1.38;
+      font-weight: 900;
+    }
+
+    .step-card p {
+      margin-top: 12px;
+      font-size: 20px;
+      line-height: 1.8;
+      font-weight: 850;
+    }
+
+    .callout {
+      margin-top: 16px;
+      padding: 24px 26px;
+      border-left: 4px solid var(--blue);
+      border-radius: 8px;
+      background: var(--panel);
+    }
+
+    .callout p {
+      margin-top: 0;
+    }
+
+    .callout p + p {
+      margin-top: 10px;
+    }
+
+    .highlight {
+      background: var(--yellow);
+      color: #000000;
+      padding: 0 3px;
+    }
+
+    .image-frame {
+      margin-top: 16px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #ffffff;
+    }
+
+    .check-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .check-item {
+      padding: 20px 22px;
+      border: 1px solid #e3e9f2;
+      border-radius: 8px;
+      background: #fbfcff;
+      color: var(--muted);
+      font-size: 20px;
+      font-weight: 800;
+      line-height: 1.65;
+    }
+
+    .check-item strong {
+      color: var(--ink);
+      font-weight: 900;
+    }
+
+    .success-card,
+    .next-card {
+      margin-top: 30px;
+      padding: 34px 32px;
+      border-radius: 8px;
+    }
+
+    .success-card {
+      border: 1px solid #bbf7d0;
+      background: #f0fdf4;
+      color: #14532d;
+    }
+
+    .success-card h3 {
+      font-size: 28px;
+      line-height: 1.35;
+      font-weight: 900;
+    }
+
+    .success-card p {
+      margin-top: 10px;
+      font-size: 20px;
+      line-height: 1.85;
+      font-weight: 850;
+    }
+
+    .next-card {
+      background: #0f172a;
+      color: #ffffff;
+    }
+
+    .next-card p {
+      margin-top: 8px;
+      font-size: 20px;
+      line-height: 1.85;
+      font-weight: 850;
+    }
+
+    .next-card strong {
+      color: #93c5fd;
+    }
+
+    @media (max-width: 960px) {
+      body {
+        font-size: 16px;
+      }
+
+      .page {
+        width: 100vw;
+        max-width: none;
+        margin-left: 50%;
+        transform: translateX(-50%);
+        padding: 20px 0 48px;
+        overflow-x: hidden;
+      }
+
+      .page-title {
+        margin: 0 16px 52px;
+        font-size: 24px;
+      }
+
+      .guide {
+        width: 100vw;
+        max-width: none;
+      }
+
+      .hero,
+      .step-card,
+      .success-card,
+      .next-card {
+        width: calc(100vw - 4px);
+        margin-left: 2px;
+        margin-right: 2px;
+      }
+
+      .hero {
+        padding: 30px 16px 28px;
+      }
+
+      .hero h2 {
+        font-size: 28px;
+      }
+
+      .step-card {
+        margin-top: 22px;
+        padding: 24px 16px;
+      }
+
+      .step-card h3 {
+        font-size: 24px;
+      }
+
+      .image-frame {
+        width: calc(100vw - 8px);
+        margin-left: calc((100vw - 8px - 100%) / -2);
+        margin-right: calc((100vw - 8px - 100%) / -2);
+        border-left: 0;
+        border-right: 0;
+        border-radius: 0;
+      }
+
+      .callout,
+      .check-item,
+      .success-card,
+      .next-card {
+        padding: 18px 16px;
+      }
+
+      .hero p,
+      .step-card p,
+      .success-card p,
+      .next-card p,
+      .callout p,
+      .callout a,
+      .check-item {
+        font-size: 18px;
+        line-height: 1.75;
+      }
+
+      .step-label {
+        font-size: 16px;
+      }
+
+      .success-card h3 {
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <div class="guide">
+      <section class="hero">
+        <p class="eyebrow">그리드센서 KR API Guide</p>
+        <h2>한국투자증권 API 연동 방법</h2>
+        <p>한국투자증권 APP Key를 발급받고<br />그리드센서KR에 등록하는 순서입니다.</p>
+      </section>
+
+      <section class="step-card">
+        <p class="step-label">STEP 1</p>
+        <h3>한국투자증권 홈페이지 접속</h3>
+        <div class="callout">
+          <p>한국투자증권 홈페이지에 접속합니다.</p>
+          <p><a href="https://securities.koreainvestment.com/" target="_blank" rel="noopener">securities.koreainvestment.com</a></p>
+        </div>
+      </section>
+
+      <section class="step-card">
+        <p class="step-label">STEP 2</p>
+        <h3>KIS Developers 서비스 신청 / 조회 클릭</h3>
+        <p>아래 경로를 따라<br /><span class="highlight">[KIS Developers 서비스 신청/조회]</span>를 클릭합니다.</p>
+        <figure class="image-frame">
+          <img src="step-02.jpg" alt="KIS Developers 서비스 신청 조회 메뉴 경로"  fetchpriority="high" decoding="async" />
+        </figure>
+      </section>
+
+      <section class="step-card">
+        <p class="step-label">STEP 3</p>
+        <h3>휴대폰 인증</h3>
+        <p>가입한 휴대폰으로 인증번호 입력 후<br /><span class="highlight">다음 버튼</span>을 클릭합니다.</p>
+        <figure class="image-frame">
+          <img src="step-03.jpg" alt="KIS Developers 휴대폰 인증 화면"  loading="lazy" decoding="async" />
+        </figure>
+      </section>
+
+      <section class="step-card">
+        <p class="step-label">STEP 4</p>
+        <h3>KIS Developers 서비스 신청하기</h3>
+        <p>아래 순서에 따라 API를 신청하세요.</p>
+        <div class="check-list">
+          <div class="check-item"><strong>1)</strong> 실전투자계좌 클릭</div>
+          <div class="check-item"><strong>2)</strong> 계좌 선택</div>
+          <div class="check-item"><strong>3)</strong> 비밀번호 인증</div>
+          <div class="check-item"><strong>4)</strong> 신청 버튼 클릭</div>
+        </div>
+        <figure class="image-frame">
+          <img src="step-04.jpg" alt="KIS Developers 실전투자계좌 신청 화면"  loading="lazy" decoding="async" />
+        </figure>
+      </section>
+
+      <section class="step-card">
+        <p class="step-label">STEP 5</p>
+        <h3>QR 인증</h3>
+        <p>QR 인증 화면이 나오면 한국투자증권 어플로 인증을 완료해주세요.</p>
+        <figure class="image-frame">
+          <img src="step-05.jpg" alt="한국투자증권 앱과 PC 화면을 통한 QR 인증 방법"  loading="lazy" decoding="async" />
+        </figure>
+      </section>
+
+      <section class="step-card">
+        <p class="step-label">STEP 6</p>
+        <h3>한국투자증권 APP키 생성 완료</h3>
+        <p>APP키 생성이 완료되었습니다.</p>
+        <p>화면을 켜놓고 그리드센서KR로 이동하여 키 연동 작업을 마무리합니다.</p>
+        <figure class="image-frame">
+          <img src="step-06.jpg" alt="한국투자증권 APP Key와 APP Secret 생성 완료 화면"  loading="lazy" decoding="async" />
+        </figure>
+      </section>
+
+      <section class="step-card">
+        <p class="step-label">STEP 7</p>
+        <h3>그리드센서KR API키 등록 메뉴 접속</h3>
+        <p>그리드센서KR 접속 후 아래 경로에 따라<br /><span class="highlight">API 키 등록</span> 메뉴를 클릭합니다.</p>
+        <div class="callout">
+          <p><a href="https://kr.gridsensor.co.kr/" target="_blank" rel="noopener">kr.gridsensor.co.kr</a></p>
+          <p>설정 → API 키 등록</p>
+        </div>
+        <figure class="image-frame">
+          <img src="step-07.jpg" alt="그리드센서KR API 키 등록 메뉴 접속 화면"  loading="lazy" decoding="async" />
+        </figure>
+      </section>
+
+      <section class="step-card">
+        <p class="step-label">STEP 8</p>
+        <h3>키 등록 하기</h3>
+        <p>아래 4가지 항목을 입력하고<br /><span class="highlight">등록하기 버튼</span>을 클릭해주세요.</p>
+        <div class="check-list">
+          <div class="check-item"><strong>1) APP KEY</strong>: 한국투자증권 APP Key 입력</div>
+          <div class="check-item"><strong>2) APP Secret</strong>: 한국투자증권 APP Secret 입력</div>
+          <div class="check-item"><strong>3) 계좌번호</strong>: 한국투자증권 계좌번호 입력</div>
+          <div class="check-item"><strong>4) 계좌상품코드</strong>: 01 입력</div>
+        </div>
+        <figure class="image-frame">
+          <img src="step-08.jpg" alt="APP Key, APP Secret, 계좌번호, 계좌상품코드 입력 안내"  loading="lazy" decoding="async" />
+        </figure>
+      </section>
+
+      <section class="success-card">
+        <h3>✅ 연동 성공</h3>
+        <p>이제 여러분의 한국투자증권 계좌와 그리드센서KR이 하나로 연결되어 자동 매매를 시작할 준비가 되었습니다.</p>
+      </section>
+
+      <section class="success-card">
+        <h3>✅ 잠깐!</h3>
+        <p>그리드센서 KR, US는 한국투자증권 API 연동을 한 번만 하면 둘 다 이용할 수 있습니다.</p>
+      </section>
+
+      <section class="next-card">
+        <p><strong>다음 단계는 무엇인가요?</strong></p>
+        <p>다음 가이드에서는 대망의 전략 만들기!</p>
+        <p>실제로 돈을 벌어다 줄 자동 매매 전략을 세우고 실행하는 방법을 배워보겠습니다.</p>
+      </section>
+    </div>
+  </main>
+</body>
+</html>
