@@ -1,0 +1,1359 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RMS 클라우드 · 규칙이 실행하는 투자</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+/* ==========================================================================
+   에듀에셋 랜딩 공용 — /rms/ · /academy/
+   두 원본 HTML 의 앞 두 style 블록이 바이트 단위로 동일한 공용 컴포넌트다.
+   원본이 body · section · footer · h1~h4 · img 같은 전역 셀렉터를 쓰므로
+   전부 .lp 안으로 스코프했다. (@keyframes 는 이름 그대로 유지)
+   ========================================================================== */
+.lp{--navy:#15264C;--navy-2:#22376A;
+  --blue:#1B4E92;--blue-2:#2F6BD0;--blue-soft:#E9F0FC;--blue-line:#D5E2F7;
+  --sky:#F3F7FE;--cream:#FCF8F0;--white:#fff;
+  --line:#E5EAF2;--line-2:#EEF2F8;
+  --gold:#C99A3E;--gold-deep:#A9852F;--gold-soft:#F8EFDC;
+  --teal:#0E7F73;--teal-soft:#E7F4F2;
+  --ink:#1B2233;--ink-2:#4A566B;--ink-3:#8A93A5;
+  --buy:#0E7F73;--sell:#C9873A;--red:#D0554F;--now:#1B4E92;--now-soft:#E9F0FC;
+  --sans:'Pretendard',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;}
+.lp *{box-sizing:border-box;margin:0;padding:0}
+.lp{font-family:var(--sans);color:var(--ink);background:#E7EDF6;line-height:1.5;-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-wrap:break-word}
+.lp p, .lp li, .lp td, .lp th, .lp .cap, .lp .ex, .lp .hook, .lp .sub, .lp .rs, .lp .h{text-wrap:pretty}
+.lp h1, .lp h2, .lp h3, .lp h4, .lp .big, .lp .punch, .lp .rs{text-wrap:balance}
+.lp img{display:block;max-width:100%}
+.lp .page{max-width:540px;margin:0 auto;background:#fff;box-shadow:0 0 60px rgba(21,38,76,.14);overflow:hidden}
+.lp section{padding:70px 24px}
+.lp .sky{background:var(--sky)}
+.lp .cream{background:var(--cream)}
+.lp .deep{background:linear-gradient(160deg,#1B4E92 0%,#15264C 100%);color:#fff}
+.lp .num{display:inline-flex;align-items:center;gap:10px;font-size:13px;font-weight:900;letter-spacing:.18em;color:var(--blue)}
+.lp .num::before{content:"";width:22px;height:2px;background:var(--gold)}
+.lp .deep .num{color:#9EC2F2}
+.lp .hook{font-size:18px;font-weight:800;color:var(--ink-2);margin-top:14px;line-height:1.45}
+.lp h2{font-size:38px;line-height:1.18;font-weight:900;letter-spacing:-.03em;margin-top:12px;color:var(--navy)}
+.lp .deep h2{color:#fff}
+.lp h2 em{font-style:normal;color:var(--blue)}
+.lp h2 .u{font-style:normal;color:var(--navy);background:linear-gradient(transparent 62%,rgba(201,154,62,.42) 62%)}
+.lp .sub{margin-top:16px;font-size:16.5px;font-weight:600;color:var(--ink-2);line-height:1.6}
+.lp .deep .sub{color:#C7D8F2}
+.lp .big{font-size:26px;line-height:1.3;font-weight:900;letter-spacing:-.02em}
+.lp .photo{border-radius:18px;overflow:hidden;background:#EDF1F7}
+.lp .photo img{width:100%;height:100%;object-fit:cover}
+.lp .band{margin-top:36px;background:linear-gradient(140deg,#F1F6FE,#E6EFFC);border:1px solid var(--blue-line);color:var(--navy);border-radius:22px;padding:28px 26px}
+.lp .band .k{font-size:12.5px;font-weight:900;letter-spacing:.14em;color:var(--blue)}
+.lp .band .big{margin-top:10px}
+.lp .band .big em{font-style:normal;color:var(--blue)}
+.lp .band p{margin-top:12px;font-size:14.5px;color:var(--ink-2);font-weight:600}
+.lp .band.gold{background:linear-gradient(140deg,#FBF3E1,#F6E9CE);border-color:#EEDCB4}
+.lp .band.gold .k{color:var(--gold-deep)}
+.lp .band.gold .big em{color:var(--gold-deep)}
+.lp .rv{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
+.lp .rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+  .lp .rv{opacity:1;transform:none;transition:none}
+  .lp .r-now .gs-price{animation:none}
+}
+.lp .disc{margin-top:16px;font-size:12px;color:var(--ink-3);font-weight:600;line-height:1.55}
+.lp .hero{position:relative;padding:0;background:linear-gradient(180deg,#F8FBFF 0%,#E8F0FC 100%);overflow:hidden}
+.lp .hero .deco{position:absolute;inset:0;pointer-events:none}
+.lp .hero .deco svg{width:100%;height:100%;display:block}
+.lp .hero .in{position:relative;padding:44px 24px 0;z-index:2}
+.lp .hero .top{display:inline-flex;align-items:center;gap:8px;background:var(--blue);color:#fff;font-weight:900;font-size:13px;letter-spacing:.06em;padding:8px 14px;border-radius:999px;box-shadow:0 8px 18px rgba(27,78,146,.25)}
+.lp .hero .top i{font-style:normal;width:6px;height:6px;border-radius:50%;background:#7FE3C2;box-shadow:0 0 0 0 rgba(127,227,194,.7);animation:blip 1.8s infinite}
+@keyframes blip{0%{box-shadow:0 0 0 0 rgba(127,227,194,.7)}70%{box-shadow:0 0 0 7px rgba(127,227,194,0)}100%{box-shadow:0 0 0 0 rgba(127,227,194,0)}}
+.lp .hero .pre{margin-top:22px;font-size:18px;font-weight:800;color:var(--ink-2);line-height:1.4}
+.lp .hero .pre s{color:#A3AEC0;text-decoration-color:var(--red);text-decoration-thickness:2px}
+.lp .hero h1{font-size:44px;line-height:1.15;font-weight:900;letter-spacing:-.035em;margin-top:10px;color:var(--navy)}
+.lp .hero h1 em{font-style:normal;color:var(--blue);background:linear-gradient(transparent 64%,rgba(201,154,62,.38) 64%)}
+.lp .hero .line{margin-top:20px;font-size:17px;font-weight:700;color:var(--ink-2)}
+.lp .hero .rse{margin-top:24px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.lp .hero .rse div{border:1px solid var(--blue-line);border-radius:14px;padding:14px 12px;background:rgba(255,255,255,.9);box-shadow:0 6px 16px rgba(21,38,76,.05)}
+.lp .hero .rse b{display:block;font-size:14px;color:var(--blue);letter-spacing:.04em}
+.lp .hero .rse span{display:block;font-size:12.5px;color:var(--ink-2);margin-top:4px;font-weight:600;line-height:1.35}
+.lp .hero .shot{margin:26px 0 0;position:relative;overflow:hidden;z-index:2;background:#E8F0FC}
+.lp .hero .shot img{width:100%;height:auto;display:block}
+.lp .hero .shot::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(232,240,252,.55) 0%,rgba(232,240,252,0) 22%)}
+.lp .hcard{position:absolute;z-index:3;background:rgba(255,255,255,.97);border-radius:14px;padding:11px 13px;box-shadow:0 16px 34px rgba(10,24,50,.28);border:1px solid rgba(255,255,255,.9)}
+.lp .hcard .hh{font-size:12px;font-weight:900;color:var(--blue);margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.lp .hcard .hh i{font-style:normal;font-size:10px;font-weight:800;color:var(--ink-3)}
+.lp .hcard .hr{display:flex;justify-content:space-between;font-size:10.5px;margin-bottom:5px}
+.lp .hcard .hr span{color:#8A93A2;font-weight:700}
+.lp .hcard .hr b{color:var(--navy);font-weight:900}
+.lp .hcard .hb{margin-top:8px;background:var(--blue);color:#fff;text-align:center;font-size:10.5px;font-weight:900;border-radius:7px;padding:7px}
+.lp .hcard.h1c{left:16px;bottom:96px;width:176px}
+.lp .hcard.h2c{right:16px;bottom:26px;width:196px}
+.lp .hcard .hq{border:1px solid #E8EBF1;border-radius:8px;padding:6px 8px;margin-bottom:5px}
+.lp .hcard .hq .q1{display:flex;justify-content:space-between;align-items:center;margin-bottom:3px}
+.lp .hcard .hq .q1 b{font-size:11px;color:var(--navy)}
+.lp .hcard .hq .q1 em{font-style:normal;font-size:9px;font-weight:800;padding:2px 6px;border-radius:4px}
+.lp .hcard .hq .q2{display:flex;justify-content:space-between;font-size:9.5px;color:#8A93A2;font-weight:700}
+.lp .hcard .hq .q2 b{color:var(--navy)}
+.lp .herotag{position:absolute;left:0;right:0;bottom:0;z-index:4;padding:12px 24px;font-size:12px;font-weight:800;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.5)}
+.lp .pain .list{margin-top:30px;display:flex;flex-direction:column;gap:12px}
+.lp .pain .p{display:grid;grid-template-columns:56px 1fr;gap:14px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px 20px;box-shadow:0 6px 18px rgba(21,38,76,.05)}
+.lp .pain .p .ic{width:56px;height:56px;border-radius:16px;background:#FDEDEC;display:grid;place-items:center;color:var(--red);font-weight:900;font-size:22px}
+.lp .pain .p b{font-size:20px;font-weight:900;color:var(--navy);display:block;letter-spacing:-.02em}
+.lp .pain .p span{display:block;font-size:13.5px;color:var(--ink-3);font-weight:600;margin-top:2px}
+.lp .rms .def{margin-top:20px;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 12px;font-size:14px;color:var(--ink-3);font-weight:600}
+.lp .rms .def b{font-size:18px;color:var(--navy);font-weight:900}
+.lp .circles{margin-top:32px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.lp .circ{text-align:center}
+.lp .circ .o{aspect-ratio:1;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:#fff;box-shadow:0 14px 28px rgba(27,78,146,.22)}
+.lp .circ .o small{font-size:11px;opacity:.8;letter-spacing:.1em;font-weight:800}
+.lp .circ .o b{font-size:16px;letter-spacing:.06em;font-weight:900}
+.lp .circ.c1 .o{background:linear-gradient(160deg,#3C74C8,#1B4E92)}
+.lp .circ.c2 .o{background:linear-gradient(160deg,#E0BB6A,#B98F35)}
+.lp .circ.c3 .o{background:linear-gradient(160deg,#2FA98E,#0E7F73)}
+.lp .circ p{margin-top:12px;font-size:14px;font-weight:800;color:var(--navy)}
+.lp .circ small{display:block;font-size:12px;color:var(--ink-3);font-weight:600;margin-top:2px}
+.lp .compare{margin-top:30px;display:grid;gap:12px}
+.lp .col{border-radius:20px;padding:26px}
+.lp .col.plain{background:#fff;border:1px solid var(--line)}
+.lp .col.ours{background:linear-gradient(150deg,#1B4E92,#15264C);color:#fff;box-shadow:0 16px 34px rgba(27,78,146,.22)}
+.lp .col .t{font-size:12.5px;font-weight:900;letter-spacing:.12em}
+.lp .col.plain .t{color:var(--ink-3)}
+.lp .col.ours .t{color:#9EC2F2}
+.lp .col ul{list-style:none;margin-top:14px;display:flex;flex-direction:column;gap:10px}
+.lp .col li{font-size:23px;font-weight:900;letter-spacing:-.02em;display:flex;gap:12px;align-items:baseline}
+.lp .col.plain li{color:#A3AAB8;font-weight:700}
+.lp .col.plain li::before{content:"✕";font-size:15px;color:var(--red)}
+.lp .col.ours li::before{content:"✓";font-size:16px;color:#F0CE8E}
+.lp .vs{text-align:center;font-weight:900;color:var(--gold-deep);font-size:14px;letter-spacing:.2em}
+.lp .mani{margin-top:34px;text-align:center}
+.lp .mani .big{font-size:32px;color:var(--navy)}
+.lp .mani .big em{font-style:normal;color:var(--blue);background:linear-gradient(transparent 62%,rgba(201,154,62,.42) 62%)}
+.lp .sysnav{margin-top:26px;display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.lp .sysnav div{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 6px;text-align:center;font-size:12.5px;font-weight:800;color:var(--ink-2);line-height:1.3}
+.lp .sysnav div i{display:block;font-style:normal;font-size:11px;color:var(--blue);font-weight:900;margin-bottom:4px;letter-spacing:.08em}
+.lp .step{margin-top:16px;border:1px solid var(--line);border-radius:22px;background:#fff;overflow:hidden;box-shadow:0 12px 30px rgba(21,38,76,.06)}
+.lp .step .sh{padding:22px 22px 0;display:flex;gap:12px;align-items:flex-start}
+.lp .step .sn{flex:none;width:34px;height:34px;border-radius:11px;background:var(--blue);color:#fff;display:grid;place-items:center;font-weight:900;font-size:15px}
+.lp .step .sh h3{font-size:21px;font-weight:900;color:var(--navy);letter-spacing:-.02em;line-height:1.25}
+.lp .step .sh p{font-size:13.5px;color:var(--ink-3);font-weight:700;margin-top:3px}
+.lp .step .sb{padding:18px 18px 20px}
+.lp .step .cap{padding:0 22px 20px;font-size:13px;color:var(--ink-2);font-weight:700;line-height:1.55}
+.lp .step .cap b{color:var(--blue)}
+.lp .uiwrap{background:#F5F8FD;border:1px solid var(--line);border-radius:16px;padding:14px}
+.lp .ui{background:#fff;border:1px solid #E4E9F2;border-radius:14px;box-shadow:0 8px 20px rgba(21,38,76,.08);overflow:hidden}
+.lp .ui .uh{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-bottom:1px solid var(--line-2);font-size:13.5px;font-weight:900;color:var(--blue)}
+.lp .ui .uh i{font-style:normal;font-size:11px;font-weight:800;color:var(--ink-3)}
+.lp .ui .ub{padding:6px 14px 12px}
+.lp .ui .ur{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px dashed #EDF1F7;font-size:13px}
+.lp .ui .ur:last-child{border-bottom:0}
+.lp .ui .ur span{color:var(--ink-3);font-weight:700}
+.lp .ui .ur b{color:var(--navy);font-weight:900;font-size:14px}
+.lp .ui .ur b.hl{color:var(--blue)}
+.lp .ui .btn{margin:4px 14px 14px;background:var(--blue);color:#fff;border-radius:9px;text-align:center;padding:11px;font-size:13.5px;font-weight:900}
+.lp .chipline{display:flex;gap:6px;flex-wrap:wrap;padding:0 14px 12px}
+.lp .chipline span{font-size:11px;font-weight:800;padding:5px 9px;border-radius:6px;background:#F1F4F9;color:var(--ink-2)}
+.lp .rounds{display:grid;gap:8px}
+.lp .rd{background:#fff;border:1px solid #E4E9F2;border-radius:12px;padding:11px 13px;box-shadow:0 6px 14px rgba(21,38,76,.05)}
+.lp .rd .r1{display:flex;justify-content:space-between;align-items:center}
+.lp .rd .r1 b{font-size:14px;font-weight:900;color:var(--navy)}
+.lp .rd .r1 em{font-style:normal;font-size:11px;font-weight:800;padding:3px 8px;border-radius:5px}
+.lp .rd .r2{display:flex;justify-content:space-between;font-size:12px;margin-top:5px;color:var(--ink-3);font-weight:700}
+.lp .rd .r2 b{color:var(--navy);font-weight:900;font-size:13px}
+.lp .cb{background:var(--teal-soft);color:var(--teal)}
+.lp .cs{background:var(--gold-soft);color:var(--gold-deep)}
+.lp .cw{background:var(--blue-soft);color:var(--blue)}
+.lp .cg{background:#F1F4F9;color:#8A93A5}
+.lp .statechips{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.lp .statechips div{background:#fff;border:1px solid #E4E9F2;border-radius:12px;padding:12px 4px;text-align:center}
+.lp .statechips div small{display:block;font-size:11.5px;color:var(--ink-3);font-weight:800}
+.lp .statechips div b{display:block;font-size:22px;font-weight:900;color:var(--navy);margin-top:2px;letter-spacing:-.02em}
+.lp .statechips div.on b{color:var(--teal)}
+.lp .resultbox{margin-top:10px;background:#0F1B33;border-radius:14px;padding:16px 18px;color:#fff;display:flex;justify-content:space-between;align-items:center}
+.lp .resultbox small{font-size:12px;color:#9AA9C4;font-weight:700}
+.lp .resultbox b{display:block;font-size:26px;font-weight:900;color:#5BD3A8;letter-spacing:-.02em;margin-top:2px}
+.lp .resultbox span{font-size:11.5px;color:#9AA9C4;font-weight:700;text-align:right;line-height:1.4}
+.lp .realshot{margin-top:16px}
+.lp .realshot .photo{border:1px solid var(--line)}
+.lp .realshot .cp{margin-top:8px;font-size:12px;color:var(--ink-3);font-weight:700;text-align:center}
+.lp .gs .zone-hook{margin-top:24px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.lp .gs .zone-hook div{border-radius:16px;padding:18px 16px;font-weight:900;font-size:19px;letter-spacing:-.02em;line-height:1.25}
+.lp .gs .zone-hook .up{background:#FDEFED;border:1px solid #F3D3D0;color:#C0463F}
+.lp .gs .zone-hook .dn{background:var(--teal-soft);border:1px solid #C9E7E1;color:var(--teal)}
+.lp .gs .zone-hook small{display:block;font-size:12.5px;font-weight:700;opacity:.85;margin-top:4px}
+.lp .gs .card-wrap{margin-top:22px}
+.lp .gs-card{background:#fff;border-radius:22px;overflow:hidden;color:var(--ink);border:1px solid var(--line);box-shadow:0 20px 44px rgba(21,38,76,.12)}
+.lp .gs-head{display:flex;justify-content:space-between;align-items:center;padding:18px 22px;border-bottom:1px solid var(--line)}
+.lp .gs-head .name{font-size:18px;font-weight:800;color:var(--navy)}
+.lp .gs-head .name .code{font-size:12px;font-weight:800;color:var(--ink-3);margin-left:4px}
+.lp .gs-head .live{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:800;color:var(--teal);background:var(--teal-soft);padding:4px 8px;border-radius:999px}
+.lp .gs-head .live i{width:6px;height:6px;border-radius:50%;background:var(--teal);animation:blink 1.2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+.lp .gs-trace{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
+.lp .gsnote{margin-top:12px;display:flex;gap:8px;align-items:flex-start;background:var(--teal-soft);border:1px solid #C9E7E1;border-radius:10px;padding:10px 12px;font-size:12.5px;font-weight:700;color:#0B6A60;line-height:1.45}
+.lp .gsnote i{flex:none;width:14px;height:14px;border-radius:4px;background:rgba(14,127,115,.18);border:2px solid rgba(14,127,115,.6);margin-top:2px}
+.lp .gs-head .desc{font-size:12.5px;color:var(--ink-3);margin-top:2px}
+.lp .gs-head .now .l{font-size:12px;color:var(--ink-3);text-align:right;font-weight:700}
+.lp .gs-head .now .v{font-size:22px;font-weight:900;color:var(--blue)}
+.lp .gs-ladder{position:relative;height:300px;overflow:hidden;padding:0 20px;background:linear-gradient(180deg,#FDF0EE 0%,#F8FAFE 48%,#EAF6F3 100%)}
+.lp .zone{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:800}
+.lp .zone.sell{position:absolute;top:16px;left:20px;color:#C0463F}
+.lp .zone.buy{position:absolute;left:20px;bottom:14px;color:var(--teal)}
+.lp .zone small{font-weight:600;opacity:.75}
+.lp .gs-abs{position:absolute;left:20px;right:20px;display:flex;align-items:center;z-index:2}
+.lp .gs-tag{flex:none;display:flex;border-radius:10px;overflow:hidden;box-shadow:0 3px 10px rgba(27,33,48,.1);font-size:13px;font-weight:800}
+.lp .gs-tag .a{padding:8px 11px;color:#fff}
+.lp .gs-tag .b{padding:8px 11px;background:#fff}
+.lp .gs-line{flex:1;border-top:2px dashed currentColor;margin:0 8px;opacity:.5}
+.lp .gs-price{flex:none;background:#fff;border-radius:10px;padding:7px 13px;font-size:16.5px;font-weight:900;box-shadow:0 3px 10px rgba(27,33,48,.1);font-variant-numeric:tabular-nums}
+.lp .r-toggle{color:#A3AAB8;transition:color .35s}
+.lp .r-toggle .a{background:#A3AAB8;transition:background .35s}
+.lp .r-toggle .b{color:#8A93A5;transition:color .35s}
+.lp .r-toggle.done-sell{color:#C0463F}
+.lp .r-toggle.done-sell .a{background:#C0463F}
+.lp .r-toggle.done-sell .b, .lp .r-toggle.done-sell .gs-price{color:#C0463F}
+.lp .r-toggle.done-buy{color:var(--teal)}
+.lp .r-toggle.done-buy .a{background:var(--teal)}
+.lp .r-toggle.done-buy .b, .lp .r-toggle.done-buy .gs-price{color:var(--teal)}
+.lp .r-now{color:var(--blue);z-index:5;will-change:top;transition:none}
+.lp .r-now .gs-tag .a{background:var(--blue)}
+.lp .r-now .gs-line{border-top:3px solid var(--blue);opacity:1}
+.lp .r-now .gs-price{background:var(--blue);color:#fff;font-size:18px;min-width:100px;text-align:center;animation:nowpulse 2s ease-in-out infinite}
+@keyframes nowpulse{0%,100%{box-shadow:0 0 0 0 rgba(27,78,146,.32)}50%{box-shadow:0 0 0 9px rgba(27,78,146,0)}}
+.lp .hit-badge{position:absolute;right:0;top:-32px;font-size:12px;font-weight:800;color:#fff;padding:6px 12px;border-radius:999px;opacity:0;transform:translateY(6px);transition:opacity .25s,transform .25s;white-space:nowrap}
+.lp .sell-badge{background:#C0463F}
+.lp .buy-badge{background:var(--teal)}
+.lp .gs-abs.hit .hit-badge{opacity:1;transform:translateY(0)}
+.lp .gs-abs.hit .gs-line{opacity:1;border-top-style:solid}
+.lp .gs-detail{padding:18px 22px 22px;border-top:1px solid var(--line)}
+.lp .gs-detail .dh{display:flex;justify-content:space-between;align-items:center}
+.lp .gs-detail h4{font-size:14px;color:var(--ink-2);font-weight:800}
+.lp .gs-detail .cnt{font-size:12.5px;font-weight:800;color:var(--teal);background:var(--teal-soft);padding:5px 10px;border-radius:999px}
+.lp .dgrid{margin-top:12px;display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center}
+.lp .dbox{background:#F5F8FD;border:1px solid var(--line-2);border-radius:12px;padding:12px 14px}
+.lp .dbox .k{font-size:12px;color:var(--ink-3);font-weight:700}
+.lp .dbox .v{font-size:18px;font-weight:900;margin-top:2px;color:var(--navy)}
+.lp .dbox .v.rd2{color:#C0463F}
+.lp .dgrid .mid{text-align:center;font-size:12px;font-weight:800;color:var(--ink-3);line-height:1.3}
+.lp .dgrid .mid .ar{font-size:18px;color:var(--gold)}
+.lp .rside{display:block}
+.lp .points{margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.lp .pt{padding:16px;border:1px solid var(--line);border-radius:14px;background:#fff}
+.lp .pt .ic{font-size:12px;font-weight:900;color:var(--gold-deep);letter-spacing:.1em}
+.lp .pt b{display:block;font-size:17px;margin-top:6px;color:var(--navy)}
+.lp .pt span{display:block;font-size:12.5px;color:var(--ink-3);font-weight:600;margin-top:2px}
+.lp .gs .punch{margin-top:40px;text-align:center;font-size:28px;line-height:1.25;font-weight:900;letter-spacing:-.02em;color:var(--navy)}
+.lp .gs .punch em{font-style:normal;color:var(--blue)}
+.lp .diff{margin-top:30px;display:grid;gap:10px}
+.lp .diff table{width:100%;border-collapse:collapse;font-size:15px}
+.lp .diff th{text-align:left;font-size:12.5px;letter-spacing:.12em;padding:0 0 10px;font-weight:900}
+.lp .diff .g{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px 16px 8px}
+.lp .diff .y{background:linear-gradient(140deg,#EDF3FD,#E4EEFB);border:1px solid var(--blue-line);border-radius:16px;padding:18px 16px 8px}
+.lp .diff .g th{color:var(--ink-3)}
+.lp .diff .y th{color:var(--blue)}
+.lp .diff td{padding:11px 0;border-top:1px solid rgba(21,38,76,.08)}
+.lp .diff td:first-child{width:38%;font-weight:800;color:var(--ink-2)}
+.lp .diff .g td:last-child{color:var(--ink-3)}
+.lp .diff .y td:last-child{color:var(--navy);font-weight:800}
+.lp .eng{margin-top:28px;display:grid;gap:18px}
+.lp .engine{border:1px solid var(--line);border-radius:22px;overflow:hidden;background:#fff;box-shadow:0 10px 26px rgba(21,38,76,.06)}
+.lp .engine .eh{padding:26px 24px 8px;display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+.lp .engine .eh .k{font-size:12px;font-weight:900;letter-spacing:.12em;color:var(--gold-deep)}
+.lp .engine h3{font-size:38px;color:var(--navy);line-height:1;font-weight:900;letter-spacing:-.03em;margin-top:6px}
+.lp .engine .eh p{font-size:16px;font-weight:800;color:var(--ink-2);white-space:nowrap}
+.lp .engine .chart{margin:12px 14px 0;background:#F7FAFE;border:1px solid var(--line);border-radius:16px;padding:10px 6px 4px}
+.lp .engine .chart svg{width:100%;height:auto;display:block}
+.lp .engine .st{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:14px 14px 20px}
+.lp .engine .st div{background:#F7FAFE;border:1px solid var(--line);border-radius:12px;padding:12px 6px;text-align:center;font-size:13px;font-weight:900;color:var(--navy);line-height:1.3}
+.lp .engine .st div i{display:block;font-style:normal;color:var(--blue);font-size:12px;margin-bottom:3px;font-weight:900}
+.lp .mkt .cards{margin-top:28px;display:grid;gap:16px}
+.lp .mc{border:1px solid var(--line);border-radius:22px;background:#fff;padding:24px 22px;box-shadow:0 10px 26px rgba(21,38,76,.06)}
+.lp .mc .mh{display:flex;align-items:center;gap:12px}
+.lp .mc .logo{flex:none;width:44px;height:44px;border-radius:12px;display:grid;place-items:center;color:#fff;font-weight:900;font-size:18px;box-shadow:0 6px 16px rgba(20,32,58,.16)}
+.lp .mc .nm b{display:block;font-size:22px;color:var(--navy);font-weight:900;letter-spacing:-.02em;line-height:1.1}
+.lp .mc .nm span{display:block;font-size:11.5px;color:var(--ink-3);font-weight:700;margin-top:2px}
+.lp .mc .mtag{margin-left:auto;font-size:12.5px;font-weight:900;padding:6px 11px;border-radius:999px;white-space:nowrap;border:1px solid}
+.lp .mc .mtag.t1{background:#FDEFED;color:#C0463F;border-color:#F3D3D0}
+.lp .mc .mtag.t2{background:var(--gold-soft);color:var(--gold-deep);border-color:#EEDCB4}
+.lp .mc .mtag.t3{background:var(--teal-soft);color:var(--teal);border-color:#C9E7E1}
+.lp .mc .h{margin-top:8px;font-size:15px;color:var(--ink-2);font-weight:700}
+.lp .mc svg{width:100%;height:auto;display:block;margin-top:12px}
+.lp .mc .lg{display:flex;gap:14px;font-size:12px;font-weight:700;color:var(--ink-3);margin-top:6px;align-items:baseline}
+.lp .mc .lg .per{margin-left:auto;color:#A7ADB9}
+.lp .mc .lg i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px}
+.lp .mc .res{margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.lp .mc .res div{border-radius:12px;padding:12px 14px;background:#F5F8FD;border:1px solid var(--line-2)}
+.lp .mc .res div small{display:block;font-size:12px;font-weight:700;color:var(--ink-3)}
+.lp .mc .res div b{font-size:25px;font-weight:900;letter-spacing:-.02em;color:var(--ink-2)}
+.lp .mc .res .me{background:linear-gradient(150deg,#1B4E92,#15264C);border-color:#15264C}
+.lp .mc .res .me small{color:#9EC2F2}
+.lp .mc .res .me b{color:#F0CE8E}
+.lp .mc .rs{margin-top:12px;font-size:15px;font-weight:900;color:var(--navy)}
+.lp .mc .ex{margin-top:10px;font-size:11.5px;color:var(--ink-3);font-weight:700;background:#F5F8FD;border-radius:8px;padding:8px 10px;line-height:1.45}
+.lp .pending{margin-top:20px;border:1px dashed var(--blue-line);background:#F5F9FF;border-radius:16px;padding:18px 18px;display:grid;grid-template-columns:40px 1fr;gap:12px;align-items:center}
+.lp .pending .n{width:38px;height:38px;border-radius:50%;background:var(--blue-soft);color:var(--blue);display:grid;place-items:center;font-weight:900;font-size:15px}
+.lp .pending b{display:block;font-size:15.5px;color:var(--navy);font-weight:900}
+.lp .pending span{display:block;font-size:12.5px;color:var(--ink-2);font-weight:700;margin-top:2px}
+.lp .figure{margin-top:22px;border-radius:18px;overflow:hidden;position:relative;border:1px solid var(--line);box-shadow:0 12px 28px rgba(21,38,76,.08)}
+.lp .figure img{width:100%;height:200px;object-fit:cover}
+.lp .figure .cap{position:absolute;left:0;right:0;bottom:0;padding:14px 16px;color:#fff;font-size:13.5px;font-weight:800;background:linear-gradient(180deg,rgba(10,24,50,0),rgba(10,24,50,.78))}
+.lp .figure.tall img{height:240px}
+.lp .emochart{margin-top:24px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px 14px 10px;box-shadow:0 10px 24px rgba(21,38,76,.06)}
+.lp .emochart svg{width:100%;height:auto;display:block}
+.lp .emochart .cp{margin-top:6px;font-size:12px;color:var(--ink-3);font-weight:700;text-align:center}
+.lp .duo{margin-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.lp .duo .figure{margin-top:0}
+.lp .duo .figure img{height:130px}
+.lp .compare-media{margin-top:20px;display:grid;gap:14px;padding:18px;border-radius:22px;border:1px solid var(--blue-line);background:linear-gradient(145deg,#F9FBFF 0%,#EDF4FE 100%);box-shadow:0 14px 32px rgba(21,38,76,.08);position:relative;overflow:hidden}
+.lp .compare-media::before{content:"";position:absolute;right:-54px;top:-70px;width:190px;height:190px;border-radius:50%;background:rgba(201,154,62,.12)}
+.lp .compare-media::after{content:"";position:absolute;left:-70px;bottom:-80px;width:180px;height:180px;border-radius:50%;background:rgba(27,78,146,.08)}
+.lp .compare-media .cm-copy{position:relative;z-index:1}
+.lp .compare-media .cm-k{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:900;letter-spacing:.08em;color:var(--blue);background:#fff;border:1px solid var(--blue-line);padding:6px 10px;border-radius:999px}
+.lp .compare-media .cm-k::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--gold)}
+.lp .compare-media .cm-copy b{display:block;margin-top:10px;font-size:23px;line-height:1.25;color:var(--navy);font-weight:900;letter-spacing:-.03em}
+.lp .compare-media .cm-copy p{margin-top:8px;font-size:13.5px;line-height:1.5;color:var(--ink-2);font-weight:700}
+.lp .compare-media .cm-photo{position:relative;z-index:1;border-radius:18px;overflow:hidden;border:1px solid var(--line);background:#fff;box-shadow:0 10px 24px rgba(21,38,76,.08)}
+.lp .compare-media .cm-photo img{width:100%;height:262px;object-fit:cover;object-position:center 24%}
+.lp .compare-media .cm-cap{position:absolute;left:0;right:0;bottom:0;padding:12px 14px;font-size:12.5px;font-weight:800;color:#fff;background:linear-gradient(180deg,rgba(10,24,50,0),rgba(10,24,50,.72))}
+.lp .lec .lstat{margin-top:26px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.lp .lec .lstat div{position:relative;overflow:hidden;background:linear-gradient(155deg,#1B4E92,#15264C);border-radius:14px;padding:16px 8px;text-align:center;box-shadow:0 12px 26px rgba(27,78,146,.18)}
+.lp .lec .lstat div::after{position:absolute;right:8px;bottom:-4px;font-size:42px;line-height:1;font-weight:900;color:rgba(255,255,255,.12)}
+.lp .lec .lstat div:nth-child(1)::after{content:"◫"}
+.lp .lec .lstat div:nth-child(2)::after{content:"▶"}
+.lp .lec .lstat div:nth-child(3)::after{content:"↻"}
+.lp .lec .lstat b{display:block;font-size:23px;font-weight:900;color:#F0CE8E;letter-spacing:-.02em}
+.lp .lec .lstat span{display:block;font-size:11.5px;font-weight:700;color:#9EC2F2;margin-top:3px}
+.lp .feat{margin-top:14px;border-radius:20px;overflow:hidden;position:relative;background:#0F1B33;box-shadow:0 18px 38px rgba(21,38,76,.18)}
+.lp .feat img{width:100%;height:auto;display:block;object-fit:cover}
+.lp .feat::after{content:"";position:absolute;left:0;right:0;top:0;height:34%;background:linear-gradient(180deg,rgba(15,27,51,.22),rgba(15,27,51,0))}
+.lp .feat .fb{position:relative;z-index:2;padding:14px 18px 16px;background:#101E3A}
+.lp .feat .fk{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:900;letter-spacing:.08em;color:#15264C;background:#F0CE8E;padding:5px 10px;border-radius:999px}
+.lp .feat h4{margin-top:10px;font-size:25px;font-weight:900;color:#fff;letter-spacing:-.03em;line-height:1.2}
+.lp .feat p{margin-top:6px;font-size:13px;color:#C7D8F2;font-weight:700;line-height:1.45}
+.lp .feat .fm{margin-top:8px;display:flex;gap:12px;font-size:11.5px;font-weight:800;color:#9EC2F2}
+.lp .feat .fplay{position:absolute;left:50%;top:38%;z-index:2;width:56px;height:56px;margin:-28px 0 0 -28px;border-radius:50%;background:rgba(255,255,255,.94);box-shadow:0 10px 26px rgba(0,0,0,.34)}
+.lp .feat .fplay::before{content:"";position:absolute;left:17px;top:13px;border-left:14px solid var(--blue);border-top:9px solid transparent;border-bottom:9px solid transparent}
+.lp .lgroup{margin-top:28px}
+.lp .lghead{display:flex;align-items:center;gap:10px;padding-bottom:10px;border-bottom:2px solid var(--navy)}
+.lp .lghead b{font-size:17px;font-weight:900;color:var(--navy);white-space:nowrap}
+.lp .lghead em{font-style:normal;font-size:11px;font-weight:900;color:#fff;background:var(--blue);padding:3px 8px;border-radius:5px;letter-spacing:.04em}
+.lp .lghead i{margin-left:auto;font-style:normal;font-size:11.5px;font-weight:800;color:var(--ink-3)}
+.lp .lrow{display:grid;grid-template-columns:26px 116px 1fr;gap:12px;align-items:center;padding:13px 0;border-bottom:1px solid var(--line)}
+.lp .lrow:last-child{border-bottom:0}
+.lp .lrow .no{font-size:12.5px;font-weight:900;color:var(--blue);letter-spacing:.04em}
+.lp .lrow .tn{position:relative;border-radius:10px;overflow:hidden;background:#0F1B33;aspect-ratio:16/10}
+.lp .lrow .tn img{width:100%;height:100%;object-fit:cover;object-position:8% center}
+.lp .lrow .tn::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.34))}
+.lp .lrow .play{position:absolute;left:50%;top:50%;width:26px;height:26px;margin:-13px 0 0 -13px;border-radius:50%;background:rgba(255,255,255,.94);z-index:2}
+.lp .lrow .play::before{content:"";position:absolute;left:10px;top:7px;border-left:9px solid var(--blue);border-top:6px solid transparent;border-bottom:6px solid transparent}
+.lp .lrow h4{font-size:16px;font-weight:900;color:var(--navy);letter-spacing:-.02em;line-height:1.3}
+.lp .lrow p{margin-top:3px;font-size:12px;color:var(--ink-3);font-weight:700;line-height:1.4}
+.lp .lrow .dur{display:inline-block;margin-top:5px;font-size:10.5px;font-weight:800;color:var(--blue);background:var(--blue-soft);padding:3px 7px;border-radius:5px}
+.lp .curri{position:relative;overflow:hidden;margin-top:26px;background:linear-gradient(180deg,#fff 0%,#FBFCFF 100%);border:1px solid var(--line);border-radius:20px;padding:22px 20px;box-shadow:0 10px 24px rgba(21,38,76,.05)}
+.lp .curri::before{content:"";position:absolute;right:-36px;top:-26px;width:156px;height:156px;border-radius:50%;background:radial-gradient(circle,rgba(27,78,146,.10),rgba(27,78,146,0) 68%)}
+.lp .curri::after{content:"";position:absolute;left:-34px;bottom:-48px;width:150px;height:150px;border-radius:50%;background:radial-gradient(circle,rgba(201,154,62,.11),rgba(201,154,62,0) 72%)}
+.lp .curri .ch{display:flex;align-items:baseline;justify-content:space-between}
+.lp .curri .ch b{font-size:18px;font-weight:900;color:var(--navy)}
+.lp .curri .ch span{font-size:12.5px;font-weight:900;color:var(--blue);background:var(--blue-soft);padding:6px 10px;border-radius:999px;position:relative;z-index:1}
+.lp .curri .cats{position:relative;z-index:1;margin-top:14px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.lp .curri .cats div{position:relative;overflow:hidden;min-height:72px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(180deg,#F8FBFF,#F2F6FD);border:1px solid var(--line-2);border-radius:12px;padding:11px 8px;text-align:center;font-size:12.5px;font-weight:800;color:var(--navy);line-height:1.25;box-shadow:inset 0 1px 0 rgba(255,255,255,.9)}
+.lp .curri .cats div::after{content:attr(data-ic);position:absolute;right:8px;bottom:4px;font-size:28px;font-weight:900;line-height:1;color:rgba(27,78,146,.14)}
+.lp .curri .cats div i{display:block;font-style:normal;font-size:10px;color:var(--blue);font-weight:900;letter-spacing:.06em;margin-bottom:3px}
+.lp .curri .cats div small{display:block;font-size:10.5px;color:var(--ink-3);font-weight:700;margin-top:2px}
+.lp .curri p{position:relative;z-index:1;margin-top:12px;font-size:12.5px;color:var(--ink-3);font-weight:700}
+.lp .onoff{margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.lp .onoff div{border-radius:14px;padding:16px;border:1px solid var(--line);background:#fff}
+.lp .onoff div b{display:block;font-size:12px;font-weight:900;letter-spacing:.1em;color:var(--blue)}
+.lp .onoff div span{display:block;margin-top:5px;font-size:14.5px;font-weight:800;color:var(--navy);line-height:1.35}
+.lp .journey{margin-top:28px;display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.lp .js{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 8px;text-align:center}
+.lp .js .n{width:28px;height:28px;border-radius:50%;background:var(--blue-soft);color:var(--blue);display:grid;place-items:center;font-weight:900;font-size:13px;margin:0 auto}
+.lp .js b{display:block;font-size:20px;font-weight:900;color:var(--navy);margin-top:8px}
+.lp .js span{display:block;font-size:11.5px;color:var(--ink-3);font-weight:700;margin-top:3px;line-height:1.3}
+.lp .js.on{background:linear-gradient(150deg,#1B4E92,#15264C);border-color:#15264C}
+.lp .js.on .n{background:#F0CE8E;color:var(--navy)}
+.lp .js.on b{color:#fff}
+.lp .js.on span{color:#9EC2F2}
+.lp .markets{margin-top:12px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.lp .mk{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 8px;text-align:center}
+.lp .mk .s{font-size:17px;font-weight:900;color:var(--blue)}
+.lp .mk b{display:block;margin-top:4px;font-size:15px;color:var(--navy);font-weight:900}
+.lp .track{margin-top:14px;border-radius:20px;overflow:hidden;background:linear-gradient(155deg,#1B4E92,#15264C);color:#fff;box-shadow:0 16px 34px rgba(27,78,146,.2)}
+.lp .track .th{padding:22px 24px 6px}
+.lp .track .th .k{font-size:12px;font-weight:900;letter-spacing:.12em;color:#F0CE8E}
+.lp .track .th h3{font-size:24px;margin-top:4px;font-weight:900;letter-spacing:-.02em}
+.lp .track ul{list-style:none;padding:10px 24px 22px}
+.lp .track li{display:grid;grid-template-columns:118px 1fr;gap:10px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.13);font-size:14px;color:#B9CBE6;font-weight:600;align-items:baseline}
+.lp .track li:last-child{border-bottom:0}
+.lp .track li b{color:#fff;font-size:15.5px;font-weight:900}
+.lp .method .g{margin-top:26px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.lp .method .g .photo{height:150px}
+.lp .method .g .wide{grid-column:1/-1;height:220px}
+.lp .kw{margin-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.lp .kw div{padding:14px;border-radius:12px;background:#fff;border:1px solid var(--line);font-weight:900;color:var(--navy);font-size:14.5px;display:flex;gap:8px;align-items:flex-start;line-height:1.35}
+.lp .kw div::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--gold);flex:none;margin-top:8px}
+.lp .dl{margin-top:12px;border-radius:18px;padding:22px;border:1px solid var(--line);background:#fff}
+.lp .dl .t{font-size:12px;font-weight:900;letter-spacing:.14em;color:var(--blue)}
+.lp .dl h3{font-size:22px;margin-top:6px;color:var(--navy);font-weight:900;letter-spacing:-.02em}
+.lp .strip{margin-top:14px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.lp .strip .photo{border-radius:10px}
+.lp .strip .photo img{aspect-ratio:4/3}
+.lp .cert .list{list-style:none;margin-top:18px;border-top:2px solid var(--blue)}
+.lp .cert .list li{display:grid;grid-template-columns:34px 1fr auto;gap:10px;align-items:center;padding:14px 2px;border-bottom:1px solid var(--line)}
+.lp .cert .list li .n{font-weight:900;color:var(--gold-deep);font-size:13px}
+.lp .cert .list li b{font-size:18px;color:var(--navy);font-weight:900}
+.lp .cert .list li span{font-size:12px;color:var(--ink-3);font-weight:700}
+.lp .ip{margin-top:26px;display:grid;gap:14px}
+.lp .ipc{background:#fff;border:1px solid var(--line);border-radius:20px;padding:22px 20px;text-align:center}
+.lp .ipimg{background:#F5F8FD;border-radius:14px;padding:18px;display:grid;place-items:center}
+.lp .ipimg img{max-height:340px;width:auto;max-width:100%;box-shadow:0 14px 34px rgba(20,32,58,.14);border-radius:6px}
+.lp .ipc b{display:block;margin-top:16px;font-size:20px;font-weight:900;color:var(--navy)}
+.lp .ipc span{display:block;margin-top:3px;font-size:13px;color:var(--ink-3);font-weight:700}
+.lp .trust{margin-top:14px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.lp .trust div{background:linear-gradient(150deg,#1B4E92,#15264C);color:#fff;border-radius:14px;padding:16px 10px;text-align:center}
+.lp .trust div b{display:block;font-size:23px;color:#F0CE8E;font-weight:900;letter-spacing:-.02em}
+.lp .trust div span{display:block;font-size:12px;color:#9EC2F2;font-weight:700;margin-top:2px}
+.lp .tools .grid{margin-top:26px;display:grid;gap:14px}
+.lp .tool{border:1px solid var(--line);border-radius:20px;overflow:hidden;background:#fff;display:grid;grid-template-columns:140px 1fr}
+.lp .tool .photo{border-radius:0;background:#F5F8FD;display:grid;place-items:center;padding:14px}
+.lp .tool .photo img{max-height:130px;width:auto;object-fit:contain;border-radius:8px;box-shadow:0 8px 22px rgba(20,32,58,.12)}
+.lp .tool .tb{padding:20px}
+.lp .tool .k{font-size:11.5px;font-weight:900;letter-spacing:.1em;color:var(--blue)}
+.lp .tool h4{margin-top:4px;font-size:19px;font-weight:900;color:var(--navy);letter-spacing:-.02em;line-height:1.25}
+.lp .tool p{margin-top:6px;font-size:13.5px;color:var(--ink-2);font-weight:600}
+.lp .support{margin-top:26px;display:grid;gap:10px}
+.lp .support>div{display:grid;grid-template-columns:40px 1fr;gap:12px;align-items:center;padding:16px 18px;border:1px solid var(--line);border-radius:14px;background:#fff}
+.lp .support .n{width:36px;height:36px;border-radius:50%;background:var(--blue-soft);color:var(--blue);display:grid;place-items:center;font-weight:900;font-size:13px}
+.lp .support b{font-size:17px;color:var(--navy);font-weight:900}
+.lp .close{text-align:center}
+.lp .close .big{font-size:34px;line-height:1.2;color:#fff}
+.lp .close .big em{font-style:normal;color:#F0CE8E}
+.lp .close .rse{margin-top:26px;display:flex;justify-content:center;gap:8px;flex-wrap:wrap}
+.lp .close .rse span{padding:10px 16px;border:1px solid rgba(240,206,142,.6);border-radius:999px;font-weight:900;color:#F0CE8E;font-size:14px;letter-spacing:.04em}
+.lp footer{padding:28px 24px 36px;font-size:11.5px;color:#7C8798;line-height:1.7;background:#F2F5FA;font-weight:600;border-top:1px solid var(--line)}
+.lp .rui{background:#FAF7F0;border:1px solid #EDE7DA;border-radius:16px;padding:14px 12px}
+.lp .rui-h{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:900;color:#1B2233;padding:2px 4px 10px}
+.lp .rui-h .bar{width:4px;height:16px;border-radius:2px;background:#1B4E92}
+.lp .rui-h em{font-style:normal;font-size:11px;font-weight:900;color:#E0762B;border:1px solid #F3C9A5;background:#FDF1E6;border-radius:6px;padding:3px 7px}
+.lp .rui-c{background:#fff;border-radius:14px;padding:12px;display:grid;gap:9px;box-shadow:0 4px 14px rgba(21,38,76,.05)}
+.lp .fld{border:1px solid #E7EBF2;border-radius:11px;padding:10px 11px}
+.lp .fld .fl{display:flex;align-items:center;gap:6px;font-size:12.5px;font-weight:900;color:#1B4E92}
+.lp .fld .fl i{width:17px;height:17px;border-radius:50%;background:#1B4E92;color:#fff;font-style:normal;font-size:10px;display:grid;place-items:center;font-weight:800}
+.lp .fld .fr{margin-top:8px;display:flex;align-items:center;gap:8px}
+.lp .fld .fr>span{font-size:11.5px;font-weight:700;color:#8A93A5;white-space:nowrap}
+.lp .fld .fr b{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;background:#F7F9FC;border:1px solid #E2E8F1;border-radius:8px;padding:8px 12px;font-size:17px;font-weight:900;color:#1B4E92;text-align:left}
+.lp .fld .fr em{font-style:normal;font-size:11px;font-weight:800;color:#8A93A5;white-space:nowrap}
+.lp .fld .fr em.apply{color:#1B4E92;background:#EAF0FB;border-radius:6px;padding:6px 8px}
+.lp .rui-f{text-align:center;font-size:11.5px;color:#A9B0BD;font-weight:700;padding-top:10px}
+.lp .rcard{background:#fff;border:1px solid #E7EBF2;border-radius:14px;padding:12px 13px;box-shadow:0 6px 18px rgba(21,38,76,.07)}
+.lp .rcard+.rcard{margin-top:9px}
+.lp .rc-top{display:flex;align-items:center;gap:6px}
+.lp .rc-top .p1{font-size:11px;font-weight:800;color:#6B7280;background:#F1F3F7;border-radius:999px;padding:4px 9px}
+.lp .rc-top .p2{font-size:11px;font-weight:800;border-radius:999px;padding:4px 9px}
+.lp .rc-top time{margin-left:auto;font-size:10.5px;color:#9AA4B4;font-weight:700}
+.lp .rc-nm{display:flex;align-items:center;gap:7px;margin-top:10px}
+.lp .rc-nm .lg{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:10.5px;font-weight:900;color:#fff;background:#1B4E92}
+.lp .rc-nm b{font-size:15px;font-weight:900;color:#1B2233}
+.lp .rc-nm em{font-style:normal;font-size:10px;font-weight:800;color:#1B4E92;background:#EAF0FB;border-radius:4px;padding:2px 5px}
+.lp .rc-nm .code{margin-left:auto;font-size:11px;color:#9AA4B4;font-weight:700}
+.lp .rc-tb.c3{grid-template-columns:repeat(3,1fr)}
+.lp .rc-tb{margin-top:10px;display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid #EEF1F6;border-bottom:1px solid #EEF1F6;padding:9px 0}
+.lp .rc-tb div{text-align:center;border-right:1px solid #EEF1F6}
+.lp .rc-tb div:last-child{border-right:0}
+.lp .rc-tb small{display:block;font-size:9.5px;color:#9AA4B4;font-weight:700}
+.lp .rc-tb b{display:block;font-size:13.5px;color:#1B2233;font-weight:900;margin-top:3px}
+.lp .rc-bt{display:flex;justify-content:space-between;align-items:center;padding-top:9px}
+.lp .rc-bt span{font-size:11px;color:#9AA4B4;font-weight:700}
+.lp .rc-bt b{font-size:14px;font-weight:900;color:#D0554F}
+.lp .rc-bt b.wait{color:#9AA4B4;font-size:12.5px}
+.lp .rres{background:#fff;border:1px solid #E7EBF2;border-radius:14px;padding:14px 13px;box-shadow:0 6px 18px rgba(21,38,76,.07)}
+.lp .rres-h{display:flex;justify-content:space-between;align-items:baseline}
+.lp .rres-h b{font-size:15.5px;font-weight:900;color:#1B2233}
+.lp .rres-h time{font-size:10.5px;color:#9AA4B4;font-weight:700}
+.lp .rpills{margin-top:11px;display:grid;grid-template-columns:repeat(6,1fr);gap:5px}
+.lp .rpills div{background:#F2F4F8;border-radius:999px;padding:8px 2px;text-align:center}
+.lp .rpills small{display:block;font-size:10px;font-weight:800;color:#4A566B}
+.lp .rpills b{display:block;font-size:13px;font-weight:900;margin-top:2px;color:#1B4E92}
+.lp .rpills .w b{color:#E08A2B}
+.lp .rpills .r b{color:#0E7F73}
+.lp .rpills .s b{color:#9AA4B4}
+.lp .rpills .e b{color:#D0554F}
+.lp .rrows{margin-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:7px 14px}
+.lp .rrows>div{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:11.5px;border-bottom:1px dashed #EEF1F6;padding-bottom:6px}
+.lp .rrows span{color:#9AA4B4;font-weight:700;white-space:nowrap}
+.lp .rrows b{color:#1B2233;font-weight:900;font-size:12.5px}
+.lp .rrows b.g{color:#16A06A}
+.lp .rrun{font-size:10.5px;font-weight:800;color:#fff;background:#16A06A;border-radius:999px;padding:4px 9px}
+.lp .rtog{width:34px;height:18px;border-radius:999px;background:#16A06A;position:relative;flex:none}
+.lp .rtog::after{content:"";position:absolute;left:3px;top:3px;width:12px;height:12px;border-radius:50%;background:#fff}
+.lp .rtot{margin-top:13px;text-align:center;border-top:1px solid #EEF1F6;padding-top:12px}
+.lp .rtot small{font-size:11.5px;color:#9AA4B4;font-weight:700}
+.lp .rtot b{display:block;font-size:30px;font-weight:900;color:#16A06A;letter-spacing:-.02em;margin-top:3px}
+.lp .mask{filter:blur(6px);user-select:none;pointer-events:none}
+.lp .lockb{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:800;color:#6B7280;background:#F1F4F9;border:1px solid #E4E9F2;border-radius:6px;padding:3px 7px;margin-left:6px;filter:none}
+.lp .lockb::before{content:"\1F512";font-size:9px}
+.lp .rtot .lockb{margin:8px 0 0;filter:none}
+.lp .gs-zig{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
+.lp .cm-float{position:absolute;right:10px;bottom:46px;width:54%;z-index:3}
+.lp .cm-float .rcard{box-shadow:0 18px 36px rgba(10,24,50,.32);border-color:rgba(255,255,255,.9)}
+.lp .mc .logo svg{width:26px;height:26px;display:block}
+.lp .wbstack{position:relative;margin-top:30px;padding:26px 22px 0}
+.lp .wbstack .bk{position:absolute;left:16px;right:16px;top:0;bottom:0;border-radius:16px;background:#fff;border:1px solid var(--line);box-shadow:0 10px 26px rgba(21,38,76,.10)}
+.lp .wbstack .bk1{transform:rotate(-4.2deg) translate(-20px,-16px);background:#FDFDFF}
+.lp .wbstack .bk2{transform:rotate(3.4deg) translate(22px,-9px);background:#FBFCFF}
+.lp .wbstack .front{position:relative;border-radius:16px;overflow:hidden;border:1px solid var(--line);box-shadow:0 22px 44px rgba(21,38,76,.20);background:#fff}
+.lp .wbstack .front img{width:100%;display:block}
+.lp .wbstack .badge{position:absolute;left:26px;top:6px;z-index:3;font-size:11.5px;font-weight:900;letter-spacing:.06em;color:#fff;background:var(--blue);padding:6px 12px;border-radius:999px;box-shadow:0 8px 18px rgba(27,78,146,.28)}
+.lp .wbcards{margin-top:26px;display:grid;gap:12px}
+.lp .wbc{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px 16px;box-shadow:0 8px 20px rgba(21,38,76,.06)}
+.lp .wbc-h{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.lp .wbc-h b{font-size:17px;font-weight:900;color:var(--navy)}
+.lp .wbc-h time{font-size:11px;color:var(--ink-3);font-weight:700}
+.lp .wbc-chips{margin-top:11px;display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.lp .wbc-chips div{background:#F5F8FD;border:1px solid var(--line-2);border-radius:10px;padding:9px 4px;text-align:center}
+.lp .wbc-chips small{display:block;font-size:10.5px;color:var(--ink-3);font-weight:800}
+.lp .wbc-chips b{display:block;font-size:17px;font-weight:900;color:var(--navy);margin-top:2px}
+.lp .wbc-chips div.done b{color:var(--teal)}
+.lp .wbc-b{margin-top:11px;display:flex;align-items:center;gap:6px;border-top:1px dashed #EEF1F6;padding-top:11px}
+.lp .wbc-b>span:first-child{font-size:11.5px;color:var(--ink-3);font-weight:700}
+.lp .wbc-b b{margin-left:auto;font-size:17px;font-weight:900;color:#16A06A}
+.lp .wbc-by{margin-top:8px;font-size:11.5px;color:var(--ink-3);font-weight:700}
+.lp .wbnote{margin-top:16px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.lp .wbnote div{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 10px;text-align:center;font-size:13px;font-weight:800;color:var(--navy);line-height:1.35}
+.lp .wbnote div i{display:block;font-style:normal;font-size:11px;font-weight:900;color:var(--blue);margin-bottom:4px;letter-spacing:.06em}
+.lp .hero .shot{container-type:inline-size}
+.lp .hgs{position:absolute;left:2.0%;top:55.0%;width:40%;height:39.5%;background:#fff;border-radius:2.8cqw;padding:2.2cqw 2.4cqw;box-shadow:0 1.4cqw 3cqw rgba(10,24,50,.20);z-index:3;display:flex;flex-direction:column}
+.lp .hgs-h{display:flex;justify-content:space-between;align-items:center;font-size:2.6cqw;font-weight:900;color:var(--blue);padding-bottom:1.3cqw;border-bottom:1px solid #EEF1F6}
+.lp .hgs-h i{font-style:normal;font-size:2cqw;font-weight:800;color:#6B7280;background:#F1F4F9;padding:.5cqw 1.3cqw;border-radius:1.2cqw}
+.lp .hgs-t, .lp .hgs-r{display:grid;grid-template-columns:1fr 1.4fr 1.4fr;align-items:center;column-gap:1cqw}
+.lp .hgs-t{padding:1.1cqw 0 .5cqw;font-size:1.75cqw;font-weight:800;color:#9AA4B4}
+.lp .hgs-t span:nth-child(n+2){text-align:right}
+.lp .hgs-r{flex:1;position:relative;border-bottom:1px dashed #EEF1F6}
+.lp .hgs-r:last-child{border-bottom:0}
+.lp .hgs-r b{font-size:2.35cqw;font-weight:900;color:var(--navy)}
+.lp .hgs-r span{font-size:2.5cqw;font-weight:900;color:var(--navy);text-align:right;font-variant-numeric:tabular-nums}
+.lp .hgs-r em{font-style:normal;font-size:1.75cqw;font-weight:800;padding:.4cqw .6cqw;border-radius:.9cqw;text-align:center;justify-self:end}
+.lp .hgs-r.box{border:2px solid #0E7F73;background:rgba(14,127,115,.09);border-radius:1.5cqw;margin:0 -1.2cqw;padding:0 1.2cqw}
+@media (min-width:1000px){
+  .lp{background:#E7EDF6}
+  .lp .page{max-width:1120px;zoom:1.14}
+  .lp section:not(.hero)>.rv:first-child{margin-left:auto;margin-right:auto;text-align:center;max-width:820px;justify-self:center;width:100%}
+  .lp section>.rv:first-child .num{justify-content:center}
+  .lp section>.rv:first-child .def{justify-content:center}
+  .lp .sysnav{max-width:760px;margin-left:auto;margin-right:auto}
+  .lp .gs .zone-hook{max-width:780px;margin-left:auto;margin-right:auto}
+  .lp .compare-media{margin-top:28px}
+  .lp .journey{max-width:900px;margin-left:auto;margin-right:auto}
+  .lp .markets{max-width:900px;margin-left:auto;margin-right:auto}
+  .lp .track{max-width:900px;margin-left:auto;margin-right:auto}
+  .lp .close .rv{max-width:none}
+  .lp section{padding:78px 52px}
+  .lp .pain{display:grid;grid-template-columns:1.15fr 1fr;gap:24px;align-items:start}
+  .lp .pain>.rv:first-child{grid-column:1/-1}
+  .lp .pain .emochart{margin-top:0}
+  .lp .pain>.list{margin-top:0;grid-template-columns:1fr!important;gap:10px}
+  .lp .pain .p{grid-template-columns:56px 1fr;text-align:left;justify-items:stretch}
+  .lp .pain .band{grid-column:1/-1;margin-top:6px}
+  .lp .rms{display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:center}
+  .lp .rms>.rv:first-child{grid-column:1/-1}
+  .lp .rms .circles{margin-top:0;max-width:none}
+  .lp .rms .figure{margin-top:0}
+  .lp .rms .figure img{height:250px}
+  .lp .rms .band{grid-column:1/-1;margin-top:8px}
+  .lp .cert{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:stretch}
+  .lp .cert>.rv:first-child, .lp .cert .trust{grid-column:1/-1}
+  .lp .cert>.photo{margin-top:0!important;height:100%;min-height:380px}
+  .lp .cert>.photo img{height:100%;max-height:none!important;object-fit:cover!important;background:none!important}
+  .lp .cert .list{margin-top:0;columns:1!important;display:flex;flex-direction:column;justify-content:center;border-top-width:3px}
+  .lp .cert .list li{padding:20px 6px;grid-template-columns:40px 1fr auto}
+  .lp .cert .list li b{font-size:21px}
+  .lp .cert .list li span{font-size:13.5px}
+  .lp .lec .lstat{max-width:none}
+  .lp .onoff{max-width:none}
+  .lp .wbstack{max-width:none}
+  .lp .wbnote{grid-template-columns:repeat(3,1fr)}
+  .lp .gs .zone-hook{max-width:none}
+  .lp .close{padding-top:90px;padding-bottom:90px}
+  .lp h2{font-size:46px}
+  .lp .hook{font-size:19px}
+  .lp .hero{position:relative}
+  .lp .hero .in{padding:76px 60px 76px;min-height:560px;width:56%}
+  .lp .hero h1{font-size:54px}
+  .lp .hero .pre{font-size:19px}
+  .lp .hero .rse{max-width:520px}
+  .lp .hero{display:grid;grid-template-columns:1fr minmax(400px,520px);align-items:center}
+  .lp .hero .in{width:auto;padding:72px 56px;min-height:0}
+  .lp .hero .shot{position:relative;margin:0;align-self:stretch;display:flex;align-items:center}
+  .lp .hero .shot img{width:100%;height:auto;display:block}
+  .lp .hero .shot::before{background:linear-gradient(90deg,rgba(232,240,252,.55) 0%,rgba(232,240,252,0) 28%)}
+  .lp .pain .list{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .lp .emochart{max-width:none}
+  .lp .band{max-width:none}
+  .lp .circles{max-width:760px}
+  .lp .figure img{height:280px}
+  .lp .duo .figure img{height:200px}
+  .lp .sys .step{display:grid;grid-template-columns:1fr minmax(460px,600px);column-gap:36px;align-items:center;padding:28px 34px;margin-top:22px}
+  .lp .sys .step .sh{grid-column:1;grid-row:1;padding:0;align-self:end}
+  .lp .sys .step .sh h3{font-size:28px}
+  .lp .sys .step .sh p{font-size:15px}
+  .lp .sys .step .cap{grid-column:1;grid-row:2;padding:14px 0 0;align-self:start;font-size:15px}
+  .lp .sys .step .sb{grid-column:2;grid-row:1/3;padding:0}
+  .lp .gs .zone-hook{max-width:780px}
+  .lp .gs .card-wrap{display:grid;grid-template-columns:1.15fr 1fr;gap:24px;align-items:stretch}
+  .lp .gs .card-wrap .rside{display:grid;grid-template-columns:1fr;gap:16px;align-content:start}
+  .lp .gs .card-wrap .rside>*{width:100%;min-width:0}
+  .lp .gs .card-wrap .diff{margin-top:0;grid-template-columns:1fr!important;width:100%}
+  .lp .gs .card-wrap .diff>div{width:100%}
+  .lp .gs .card-wrap .diff table{width:100%}
+  .lp .gs .card-wrap .diff td:first-child{width:34%}
+  .lp .gs .points{margin-top:0;grid-template-columns:1fr 1fr;align-content:start}
+  .lp .gs .pt{padding:20px 18px}
+  .lp .gs .pt b{font-size:19px}
+  .lp .compare-media{grid-template-columns:1fr 1fr;align-items:center;padding:26px;gap:26px}
+  .lp .compare-media .cm-photo img{height:300px}
+  .lp .diff{grid-template-columns:1fr 1fr;gap:16px}
+  .lp .eng{grid-template-columns:1fr 1fr;gap:22px}
+  .lp .mkt .cards{grid-template-columns:repeat(3,1fr);gap:18px;align-items:start}
+  .lp .mc .res div b{font-size:22px}
+  .lp .mc .nm b{font-size:20px}
+  .lp .mc .mtag{font-size:11.5px;padding:5px 9px}
+  .lp .wbcards{grid-template-columns:repeat(3,1fr)}
+  .lp .wbstack{max-width:820px;margin-left:auto;margin-right:auto}
+  .lp .lec .lstat{max-width:620px}
+  .lp .feat img{height:340px}
+  .lp .lgroup{display:grid;grid-template-columns:1fr 1fr;gap:0 26px}
+  .lp .lghead{grid-column:1/-1}
+  .lp .curri .cats{grid-template-columns:repeat(4,1fr)}
+  .lp .onoff{max-width:640px}
+  .lp .journey{grid-template-columns:repeat(4,1fr);max-width:none}
+  .lp .markets{grid-template-columns:repeat(6,1fr)}
+  .lp .track ul{columns:2;column-gap:34px}
+  .lp .track li{break-inside:avoid}
+  .lp .ip{grid-template-columns:1fr 1fr;align-items:start}
+  .lp .cert .list{columns:2;column-gap:34px}
+  .lp .cert .list li{break-inside:avoid}
+  .lp .cert>.photo img{max-height:460px;object-fit:contain;background:#fff}
+  .lp .close .big{font-size:44px}
+  .lp footer{padding:34px 60px 44px}
+}
+@media (min-width:1400px){
+  .lp .page{max-width:1160px;zoom:1.22}
+  .lp section{padding:86px 64px}
+  .lp .hero h1{font-size:58px}
+  .lp .feat img{height:380px}
+}
+@media (max-width:420px){
+  .lp section{padding:58px 20px}
+  .lp h2{font-size:32px}
+  .lp .hero h1{font-size:37px}
+  .lp .col li{font-size:20px}
+  .lp .mani .big{font-size:27px}
+  .lp .gs .punch{font-size:24px}
+  .lp .engine h3{font-size:32px}
+  .lp .close .big{font-size:29px}
+  .lp .lrow{grid-template-columns:22px 100px 1fr;gap:9px}
+  .lp .feat h4{font-size:22px}
+  .lp .curri .cats{grid-template-columns:repeat(2,1fr)}
+  .lp .compare-media .cm-copy b{font-size:20px}
+  .lp .cm-float{width:62%;right:8px;bottom:42px}
+  .lp .rc-tb b{font-size:12px}
+  .lp .fld .fr b{font-size:15px;padding:8px 10px}
+  .lp .fld .fr em{font-size:10px}
+  .lp .fld .fr>span{font-size:11px}
+  .lp .rrows{grid-template-columns:1fr}
+}
+
+
+/* ==========================================================================
+   상담 신청 — 하단 섹션(.consult .cform) + 따라다니는 상담바(.cbar)
+   v24 원본을 .lp 스코프로 옮긴 것. 원본의 .fld 는 랜딩의 기존 .lp .fld
+   (테두리·패딩)와 겹쳐 .cfld 로 이름만 바꿨다.
+   ========================================================================== */
+.lp .consult .cform{margin-top:26px;background:#fff;border:1px solid var(--line);border-radius:20px;padding:24px 22px;box-shadow:0 14px 34px rgba(21,38,76,.08)}
+.lp .cform .f{margin-bottom:14px}
+.lp .cform label{display:block;font-size:12.5px;font-weight:800;color:var(--ink-2);margin-bottom:7px}
+.lp .cform label i{font-style:normal;color:var(--red);margin-left:3px}
+.lp .cform input, .lp .cform textarea{width:100%;border:1.5px solid var(--blue-line);border-radius:12px;padding:0 14px;font-size:15px;font-family:var(--sans);background:var(--sky);color:var(--ink);box-sizing:border-box}
+.lp .cform input{height:50px}
+.lp .cform textarea{height:110px;padding:12px 14px;resize:vertical;line-height:1.55}
+.lp .cform input:focus, .lp .cform textarea:focus{outline:none;border-color:var(--blue);background:#fff}
+.lp .cform .err{display:none;font-size:12px;color:var(--red);margin-top:6px;font-weight:700}
+.lp .cform .f.bad input, .lp .cform .f.bad textarea{border-color:var(--red)}
+.lp .cform .f.bad .err{display:block}
+.lp .cform .agree{display:flex;align-items:flex-start;gap:9px;font-size:13px;font-weight:700;color:var(--ink-2);padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:#fff}
+.lp .cform .agree input{width:18px;height:18px;height:18px;margin:1px 0 0;accent-color:var(--blue);flex:none}
+.lp .cform .agree small{display:block;font-weight:500;color:var(--ink-3);margin-top:3px;line-height:1.55}
+.lp .cform .agree.bad{border-color:var(--red)}
+/* 2026-09-23 — 상담 신청 칸에서 개인정보처리방침 전문으로 가는 링크 */
+.lp .cform .agree .pol-link{display:inline-block;margin-top:4px;color:var(--blue);
+  font-weight:700;text-decoration:underline;text-underline-offset:2px}
+.lp .cbar .pol-link{flex:none;margin-left:2px;color:#F0CE8E;font-size:12px;font-weight:700;
+  text-decoration:underline;text-underline-offset:2px;white-space:nowrap}
+.lp .cform .go{width:100%;height:56px;margin-top:16px;border:0;border-radius:14px;background:var(--blue);color:#fff;font-size:16px;font-weight:900;letter-spacing:-.02em;font-family:var(--sans);cursor:pointer}
+.lp .cform .go:hover{background:var(--blue-2)}
+.lp .cform .done{display:none;text-align:center;padding:28px 8px}
+.lp .cform .done.on{display:block}
+.lp .cform .done b{display:block;font-size:20px;color:var(--navy);margin-bottom:8px}
+.lp .cform .done span{font-size:14px;color:var(--ink-2)}
+.lp .cform.sent form{display:none}
+@media (min-width:1000px){
+  .lp .consult .cform{max-width:760px;margin-left:auto;margin-right:auto;padding:30px 32px}
+}
+.lp .cbar{position:fixed;left:0;right:0;bottom:0;z-index:120;color:#fff;
+ background:linear-gradient(100deg,#15264C 0%,#1B4E92 60%,#2F6BD0 100%);
+ box-shadow:0 -14px 40px rgba(21,38,76,.35);transform:translateY(0);transition:transform .3s ease;font-family:var(--sans)}
+.lp .cbar::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:linear-gradient(90deg,#F0CE8E,#C99A3E,#F0CE8E)}
+.lp .cbar.hide{transform:translateY(110%)}
+.lp .cbar .cin{max-width:1180px;margin:0 auto;padding:14px 18px;display:flex;align-items:center;gap:8px}
+.lp .cbar .ttl{flex:none;display:flex;flex-direction:column;gap:2px;padding-right:16px;border-right:1px solid rgba(255,255,255,.22);margin-right:6px}
+.lp .cbar .ttl b{display:flex;align-items:center;gap:7px;font-size:16px;font-weight:900;color:#fff;letter-spacing:-.02em;white-space:nowrap}
+.lp .cbar .ttl b::before{content:"";width:8px;height:8px;border-radius:50%;background:#F0CE8E;box-shadow:0 0 0 0 rgba(240,206,142,.7);animation:cbpulse 1.8s infinite}
+@keyframes cbpulse{0%{box-shadow:0 0 0 0 rgba(240,206,142,.7)}70%{box-shadow:0 0 0 9px rgba(240,206,142,0)}100%{box-shadow:0 0 0 0 rgba(240,206,142,0)}}
+.lp .cbar .ttl span{font-size:11.5px;color:rgba(255,255,255,.7);white-space:nowrap}
+.lp .cbar input{flex:1;min-width:0;height:46px;border:1px solid rgba(255,255,255,.22);border-radius:11px;padding:0 13px;font-size:14px;font-family:var(--sans);background:rgba(255,255,255,.14);color:#fff;box-sizing:border-box}
+.lp .cbar input::placeholder{color:rgba(255,255,255,.62)}
+.lp .cbar input:focus{outline:none;border-color:#F0CE8E;background:rgba(255,255,255,.22)}
+.lp .cbar input.bad{border-color:#FF8C8C;background:rgba(255,120,120,.18)}
+.lp .cbar input.msg{flex:1.6}
+.lp .cbar .ag{flex:none;display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:rgba(255,255,255,.85);white-space:nowrap}
+.lp .cbar .ag input{width:16px;height:16px;flex:none;accent-color:#F0CE8E;margin:0}
+.lp .cbar .ag.bad{color:#FFB3B3}
+.lp .cbar .go{flex:none;height:46px;padding:0 24px;border:0;border-radius:11px;background:linear-gradient(100deg,#F0CE8E,#C99A3E);color:#1B2233;font-size:15px;font-weight:900;font-family:var(--sans);cursor:pointer;white-space:nowrap;box-shadow:0 8px 20px rgba(201,154,62,.4)}
+.lp .cbar .go:hover{filter:brightness(1.06)}
+.lp .cbar .tog{display:none}
+.lp .cbar .cfld{display:flex;flex:1;min-width:0;align-items:center;gap:8px}
+@media (max-width:860px){
+  .lp .cbar .cin{flex-wrap:wrap;padding:10px 14px}
+  .lp .cbar .ttl{flex:1;border:0;padding:0;margin:0}
+  .lp .cbar .tog{display:inline-flex;align-items:center;justify-content:center;height:46px;padding:0 22px;border:0;border-radius:11px;
+      background:linear-gradient(100deg,#F0CE8E,#C99A3E);color:#1B2233;font-size:14.5px;font-weight:900;font-family:var(--sans);cursor:pointer;box-shadow:0 8px 20px rgba(201,154,62,.4)}
+  .lp .cbar .cfld{display:none;flex:0 0 100%;width:100%;flex-direction:column;align-items:stretch;gap:8px;padding-top:10px;border-top:1px solid rgba(255,255,255,.18);margin-top:8px}
+  .lp .cbar.open .cfld{display:flex}
+  .lp .cbar.open .tog{background:rgba(255,255,255,.16);color:#fff;box-shadow:none}
+  .lp .cbar input, .lp .cbar input.msg{flex:none;width:100%;height:46px}
+  .lp .cbar .ag{white-space:normal}
+  .lp .cbar .go{width:100%;height:48px}
+}
+
+
+/* ── 상담 접수 완료 모달 ──────────────────────────────────────
+   상담바는 접수 후 바 안에서 문구를 띄우지 않고 이 모달을 연다.
+   (하단 상담 섹션은 카드 안의 완료 화면을 그대로 쓴다) */
+.lp .cmod{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;
+ padding:20px;background:rgba(10,20,40,.55);backdrop-filter:blur(2px)}
+.lp .cmod.on{display:flex}
+.lp .cmod .box{width:100%;max-width:400px;background:#fff;border-radius:22px;padding:34px 28px 26px;
+ text-align:center;box-shadow:0 24px 60px rgba(10,20,40,.35);animation:cmodin .26s cubic-bezier(.2,.9,.3,1.2)}
+@keyframes cmodin{from{opacity:0;transform:translateY(14px) scale(.96)}to{opacity:1;transform:none}}
+.lp .cmod .ic{width:64px;height:64px;margin:0 auto 18px;border-radius:50%;
+ background:linear-gradient(140deg,#1B4E92,#0E7F73);display:flex;align-items:center;justify-content:center}
+.lp .cmod .ic::after{content:"";width:22px;height:12px;border-left:3.5px solid #fff;border-bottom:3.5px solid #fff;
+ transform:rotate(-45deg) translate(2px,-3px)}
+.lp .cmod b{display:block;font-size:20px;font-weight:900;letter-spacing:-.02em;color:var(--navy);margin-bottom:9px}
+.lp .cmod p{font-size:14.5px;line-height:1.65;color:var(--ink-2);margin:0}
+.lp .cmod small{display:block;margin-top:12px;font-size:12.5px;color:var(--ink-3);line-height:1.6}
+.lp .cmod button{width:100%;height:52px;margin-top:22px;border:0;border-radius:14px;background:var(--blue);
+ color:#fff;font-size:16px;font-weight:900;font-family:var(--sans);cursor:pointer}
+.lp .cmod button:hover{background:var(--blue-2)}
+
+</style>
+<style>
+html,body{margin:0;padding:0;background:#fff;overflow:hidden}
+.lp{background:#fff}
+.lp .page{max-width:none;box-shadow:none}
+</style>
+</head><body>
+<div class="lp">
+<div class="page">
+<!-- HERO -->
+<section class="hero">
+<div class="deco"><svg viewBox="0 0 540 640" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><g stroke="#CBDDF6" stroke-width="1" opacity=".55"><line x1="0" y1="110" x2="540" y2="110"/><line x1="0" y1="185" x2="540" y2="185"/><line x1="0" y1="260" x2="540" y2="260"/><line x1="0" y1="335" x2="540" y2="335"/><line x1="0" y1="410" x2="540" y2="410"/></g><line x1="40" y1="125.8" x2="40" y2="96.6" stroke="#C9A24B" stroke-width="1.6" opacity=".38"/><rect x="34" y="106.2" width="11" height="4.5" rx="2" fill="#C9A24B" opacity=".30"/><line x1="86" y1="123.5" x2="86" y2="100.5" stroke="#C9A24B" stroke-width="1.6" opacity=".38"/><rect x="80" y="110.6" width="11" height="6.6" rx="2" fill="#C9A24B" opacity=".30"/><line x1="132" y1="147.8" x2="132" y2="112.7" stroke="#C9A24B" stroke-width="1.6" opacity=".38"/><rect x="126" y="120.4" width="11" height="22.3" rx="2" fill="#C9A24B" opacity=".30"/><line x1="178" y1="113.1" x2="178" y2="72.8" stroke="#C9A24B" stroke-width="1.6" opacity=".38"/><rect x="172" y="77.3" width="11" height="23.5" rx="2" fill="#C9A24B" opacity=".30"/><line x1="224" y1="195.7" x2="224" y2="137.2" stroke="#C9A24B" stroke-width="1.6" opacity=".38"/><rect x="218" y="148.6" width="11" height="35.3" rx="2" fill="#C9A24B" opacity=".30"/><line x1="270" y1="92.9" x2="270" y2="41.0" stroke="#9FC1EC" stroke-width="1.6" opacity=".38"/><rect x="264" y="45.7" width="11" height="36.9" rx="2" fill="#9FC1EC" opacity=".30"/><line x1="316" y1="89.6" x2="316" y2="56.0" stroke="#9FC1EC" stroke-width="1.6" opacity=".38"/><rect x="310" y="65.6" width="11" height="19.6" rx="2" fill="#9FC1EC" opacity=".30"/><line x1="362" y1="141.5" x2="362" y2="93.6" stroke="#C9A24B" stroke-width="1.6" opacity=".38"/><rect x="356" y="105.2" width="11" height="26.0" rx="2" fill="#C9A24B" opacity=".30"/><line x1="408" y1="131.8" x2="408" y2="102.6" stroke="#C9A24B" stroke-width="1.6" opacity=".38"/><rect x="402" y="110.0" width="11" height="12.3" rx="2" fill="#C9A24B" opacity=".30"/><line x1="454" y1="201.6" x2="454" y2="137.3" stroke="#C9A24B" stroke-width="1.6" opacity=".38"/><rect x="448" y="149.8" width="11" height="37.7" rx="2" fill="#C9A24B" opacity=".30"/><line x1="500" y1="102.7" x2="500" y2="69.8" stroke="#9FC1EC" stroke-width="1.6" opacity=".38"/><rect x="494" y="74.7" width="11" height="20.5" rx="2" fill="#9FC1EC" opacity=".30"/><defs><linearGradient id="hgd" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1B4E92" stop-opacity=".13"/><stop offset="1" stop-color="#1B4E92" stop-opacity="0"/></linearGradient></defs><polyline points="-10.0,250.0 1.9,257.9 13.8,256.9 25.7,266.2 37.7,267.3 49.6,271.4 61.5,281.0 73.4,282.5 85.3,292.5 97.2,295.3 109.1,304.7 121.1,313.7 133.0,316.8 144.9,312.6 156.8,321.0 168.7,327.6 180.6,327.0 192.6,320.6 204.5,320.9 216.4,324.5 228.3,317.6 240.2,327.4 252.1,322.6 264.0,328.1 276.0,336.1 287.9,344.7 299.8,349.8 311.7,345.8 323.6,353.2 335.5,353.4 347.4,352.6 359.4,356.5 371.3,357.3 383.2,366.8 395.1,376.4 407.0,383.4 418.9,381.8 430.9,384.8 442.8,389.8 454.7,389.9 466.6,392.4 478.5,397.7 490.4,394.1 502.3,392.2 514.3,398.4 526.2,398.8 538.1,400.0 550.0,394.9" fill="none" stroke="#7FA9E4" stroke-width="2.4" stroke-linejoin="round" opacity=".55"/><polygon points="-10.0,250.0 1.9,257.9 13.8,256.9 25.7,266.2 37.7,267.3 49.6,271.4 61.5,281.0 73.4,282.5 85.3,292.5 97.2,295.3 109.1,304.7 121.1,313.7 133.0,316.8 144.9,312.6 156.8,321.0 168.7,327.6 180.6,327.0 192.6,320.6 204.5,320.9 216.4,324.5 228.3,317.6 240.2,327.4 252.1,322.6 264.0,328.1 276.0,336.1 287.9,344.7 299.8,349.8 311.7,345.8 323.6,353.2 335.5,353.4 347.4,352.6 359.4,356.5 371.3,357.3 383.2,366.8 395.1,376.4 407.0,383.4 418.9,381.8 430.9,384.8 442.8,389.8 454.7,389.9 466.6,392.4 478.5,397.7 490.4,394.1 502.3,392.2 514.3,398.4 526.2,398.8 538.1,400.0 550.0,394.9 560,470 -10,470" fill="url(#hgd)"/><g fill="#C9A24B" opacity=".18"><circle cx="472" cy="88" r="52"/></g><g fill="#1B4E92" opacity=".05"><circle cx="54" cy="300" r="86"/></g></svg></div>
+<div class="in">
+<span class="top"><i></i>RMS 클라우드</span>
+<p class="pre"><s>사고 나서 오르길 바라는 투자</s>는 그만.</p>
+<h1>방향을 맞히는<br/>투자가 아니라<br/><em>기준을 지키는</em> 투자</h1>
+<p class="line">내가 정한 룰을, 그리드센서가 지킵니다.</p>
+<div class="rse">
+<div><b>RULE</b><span>내 룰을<br/>먼저 정하고</span></div>
+<div><b>SENSOR</b><span>조건을 센서가<br/>감지하고</span></div>
+<div><b>EXECUTION</b><span>정한 기준대로<br/>실행</span></div>
+</div>
+
+</div>
+<div class="shot">
+<img alt="RMS 클라우드 전략 만들기와 그리드센서 화면" src="images/rms01.jpg"/>
+<div class="hgs">
+<div class="hgs-h">그리드센서 <i>시세 감지 중</i></div>
+<div class="hgs-t"><span>회차</span><span>매수가</span><span>매도가</span></div>
+<div class="hgs-r"><b>1회차</b><span>$412.00</span><span>$420.00</span></div>
+<div class="hgs-r box"><b>2회차</b><span>$408.00</span><span>$416.00</span></div>
+<div class="hgs-r"><b>3회차</b><span>$404.00</span><span>$412.00</span></div>
+</div>
+
+</div>
+</section>
+<!-- PAIN -->
+<section class="pain cream">
+<div class="rv">
+<span class="num">01</span>
+<h2>늘 같은 자리에서<br/><span class="u">무너지는</span> 이유</h2>
+<p class="hook">감정이 먼저 움직이기 때문입니다.</p>
+</div>
+<div class="emochart rv">
+<svg aria-label="감정 매매 흐름: 고점 추격 매수 후 저점 손절" role="img" viewbox="0 0 480 230">
+<g stroke="#EDF1F7" stroke-width="1"><line x1="20" x2="466" y1="60" y2="60"></line><line x1="20" x2="466" y1="115" y2="115"></line><line x1="20" x2="466" y1="170" y2="170"></line></g>
+<path d="M20,158 C60,128 92,74 132,62 C154,56 174,66 194,92 C220,126 238,176 272,184 C304,192 332,156 362,118 C392,80 424,60 464,46" fill="none" stroke="#C6CFDD" stroke-linecap="round" stroke-width="3.4"></path>
+<circle cx="132" cy="62" fill="#D0554F" r="8" stroke="#fff" stroke-width="3"></circle>
+<circle cx="272" cy="184" fill="#D0554F" r="8" stroke="#fff" stroke-width="3"></circle>
+<circle cx="464" cy="46" fill="#8A93A5" r="7" stroke="#fff" stroke-width="3"></circle>
+<g font-family="Pretendard,sans-serif" font-size="13" font-weight="800">
+<rect fill="#FDEDEC" height="26" rx="13" width="132" x="72" y="22"></rect><text fill="#C0463F" text-anchor="middle" x="138" y="40">여기서 추격 매수</text>
+<rect fill="#FDEDEC" height="26" rx="13" width="118" x="212" y="196"></rect><text fill="#C0463F" text-anchor="middle" x="271" y="214">여기서 손절</text>
+<text fill="#8A93A5" font-size="12.5" text-anchor="end" x="452" y="30">…그리고 다시 오름</text>
+</g>
+</svg>
+<p class="cp">기준이 없으면 매번 같은 자리에서 같은 선택을 합니다</p>
+</div>
+<div class="list rv">
+<div class="p"><div class="ic">↗</div><div><b>오를 때 쫓고</b><span>급등 뒤 추격 매수</span></div></div>
+<div class="p"><div class="ic">↘</div><div><b>내릴 때 흔들리고</b><span>불안한 손절 · 즉흥 물타기</span></div></div>
+<div class="p"><div class="ic">→</div><div><b>횡보에 지친다</b><span>수익 0원, 계좌는 잠김</span></div></div>
+</div>
+<div class="band rv">
+<div class="k">그래서</div>
+<div class="big">가장 위험한 투자는<br/><em>기준 없이 들어가는 투자</em></div>
+</div>
+</section>
+<!-- RMS -->
+<section class="rms sky">
+<div class="rv">
+<span class="num">02 · RMS</span>
+<h2>RMS는 규칙을<br/><em>지키게 하는</em><br/>시스템입니다</h2>
+<div class="def"><b>RMS 클라우드서비스</b><span>Rule-based Management System</span></div>
+</div>
+<div class="circles rv">
+<div class="circ c1"><div class="o"><small>01</small><b>RULE</b></div><p>내 룰을 먼저</p><small>예산·회차·매수·매도</small></div>
+<div class="circ c2"><div class="o"><small>02</small><b>SENSOR</b></div><p>조건을 감지</p><small>구간 도달 확인</small></div>
+<div class="circ c3"><div class="o"><small>03</small><b>EXECUTION</b></div><p>기준대로 실행</p><small>감정 개입 차단</small></div>
+</div>
+<div class="figure rv">
+<img alt="RMS 클라우드 오프라인 교육 장면" src="images/rms02.jpg"/>
+<div class="cap">정한 기준을 화면에 입력하는 순간, 규칙이 작동하기 시작합니다</div>
+</div>
+<div class="band gold rv">
+<div class="k">핵심은 '원칙의 자동화'</div>
+<div class="big">내가 세운 기준을<br/><em>흔들림 없이 지키는 것</em></div>
+<p>RMS는 판단을 대신하지 않습니다. 정한 룰을 실행에 반영할 뿐입니다.</p>
+</div>
+</section>
+<!-- SYSTEM · 실제 화면 -->
+<section class="sys">
+<div class="rv">
+<span class="num">03 · 시스템</span>
+<h2>배우는 그대로,<br/><span class="u">실제 화면</span>에서</h2>
+<p class="hook">RMS 클라우드서비스의 실제 화면 순서 그대로 실습합니다.</p>
+<div class="duo">
+<div class="figure"><img alt="RMS 클라우드 화면 실습 교육 현장" src="images/rms03.jpg"/><div class="cap">화면 보며 실습</div></div>
+<div class="figure"><img alt="RMS 클라우드 1대1 설정 점검 장면" src="images/rms04.jpg"/><div class="cap">1:1 설정 점검</div></div>
+</div>
+<div class="sysnav">
+<div><i>STEP 1</i>전략<br/>만들기</div>
+<div><i>STEP 2</i>회차<br/>운용</div>
+<div><i>STEP 3</i>전략<br/>운용</div>
+<div><i>STEP 4</i>결과<br/>확인</div>
+</div>
+</div>
+<div class="step rv">
+<div class="sh"><span class="sn">1</span><div><h3>전략 만들기</h3><p>내 룰을 숫자로 입력하는 화면</p></div></div>
+<div class="sb">
+<div class="rui">
+<div class="rui-h"><span class="bar"></span>전략 세팅값 <em>파동형</em></div>
+<div class="rui-c">
+<div class="fld"><div class="fl"><i>1</i>종목 선택</div><div class="fr"><span>종목</span><b>SK하이닉스</b><em>코스피 000660</em></div></div>
+<div class="fld"><div class="fl"><i>2</i>시작가 설정</div><div class="fr"><span>시작가격 (원)</span><b>1,650,000</b><em class="apply">시세적용</em></div></div>
+<div class="fld"><div class="fl"><i>3</i>분할 구조</div><div class="fr"><span>분할 횟수 · 직접입력</span><b>10</b><em>회</em></div></div>
+<div class="fld"><div class="fl"><i>4</i>회당 매수수량 (주)</div><div class="fr"><span>직접 입력</span><b>3</b><em>주</em></div></div>
+<div class="fld"><div class="fl"><i>5</i>회당 매수간격 (원)</div><div class="fr"><span>직접 입력</span><b>20,000</b></div></div>
+<div class="fld"><div class="fl"><i>6</i>회당 매도간격 (원)</div><div class="fr"><span>직접 입력</span><b>30,000</b></div></div>
+</div>
+<div class="rui-f">SK하이닉스 · 전략 설정</div>
+</div>
+</div>
+<p class="cap">시작가·간격·회차만 정하면 전략 하나가 완성됩니다.</p>
+</div>
+<div class="step rv">
+<div class="sh"><span class="sn">2</span><div><h3>회차 운용 현황</h3><p>회차별 상태와 체결 내역을 보는 화면</p></div></div>
+<div class="sb">
+<div class="uiwrap">
+<div class="rcard">
+<div class="rc-top"><span class="p1">2회차</span><span class="p2 cs">매도완료</span><time>2026-08-28 10:12</time></div>
+<div class="rc-nm"><span class="lg">SK</span><b>SK하이닉스</b><em>파</em><span class="code">000660</span></div>
+<div class="rc-tb c3"><div><small>주문가(원)</small><b>1,660,000</b></div><div><small>체결가(원)</small><b>1,661,000</b></div><div><small>수량</small><b>1주</b></div></div>
+<div class="rc-bt"><span>실현손익(수익률)</span><b class="mask">+27,429원 (+1.68%)</b><span class="lockb">로그인 후 확인</span></div>
+</div>
+<div class="rcard">
+<div class="rc-top"><span class="p1">3회차</span><span class="p2 cb">매수완료</span><time>2026-08-27 09:41</time></div>
+<div class="rc-nm"><span class="lg">SK</span><b>SK하이닉스</b><em>파</em><span class="code">000660</span></div>
+<div class="rc-tb c3"><div><small>주문가(원)</small><b>1,610,000</b></div><div><small>체결가(원)</small><b>1,609,000</b></div><div><small>수량</small><b>1주</b></div></div>
+<div class="rc-bt"><span>목표 매도가</span><b class="wait">1,640,000원 · 매도 대기</b></div>
+</div>
+<div class="rcard">
+<div class="rc-top"><span class="p1">4회차</span><span class="p2 cg">대기</span><time>—</time></div>
+<div class="rc-nm"><span class="lg">SK</span><b>SK하이닉스</b><em>파</em><span class="code">000660</span></div>
+<div class="rc-tb c3"><div><small>목표 매수가(원)</small><b>1,590,000</b></div><div><small>체결가(원)</small><b>—</b></div><div><small>수량</small><b>1주</b></div></div>
+<div class="rc-bt"><span>실현손익(수익률)</span><b class="wait">구간 도달 전</b></div>
+</div>
+</div>
+</div>
+<p class="cap">회차마다 상태가 <b>대기 → 신청 → 완료</b>로 바뀝니다. 지금 어디까지 왔는지 화면 하나로 확인됩니다.</p>
+</div>
+<div class="step rv">
+<div class="sh"><span class="sn">3</span><div><h3>전략 운용 현황</h3><p>전략 하나의 진행 상태를 한눈에</p></div></div>
+<div class="sb">
+<div class="uiwrap">
+<div class="rres">
+<div class="rres-h"><b>SK하이닉스(ST)</b><time>2026-08-31 22:27</time></div>
+<div class="rpills">
+<div><small>회차</small><b>10</b></div>
+<div class="w"><small>대기</small><b>2</b></div>
+<div class="r"><small>진행</small><b>8</b></div>
+<div class="s"><small>정지</small><b>0</b></div>
+<div class="e"><small>오류</small><b>0</b></div>
+<div><small>완료</small><b>5</b></div>
+</div>
+<div class="rrows">
+<div><span>종목</span><b>SK하이닉스</b></div>
+<div><span>거래소</span><b>코스피</b></div>
+<div><span>시작가</span><b>1,650,000원</b></div>
+<div><span>진행상태</span><span class="rrun">진행중</span></div>
+<div><span>매수간격</span><b>20,000원</b></div>
+<div><span>매수수량</span><b>1주</b></div>
+<div><span>매도간격</span><b>30,000원</b></div>
+<div><span>순환자금</span><b>16,500,000원</b></div>
+<div><span>전략순환</span><span class="rtog"></span></div>
+<div><span>전략중지</span><span class="rtog"></span></div>
+</div>
+<div class="rtot"><small>실현손익</small><b class="mask">1,284,600원</b><span class="lockb">로그인 후 확인</span></div>
+</div>
+</div>
+</div>
+<p class="cap">전량을 한 번에 파는 게 아니라, <b>목표가에 닿은 회차부터 하나씩 정리</b>되고 그 자리는 다시 채워집니다.</p>
+</div>
+<div class="step rv">
+<div class="sh"><span class="sn">4</span><div><h3>결과 확인</h3><p>수익캘린더로 날짜별 결과를 확인</p></div></div>
+<div class="sb">
+<div class="realshot" style="margin-top:0">
+<div class="photo"><img alt="RMS 수익캘린더 화면" src="images/rms05.jpg"/></div>
+<p class="cp">실제 화면 · 수익캘린더(일자별 실현손익)</p>
+</div>
+</div>
+<p class="cap">설정한 값이 어떤 결과로 이어졌는지, <b>날짜별·회차별로 그대로 남습니다.</b></p>
+</div>
+</section>
+<!-- GRID SENSOR -->
+<section class="gs sky">
+<div class="rv">
+<span class="num">04 · 그리드센서</span>
+<h2>규칙이 먼저<br/><em>기다립니다</em></h2>
+<div class="zone-hook">
+<div class="up">▲ 위는 팔 자리<small>오르면 정한 가격에 매도</small></div>
+<div class="dn">▼ 아래는 살 자리<small>내리면 정한 가격에 매수</small></div>
+</div>
+</div>
+<div class="card-wrap rv">
+<div class="gs-card">
+<div class="gs-head">
+<div><div class="name">Microsoft <span class="code">MSFT</span></div><div class="desc">NASDAQ · 그리드센서 작동 화면</div></div>
+<div class="now"><div class="l"><span class="live"><i></i>시세 감지 중</span></div><div class="v" id="headPrice">$408.00</div></div>
+</div>
+<div class="gs-ladder">
+<svg class="gs-zig" viewBox="0 0 460 300" preserveAspectRatio="none" aria-hidden="true"><polyline points="0,72.0 4,73.7 8,78.6 12,86.6 16,97.3 20,110.1 24,124.6 28,140.1 32,155.8 36,171.1 40,185.3 44,197.6 48,207.7 52,214.9 56,219.1 60,219.9 64,217.4 68,211.7 72,203.0 76,191.7 80,178.4 84,163.6 88,148.0 92,132.3 96,117.2 100,103.5 104,91.6 108,82.2 112,75.7 116,72.4 120,72.4 124,75.7 128,82.2 132,91.6 136,103.5 140,117.2 144,132.3 148,148.0 152,163.6 156,178.4 160,191.7 164,203.0 168,211.7 172,217.4 176,219.9 180,219.1 184,214.9 188,207.7 192,197.6 196,185.3 200,171.1 204,155.8 208,140.1 212,124.6 216,110.1 220,97.3 224,86.6 228,78.6 232,73.7 236,72.0 240,73.7 244,78.6 248,86.6 252,97.3 256,110.1 260,124.6 264,140.1 268,155.8 272,171.1 276,185.3 280,197.6 284,207.7 288,214.9 292,219.1 296,219.9 300,217.4 304,211.7 308,203.0 312,191.7 316,178.4 320,163.6 324,148.0 328,132.3 332,117.2 336,103.5 340,91.6 344,82.2 348,75.7 352,72.4 356,72.4 360,75.7 364,82.2 368,91.6 372,103.5 376,117.2 380,132.3 384,148.0 388,163.6 392,178.4 396,191.7 400,203.0 404,211.7 408,217.4 412,219.9 416,219.1 420,214.9 424,207.7 428,197.6 432,185.3 436,171.1 440,155.8 444,140.1 448,124.6 452,110.1 456,97.3 460,86.6" fill="none" stroke="#1B4E92" stroke-width="2" opacity=".17" stroke-linejoin="round"/><circle cx="59.0" cy="220.0" r="4.4" fill="#0E7F73" opacity=".45"/><circle cx="118.0" cy="72.0" r="4.4" fill="#C9873A" opacity=".45"/><circle cx="177.0" cy="220.0" r="4.4" fill="#0E7F73" opacity=".45"/><circle cx="236.0" cy="72.0" r="4.4" fill="#C9873A" opacity=".45"/><circle cx="295.0" cy="220.0" r="4.4" fill="#0E7F73" opacity=".45"/><circle cx="354.0" cy="72.0" r="4.4" fill="#C9873A" opacity=".45"/><circle cx="413.0" cy="220.0" r="4.4" fill="#0E7F73" opacity=".45"/></svg>
+<div class="zone sell">▲ 매도 구간 <small>오르면 팝니다</small></div>
+<div class="gs-abs r-toggle" style="top:64px" id="rowSell">
+<div class="gs-tag"><span class="a">3회차</span><span class="b" id="tagSellB">매도 대기</span></div>
+<div class="gs-line"></div>
+<div class="gs-price">412.00</div>
+<div class="hit-badge sell-badge">그리드센서 터치 · 매도 체결</div>
+</div>
+<div class="gs-abs r-now" id="rowNow" style="top:146px">
+<div class="gs-tag"><span class="a">그리드센서</span></div>
+<div class="gs-line"></div>
+<div class="gs-price" id="nowPrice">408.00</div>
+</div>
+<div class="gs-abs r-toggle done-buy" style="top:212px" id="rowBuy">
+<div class="gs-tag"><span class="a">3회차</span><span class="b" id="tagBuyB">매수 완료</span></div>
+<div class="gs-line"></div>
+<div class="gs-price">404.00</div>
+<div class="hit-badge buy-badge">그리드센서 터치 · 매수 체결</div>
+</div>
+<div class="zone buy">▼ 매수 구간 <small>내리면 삽니다</small></div>
+</div>
+<div class="gs-detail">
+<div class="dh"><h4>그리드센서 상세 · 3회차</h4><span class="cnt">수익실현 <span id="cntNum">18</span>건</span></div>
+<div class="dgrid">
+<div class="dbox"><div class="k">매수 신청</div><div class="v">$404.00</div></div>
+<div class="mid"><div class="ar">→</div>+$8.00<br/>반등 시</div>
+<div class="dbox"><div class="k">목표 매도</div><div class="v rd2">$412.00</div></div>
+</div>
+</div>
+</div>
+<div class="rside">
+<div class="points">
+<div class="pt"><div class="ic">Ⅰ</div><b>구간 감지</b><span>설정 구간 도달 확인</span></div>
+<div class="pt"><div class="ic">Ⅱ</div><b>회차 확인</b><span>대기·진행·완료 한눈에</span></div>
+<div class="pt"><div class="ic">Ⅲ</div><b>상태 점검</b><span>조건 충족 후 흐름</span></div>
+<div class="pt"><div class="ic">Ⅳ</div><b>기준 유지</b><span>감정 아닌 정한 기준</span></div>
+
+</div>
+<div class="diff">
+<div class="g"><table><tr><th>일반 투자</th></tr><tr><td>매매 기준</td><td>감 · 뉴스 · 분위기</td></tr><tr><td>하락할 때</td><td>불안한 손절 · 즉흥 물타기</td></tr><tr><td>매도 타이밍</td><td>욕심 · 공포에 흔들림</td></tr></table></div>
+<div class="y"><table><tr><th>RMS 투자</th></tr><tr><td>매매 기준</td><td>미리 정한 룰</td></tr><tr><td>하락할 때</td><td>회차별 기준 가격에 계획 매수</td></tr><tr><td>매도 타이밍</td><td>목표가 도달 시 계획 매도</td></tr></table></div>
+</div>
+</div>
+</div>
+<div class="compare-media rv">
+<div class="cm-copy">
+<span class="cm-k">RMS VIEW</span>
+<b>복잡한 차트보다<br/>내 기준이 먼저 보이는 화면</b>
+<p>차트를 해석하느라 멈추지 않고, 정한 룰을 그대로 확인하면서 매수·매도 흐름을 이해합니다.</p>
+</div>
+<div class="cm-photo">
+<img alt="편안한 공간에서 스마트폰으로 RMS 교육을 보는 남성" src="images/rms06.jpg"/>
+<div class="cm-float">
+<div class="rcard">
+<div class="rc-top"><span class="p1">2회차</span><span class="p2 cs">매도완료</span><time>08-28</time></div>
+<div class="rc-nm"><span class="lg">SK</span><b>SK하이닉스</b><em>파</em></div>
+<div class="rc-tb"><div><small>체결가(원)</small><b>1,661,000</b></div><div><small>수량</small><b>1주</b></div></div>
+<div class="rc-bt"><span>실현손익</span><b class="mask">+27,429원</b></div>
+</div>
+</div>
+<div class="cm-cap">언제 어디서든, 어렵지 않게 기준 중심으로 익히는 RMS 학습 경험</div>
+</div>
+</div>
+</section>
+<!-- ENGINES -->
+<section class="engines cream">
+<div class="rv">
+<span class="num">05 · 전략 유형</span>
+<h2>RMS의<br/>두 가지 <span class="u">엔진</span></h2>
+<p class="hook">예산을 나누는 두 가지 방식</p>
+</div>
+<div class="eng rv">
+<div class="engine wave">
+<div class="eh"><div><div class="k">STRATEGY · 파동형</div><h3>파동형</h3></div><p>회차마다 독립 청산</p></div>
+<div class="chart"><svg aria-label="파동형: 회차별로 매수하고 각 회차의 목표가에서 독립적으로 매도" role="img" viewbox="0 0 480 250">
+<g fill="none" opacity=".75" stroke-dasharray="4 5" stroke-width="1.6">
+<path d="M52,86 C160,-8 330,4 398,54" stroke="#1C2B4A"></path>
+<path d="M106,126 C180,50 270,58 322,94" stroke="#C9A24B"></path>
+<path d="M162,166 C180,118 200,116 216,132" stroke="#178A5E"></path>
+</g>
+<path d="M15,55 L55,90 L75,80 L110,130 L130,118 L165,170 L190,185 L230,124 L258,148 L282,172 L330,96 L358,82 L400,58 L465,42" fill="none" stroke="#D5D9E2" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.5"></path>
+<g stroke="#fff" stroke-width="3">
+<circle cx="52" cy="86" fill="#1C2B4A" r="9"></circle><circle cx="106" cy="126" fill="#C9A24B" r="9"></circle><circle cx="162" cy="166" fill="#178A5E" r="9"></circle>
+</g>
+<g font-family="Pretendard,sans-serif" font-size="12.5" font-weight="800" text-anchor="middle">
+<text fill="#1C2B4A" x="46" y="114">1회차 매수</text><text fill="#A9852F" x="96" y="154">2회차 매수</text><text fill="#178A5E" x="150" y="196">3회차 매수</text>
+</g>
+<g fill="#fff" stroke-width="4">
+<circle cx="216" cy="132" r="9" stroke="#178A5E"></circle><circle cx="322" cy="94" r="9" stroke="#C9A24B"></circle><circle cx="398" cy="54" r="9" stroke="#1C2B4A"></circle>
+</g>
+<g font-family="Pretendard,sans-serif" font-size="12.5" font-weight="800" text-anchor="middle">
+<text fill="#178A5E" x="232" y="112">3회차 매도</text><text fill="#A9852F" x="336" y="74">2회차 매도</text><text fill="#1C2B4A" x="404" y="34">1회차 매도</text>
+</g>
+<text fill="#4B5568" font-family="Pretendard,sans-serif" font-size="13" font-weight="800" text-anchor="middle" x="240" y="236">같은 회차끼리 독립적으로 사고팝니다 → 회차별 차익 실현</text>
+</svg></div>
+<div class="st"><div><i>1</i>회차별<br/>분할 매수</div><div><i>2</i>같은 회차끼리<br/>독립 청산</div><div><i>3</i>반복으로<br/>차익 누적</div></div>
+</div>
+<div class="engine stack">
+<div class="eh"><div><div class="k">STRATEGY · 적립형</div><h3>적립형</h3></div><p>모아서 한 번에</p></div>
+<div class="chart"><svg aria-label="적립형: 설정한 구간마다 분할 매수로 평단을 낮추고, 목표 수익선 도달 시 전량 매도" role="img" viewbox="0 0 480 250">
+<line stroke="#178A5E" stroke-dasharray="6 6" stroke-width="1.8" x1="14" x2="466" y1="92" y2="92"></line>
+<text fill="#178A5E" font-family="Pretendard,sans-serif" font-size="12.5" font-weight="800" x="20" y="82">목표 수익선 (예: 평단 +8%)</text>
+<line stroke="#C9A24B" stroke-dasharray="6 6" stroke-width="1.8" x1="14" x2="466" y1="152" y2="152"></line>
+<text fill="#A9852F" font-family="Pretendard,sans-serif" font-size="12.5" font-weight="800" x="20" y="172">낮아진 평균 단가</text>
+<path d="M15,110 L58,132 L82,122 L122,158 L146,148 L186,182 L210,172 L242,200 L280,178 L318,150 L352,124 L384,100 L398,92 L436,66 L465,52" fill="none" stroke="#D5D9E2" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.5"></path>
+<g stroke="#fff" stroke-width="3">
+<circle cx="55" cy="130" fill="#C9A24B" r="8.5"></circle><circle cx="119" cy="156" fill="#C9A24B" r="8.5"></circle><circle cx="183" cy="180" fill="#C9A24B" r="8.5"></circle><circle cx="240" cy="198" fill="#C9A24B" r="8.5"></circle>
+</g>
+<g fill="#A9852F" font-family="Pretendard,sans-serif" font-size="12" font-weight="800" text-anchor="middle">
+<text x="55" y="118">1차</text><text x="119" y="144">2차</text><text x="183" y="207">3차</text><text x="240" y="225">4차</text>
+</g>
+<text fill="#7C8596" font-family="Pretendard,sans-serif" font-size="12.5" font-weight="700" text-anchor="middle" x="150" y="245">설정한 구간마다 분할 매수 → 수량 누적</text>
+<circle cx="398" cy="92" fill="#178A5E" r="11" stroke="#fff" stroke-width="4"></circle>
+<rect fill="#178A5E" height="30" rx="15" width="118" x="338" y="30"></rect>
+<text fill="#fff" font-family="Pretendard,sans-serif" font-size="14" font-weight="800" text-anchor="middle" x="397" y="50">일괄 매도</text>
+<line stroke="#178A5E" stroke-width="2" x1="398" x2="398" y1="60" y2="80"></line>
+</svg></div>
+<div class="st"><div><i>1</i>설정한 조건대로<br/>분할 적립</div><div><i>2</i>평단을<br/>관리</div><div><i>3</i>목표 도달 시<br/>일괄 청산</div></div>
+</div>
+</div>
+</section>
+<!-- MARKETS -->
+<section class="mkt">
+<div class="rv">
+<span class="num">06 · 장세별 사례</span>
+<h2>어떤 장이 와도<br/><span class="u">규칙은 그대로</span></h2>
+<p class="hook">하락장 · 횡보장 · 우상향 급등락장, 실제 구간에서 규칙이 어떻게 움직이는지 봅니다.</p>
+</div>
+<div class="cards rv">
+<div class="mc">
+<div class="mh"><span class="logo" style="background:#FEE500"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 6.4c-5.6 0-10.1 3.5-10.1 7.9 0 2.8 1.9 5.3 4.7 6.7l-1.2 4.3c-.1.4.3.7.7.5l5.1-3.4c.3 0 .5.1.8.1 5.6 0 10.1-3.5 10.1-7.9S21.6 6.4 16 6.4z" fill="#3C1E1E"/></svg></span><div class="nm"><b>카카오</b><span>KRX 035720</span></div><span class="mtag t1">하락장</span></div>
+<p class="h">1년 새 고점 69,700원에서 3만원대로. 버티기도, 손절도 어려운 구간.</p>
+<svg viewBox="0 0 480 250" role="img"><defs><linearGradient id="cDOWN" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1B4E92" stop-opacity=".18"/><stop offset="1" stop-color="#1B4E92" stop-opacity="0"/></linearGradient></defs><g stroke="#E4EAF3" stroke-dasharray="3 4" stroke-width="1"><line x1="52" y1="212.0" x2="466" y2="212.0"/><line x1="52" y1="150.7" x2="466" y2="150.7"/><line x1="52" y1="89.3" x2="466" y2="89.3"/><line x1="52" y1="28.0" x2="466" y2="28.0"/></g><path d="M52.0,62.3 L57.8,56.1 L63.7,54.6 L69.5,46.0 L75.3,44.5 L81.2,43.3 L87.0,48.9 L92.8,53.3 L98.6,59.6 L104.5,65.4 L110.3,72.8 L116.1,75.4 L122.0,82.0 L127.8,83.5 L133.6,86.5 L139.5,90.6 L145.3,93.1 L151.1,93.7 L157.0,97.1 L162.8,96.2 L168.6,101.4 L174.5,105.1 L180.3,105.4 L186.1,112.2 L191.9,114.4 L197.8,119.1 L203.6,125.3 L209.4,131.6 L215.3,135.6 L221.1,137.9 L226.9,137.4 L232.8,139.7 L238.6,141.1 L244.4,142.3 L250.3,139.9 L256.1,138.8 L261.9,139.6 L267.7,138.0 L273.6,137.5 L279.4,137.0 L285.2,137.3 L291.1,138.0 L296.9,138.1 L302.7,142.6 L308.6,145.4 L314.4,146.0 L320.2,147.9 L326.1,147.1 L331.9,148.1 L337.7,149.0 L343.5,149.9 L349.4,146.1 L355.2,146.2 L361.0,145.7 L366.9,145.2 L372.7,144.9 L378.5,150.2 L384.4,151.3 L390.2,152.6 L396.0,155.0 L401.9,160.1 L407.7,164.8 L413.5,170.7 L419.4,175.9 L425.2,177.5 L431.0,181.2 L436.8,187.3 L442.7,190.5 L448.5,194.5 L454.3,193.7 L460.2,196.7 L466.0,195.2 L466.0,224 L52.0,224 Z" fill="url(#cDOWN)"/><polyline points="52.0,62.3 57.8,56.1 63.7,54.6 69.5,46.0 75.3,44.5 81.2,43.3 87.0,48.9 92.8,53.3 98.6,59.6 104.5,65.4 110.3,72.8 116.1,75.4 122.0,82.0 127.8,83.5 133.6,86.5 139.5,90.6 145.3,93.1 151.1,93.7 157.0,97.1 162.8,96.2 168.6,101.4 174.5,105.1 180.3,105.4 186.1,112.2 191.9,114.4 197.8,119.1 203.6,125.3 209.4,131.6 215.3,135.6 221.1,137.9 226.9,137.4 232.8,139.7 238.6,141.1 244.4,142.3 250.3,139.9 256.1,138.8 261.9,139.6 267.7,138.0 273.6,137.5 279.4,137.0 285.2,137.3 291.1,138.0 296.9,138.1 302.7,142.6 308.6,145.4 314.4,146.0 320.2,147.9 326.1,147.1 331.9,148.1 337.7,149.0 343.5,149.9 349.4,146.1 355.2,146.2 361.0,145.7 366.9,145.2 372.7,144.9 378.5,150.2 384.4,151.3 390.2,152.6 396.0,155.0 401.9,160.1 407.7,164.8 413.5,170.7 419.4,175.9 425.2,177.5 431.0,181.2 436.8,187.3 442.7,190.5 448.5,194.5 454.3,193.7 460.2,196.7 466.0,195.2" fill="none" stroke="#1B4E92" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="81.2" cy="43.3" r="5.6" fill="#C9873A" stroke="#fff" stroke-width="2.4"/><circle cx="279.4" cy="137.0" r="5.6" fill="#C9873A" stroke="#fff" stroke-width="2.4"/><circle cx="372.7" cy="144.9" r="5.6" fill="#C9873A" stroke="#fff" stroke-width="2.4"/><circle cx="244.4" cy="142.3" r="5.6" fill="#0E7F73" stroke="#fff" stroke-width="2.4"/><circle cx="343.5" cy="149.9" r="5.6" fill="#0E7F73" stroke="#fff" stroke-width="2.4"/><g font-family="Pretendard,sans-serif" font-size="11" font-weight="700" fill="#9AA4B4"><text x="44" y="215.5" text-anchor="end">3.3만</text><text x="44" y="154.2" text-anchor="end">4.6만</text><text x="44" y="92.8" text-anchor="end">5.8만</text><text x="44" y="31.5" text-anchor="end">7.0만</text><text x="62" y="242" text-anchor="middle">25.09</text><text x="190.0" y="242" text-anchor="middle">25.12</text><text x="328.0" y="242" text-anchor="middle">26.03</text><text x="456" y="242" text-anchor="middle">26.08</text></g></svg>
+<div class="lg"><span><i style="background:#0E7F73"></i>매수</span><span><i style="background:#C9873A"></i>매도</span><span class="per">2025.09 – 2026.08</span></div>
+<div class="res"><div><small>단순 보유</small><b>−42%</b></div><div class="me"><small>RMS 회차 운용</small><b>−7%</b></div></div>
+<p class="rs">떨어지는 길을 회차로 나눠 내려갑니다</p>
+</div>
+<div class="mc">
+<div class="mh"><span class="logo" style="background:#03C75A"><svg viewBox="0 0 32 32" aria-hidden="true"><text x="16" y="23" text-anchor="middle" font-family="Pretendard,sans-serif" font-size="19" font-weight="900" fill="#fff">N</text></svg></span><div class="nm"><b>네이버</b><span>KRX 035420</span></div><span class="mtag t2">횡보장</span></div>
+<p class="h">30만까지 올랐다 18만까지 밀리고, 1년 뒤 다시 21만. 결국 제자리(−4%)였습니다.</p>
+<svg viewBox="0 0 480 250" role="img"><defs><linearGradient id="cSIDE" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1B4E92" stop-opacity=".18"/><stop offset="1" stop-color="#1B4E92" stop-opacity="0"/></linearGradient></defs><g stroke="#E4EAF3" stroke-dasharray="3 4" stroke-width="1"><line x1="52" y1="212.0" x2="466" y2="212.0"/><line x1="52" y1="150.7" x2="466" y2="150.7"/><line x1="52" y1="89.3" x2="466" y2="89.3"/><line x1="52" y1="28.0" x2="466" y2="28.0"/></g><path d="M52.0,140.8 L57.8,135.9 L63.7,128.2 L69.5,121.2 L75.3,107.7 L81.2,92.5 L87.0,77.3 L92.8,66.4 L98.6,54.0 L104.5,47.7 L110.3,45.3 L116.1,43.3 L122.0,46.4 L127.8,49.1 L133.6,51.7 L139.5,61.1 L145.3,74.3 L151.1,88.6 L157.0,101.9 L162.8,115.2 L168.6,120.3 L174.5,122.9 L180.3,123.8 L186.1,120.5 L191.9,117.4 L197.8,114.1 L203.6,106.1 L209.4,98.5 L215.3,88.4 L221.1,76.6 L226.9,75.7 L232.8,77.1 L238.6,80.2 L244.4,90.8 L250.3,105.1 L256.1,116.7 L261.9,130.1 L267.7,144.4 L273.6,160.8 L279.4,173.4 L285.2,186.3 L291.1,193.4 L296.9,196.7 L302.7,194.9 L308.6,190.1 L314.4,180.6 L320.2,174.5 L326.1,167.4 L331.9,159.5 L337.7,148.3 L343.5,137.9 L349.4,130.5 L355.2,130.5 L361.0,132.8 L366.9,139.2 L372.7,146.2 L378.5,151.1 L384.4,158.3 L390.2,165.1 L396.0,173.2 L401.9,180.4 L407.7,185.3 L413.5,189.4 L419.4,188.2 L425.2,180.5 L431.0,172.9 L436.8,163.8 L442.7,161.3 L448.5,155.5 L454.3,157.8 L460.2,155.0 L466.0,155.0 L466.0,224 L52.0,224 Z" fill="url(#cSIDE)"/><polyline points="52.0,140.8 57.8,135.9 63.7,128.2 69.5,121.2 75.3,107.7 81.2,92.5 87.0,77.3 92.8,66.4 98.6,54.0 104.5,47.7 110.3,45.3 116.1,43.3 122.0,46.4 127.8,49.1 133.6,51.7 139.5,61.1 145.3,74.3 151.1,88.6 157.0,101.9 162.8,115.2 168.6,120.3 174.5,122.9 180.3,123.8 186.1,120.5 191.9,117.4 197.8,114.1 203.6,106.1 209.4,98.5 215.3,88.4 221.1,76.6 226.9,75.7 232.8,77.1 238.6,80.2 244.4,90.8 250.3,105.1 256.1,116.7 261.9,130.1 267.7,144.4 273.6,160.8 279.4,173.4 285.2,186.3 291.1,193.4 296.9,196.7 302.7,194.9 308.6,190.1 314.4,180.6 320.2,174.5 326.1,167.4 331.9,159.5 337.7,148.3 343.5,137.9 349.4,130.5 355.2,130.5 361.0,132.8 366.9,139.2 372.7,146.2 378.5,151.1 384.4,158.3 390.2,165.1 396.0,173.2 401.9,180.4 407.7,185.3 413.5,189.4 419.4,188.2 425.2,180.5 431.0,172.9 436.8,163.8 442.7,161.3 448.5,155.5 454.3,157.8 460.2,155.0 466.0,155.0" fill="none" stroke="#1B4E92" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="116.1" cy="43.3" r="5.6" fill="#C9873A" stroke="#fff" stroke-width="2.4"/><circle cx="226.9" cy="75.7" r="5.6" fill="#C9873A" stroke="#fff" stroke-width="2.4"/><circle cx="355.2" cy="130.5" r="5.6" fill="#C9873A" stroke="#fff" stroke-width="2.4"/><circle cx="180.3" cy="123.8" r="5.6" fill="#0E7F73" stroke="#fff" stroke-width="2.4"/><circle cx="296.9" cy="196.7" r="5.6" fill="#0E7F73" stroke="#fff" stroke-width="2.4"/><circle cx="413.5" cy="189.4" r="5.6" fill="#0E7F73" stroke="#fff" stroke-width="2.4"/><g font-family="Pretendard,sans-serif" font-size="11" font-weight="700" fill="#9AA4B4"><text x="44" y="215.5" text-anchor="end">18.6만</text><text x="44" y="154.2" text-anchor="end">22.4만</text><text x="44" y="92.8" text-anchor="end">26.2만</text><text x="44" y="31.5" text-anchor="end">30.0만</text><text x="62" y="242" text-anchor="middle">25.09</text><text x="190.0" y="242" text-anchor="middle">25.12</text><text x="328.0" y="242" text-anchor="middle">26.03</text><text x="456" y="242" text-anchor="middle">26.08</text></g></svg>
+<div class="lg"><span><i style="background:#0E7F73"></i>매수</span><span><i style="background:#C9873A"></i>매도</span><span class="per">2025.09 – 2026.08</span></div>
+<div class="res"><div><small>단순 보유</small><b>−4%</b></div><div class="me"><small>RMS 회차 운용</small><b>+21%</b></div></div>
+<p class="rs">오르내림 자체가 수익 구간입니다</p>
+</div>
+<div class="mc">
+<div class="mh"><span class="logo" style="background:#76B900"><svg viewBox="0 0 32 32" aria-hidden="true"><text x="16" y="21" text-anchor="middle" font-family="Pretendard,sans-serif" font-size="12" font-weight="900" fill="#fff">NV</text></svg></span><div class="nm"><b>엔비디아</b><span>NASDAQ NVDA</span></div><span class="mtag t3">우상향 급등락장</span></div>
+<p class="h">1년간 $164 → $218. 오르긴 하는데 중간에 20%씩 흔들립니다.</p>
+<svg viewBox="0 0 480 250" role="img"><defs><linearGradient id="cUP" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1B4E92" stop-opacity=".18"/><stop offset="1" stop-color="#1B4E92" stop-opacity="0"/></linearGradient></defs><g stroke="#E4EAF3" stroke-dasharray="3 4" stroke-width="1"><line x1="52" y1="212.0" x2="466" y2="212.0"/><line x1="52" y1="150.7" x2="466" y2="150.7"/><line x1="52" y1="89.3" x2="466" y2="89.3"/><line x1="52" y1="28.0" x2="466" y2="28.0"/></g><path d="M52.0,190.1 L57.8,179.8 L63.7,167.5 L69.5,169.3 L75.3,158.7 L81.2,159.4 L87.0,160.6 L92.8,163.5 L98.6,158.4 L104.5,162.3 L110.3,154.3 L116.1,151.4 L122.0,143.8 L127.8,132.0 L133.6,134.4 L139.5,124.1 L145.3,121.9 L151.1,130.2 L157.0,124.0 L162.8,136.8 L168.6,145.1 L174.5,158.7 L180.3,167.5 L186.1,174.2 L191.9,190.5 L197.8,193.4 L203.6,196.7 L209.4,196.1 L215.3,194.8 L221.1,191.3 L226.9,183.6 L232.8,172.8 L238.6,162.0 L244.4,146.0 L250.3,137.5 L256.1,136.9 L261.9,131.0 L267.7,130.0 L273.6,118.3 L279.4,126.8 L285.2,122.1 L291.1,122.7 L296.9,119.5 L302.7,106.4 L308.6,105.1 L314.4,94.2 L320.2,82.1 L326.1,75.0 L331.9,61.6 L337.7,53.6 L343.5,49.2 L349.4,46.5 L355.2,43.3 L361.0,49.7 L366.9,60.8 L372.7,64.7 L378.5,77.4 L384.4,88.5 L390.2,103.7 L396.0,116.7 L401.9,125.9 L407.7,128.3 L413.5,135.6 L419.4,129.0 L425.2,126.3 L431.0,119.9 L436.8,121.9 L442.7,112.7 L448.5,108.7 L454.3,105.1 L460.2,105.7 L466.0,110.0 L466.0,224 L52.0,224 Z" fill="url(#cUP)"/><polyline points="52.0,190.1 57.8,179.8 63.7,167.5 69.5,169.3 75.3,158.7 81.2,159.4 87.0,160.6 92.8,163.5 98.6,158.4 104.5,162.3 110.3,154.3 116.1,151.4 122.0,143.8 127.8,132.0 133.6,134.4 139.5,124.1 145.3,121.9 151.1,130.2 157.0,124.0 162.8,136.8 168.6,145.1 174.5,158.7 180.3,167.5 186.1,174.2 191.9,190.5 197.8,193.4 203.6,196.7 209.4,196.1 215.3,194.8 221.1,191.3 226.9,183.6 232.8,172.8 238.6,162.0 244.4,146.0 250.3,137.5 256.1,136.9 261.9,131.0 267.7,130.0 273.6,118.3 279.4,126.8 285.2,122.1 291.1,122.7 296.9,119.5 302.7,106.4 308.6,105.1 314.4,94.2 320.2,82.1 326.1,75.0 331.9,61.6 337.7,53.6 343.5,49.2 349.4,46.5 355.2,43.3 361.0,49.7 366.9,60.8 372.7,64.7 378.5,77.4 384.4,88.5 390.2,103.7 396.0,116.7 401.9,125.9 407.7,128.3 413.5,135.6 419.4,129.0 425.2,126.3 431.0,119.9 436.8,121.9 442.7,112.7 448.5,108.7 454.3,105.1 460.2,105.7 466.0,110.0" fill="none" stroke="#1B4E92" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="75.3" cy="158.7" r="5.6" fill="#C9873A" stroke="#fff" stroke-width="2.4"/><circle cx="145.3" cy="121.9" r="5.6" fill="#C9873A" stroke="#fff" stroke-width="2.4"/><circle cx="273.6" cy="118.3" r="5.6" fill="#C9873A" stroke="#fff" stroke-width="2.4"/><circle cx="355.2" cy="43.3" r="5.6" fill="#C9873A" stroke="#fff" stroke-width="2.4"/><circle cx="454.3" cy="105.1" r="5.6" fill="#C9873A" stroke="#fff" stroke-width="2.4"/><circle cx="92.8" cy="163.5" r="5.6" fill="#0E7F73" stroke="#fff" stroke-width="2.4"/><circle cx="203.6" cy="196.7" r="5.6" fill="#0E7F73" stroke="#fff" stroke-width="2.4"/><circle cx="413.5" cy="135.6" r="5.6" fill="#0E7F73" stroke="#fff" stroke-width="2.4"/><g font-family="Pretendard,sans-serif" font-size="11" font-weight="700" fill="#9AA4B4"><text x="44" y="215.5" text-anchor="end">$171</text><text x="44" y="154.2" text-anchor="end">$192</text><text x="44" y="92.8" text-anchor="end">$212</text><text x="44" y="31.5" text-anchor="end">$233</text><text x="62" y="242" text-anchor="middle">25.09</text><text x="190.0" y="242" text-anchor="middle">25.12</text><text x="328.0" y="242" text-anchor="middle">26.03</text><text x="456" y="242" text-anchor="middle">26.08</text></g></svg>
+<div class="lg"><span><i style="background:#0E7F73"></i>매수</span><span><i style="background:#C9873A"></i>매도</span><span class="per">2025.09 – 2026.08</span></div>
+<div class="res"><div><small>단순 보유</small><b>+30%</b></div><div class="me"><small>RMS 회차 운용</small><b>+44%</b></div></div>
+<p class="rs">오르는 동안에도 파동마다 차익이 남습니다</p>
+</div>
+</div>
+<p class="disc">※ 본 자료는 투자 방식에 대한 교육 예시이며, 특정 종목 추천이나 향후 수익을 보장하지 않습니다.</p>
+</section>
+<!-- 전략백서 -->
+<section class="wbook cream">
+<div class="rv">
+<span class="num">07 · 전략백서</span>
+<h2>검증된 전략은<br/><span class="u">백서로 남습니다</span></h2>
+<p class="hook">설정값부터 결과까지, 실제로 굴러간 전략을 회원끼리 공유합니다.</p>
+</div>
+<div class="wbstack rv">
+<span class="badge">RMS 전략백서</span>
+<span class="bk bk1"></span>
+<span class="bk bk2"></span>
+<div class="front"><img alt="RMS 전략백서 페이지" src="images/rms07.jpg"/></div>
+</div>
+<div class="wbcards rv">
+<div class="wbc">
+<div class="wbc-h"><b>삼성전자</b><time>2026.03 ~ 운용 중</time></div>
+<div class="wbc-chips"><div><small>분할 회차</small><b>40</b></div><div><small>진행</small><b>38</b></div><div class="done"><small>완료</small><b>248</b></div></div>
+<div class="wbc-b"><span>실현손익</span><b class="mask">2,657,969원</b><span class="lockb">로그인 후 확인</span></div>
+<div class="wbc-by">파동형 · 코스피 · 한국주식</div>
+</div>
+<div class="wbc">
+<div class="wbc-h"><b>인텔</b><time>2026.02 ~ 운용 중</time></div>
+<div class="wbc-chips"><div><small>분할 회차</small><b>30</b></div><div><small>진행</small><b>27</b></div><div class="done"><small>완료</small><b>277</b></div></div>
+<div class="wbc-b"><span>실현손익</span><b class="mask">$2,172.44</b><span class="lockb">로그인 후 확인</span></div>
+<div class="wbc-by">파동형 · NASDAQ · 미국주식</div>
+</div>
+<div class="wbc">
+<div class="wbc-h"><b>비트코인</b><time>2026.01 ~ 운용 중</time></div>
+<div class="wbc-chips"><div><small>분할 회차</small><b>50</b></div><div><small>진행</small><b>44</b></div><div class="done"><small>완료</small><b>1,461</b></div></div>
+<div class="wbc-b"><span>실현손익</span><b class="mask">428,593원</b><span class="lockb">로그인 후 확인</span></div>
+<div class="wbc-by">파동형 · 24시간 · 디지털자산</div>
+</div>
+</div>
+<div class="wbnote rv">
+<div><i>WHAT</i>종목 · 시작가<br/>간격 · 회차</div>
+<div><i>HOW</i>어떤 기준으로<br/>설계했는지</div>
+<div><i>RESULT</i>회차가 몇 번<br/>돌았는지</div>
+</div>
+<div class="band rv">
+<div class="k">혼자 만들지 않습니다</div>
+<div class="big">잘 나온 전략은<br/><em>설정값 그대로</em> 공유됩니다</div>
+<p>한국주식 · 미국주식 · 디지털자산 세 시장의 전략이 매달 정리돼 올라옵니다.</p>
+</div>
+</section>
+
+<!-- ONLINE LECTURE -->
+<section class="lec sky">
+<div class="rv">
+<span class="num">08 · 온라인 강의</span>
+<h2>시간과 장소 없이<br/><span class="u">먼저 배우고</span> 옵니다</h2>
+<p class="hook">금융 기초부터 RMS 사용법까지, 온라인에서 반복해서 봅니다.</p>
+<div class="lstat">
+<div><b>12</b><span>과정</span></div>
+<div><b>120</b><span>강의</span></div>
+<div><b>∞</b><span>반복 수강</span></div>
+</div>
+</div>
+<div class="feat rv">
+<img alt="3분할 전략 강의 썸네일" src="images/rms08.jpg"/>
+<span class="fplay"></span>
+<div class="fb">
+<span class="fk">이번 과정 대표 강의</span>
+<div class="fm"><span>STRATEGY GUIDE</span><span>06:35</span><span>에듀에셋 전임강사</span></div>
+</div>
+</div>
+<div class="lgroup rv">
+<div class="lghead"><b>금융재테크교육</b><em>ONLINE</em><i>12과정 · 157강</i></div>
+<div class="lrow">
+<span class="no">02</span>
+<div class="tn"><span class="play"></span><img alt="투자 마인드 강의 화면" src="images/rms09.jpg"/></div>
+<div><h4>감정을 빼야 수익이 난다</h4><p>욕심과 공포가 원칙을 무너뜨리는 지점</p><span class="dur">08:01</span></div>
+</div>
+<div class="lrow">
+<span class="no">03</span>
+<div class="tn"><span class="play"></span><img alt="크립토와 달러 강의 화면" src="images/rms10.jpg"/></div>
+<div><h4>크립토와 달러의 전쟁</h4><p>스테이블 코인의 역습, 금융의 미래는 어디로</p><span class="dur">11:22</span></div>
+</div>
+</div>
+<div class="lgroup rv">
+<div class="lghead"><b>RMS 시스템교육</b><em>ONLINE</em><i>KR · US · DT 사용 가이드</i></div>
+<div class="lrow">
+<span class="no">01</span>
+<div class="tn"><span class="play"></span><img alt="회원가입과 사용 준비 강의 화면" src="images/rms11.jpg"/></div>
+<div><h4>회원가입과 사용 준비</h4><p>가입 · 로그인 · 수수료 설정까지</p><span class="dur">08:14</span></div>
+</div>
+<div class="lrow">
+<span class="no">02</span>
+<div class="tn"><span class="play"></span><img alt="거래소 API 연동 강의 화면" src="images/rms12.jpg"/></div>
+<div><h4>거래소 API 연동</h4><p>API 키 발급 · 권한 설정 · 등록</p><span class="dur">10:35</span></div>
+</div>
+<div class="lrow">
+<span class="no">03</span>
+<div class="tn"><span class="play"></span><img alt="전략 만들기 매매 조건 입력 강의 화면" src="images/rms13.jpg"/></div>
+<div><h4>전략 만들기 — 매매 조건 입력</h4><p>매수수량 · 매수간격 · 매도간격 입력</p><span class="dur">13:07</span></div>
+</div>
+</div>
+<div class="curri rv">
+<div class="ch"><b>금융재테크교육 커리큘럼</b><span>12개 과정 · 157강</span></div>
+<div class="cats">
+<div data-ic="◎"><i>01</i>매크로<small>10강</small></div><div data-ic="▤"><i>02</i>채권<small>10강</small></div><div data-ic="↔"><i>03</i>환율<small>10강</small></div>
+<div data-ic="$"><i>04</i>달러<small>10강</small></div><div data-ic="▲"><i>05</i>국내주식<small>21강</small></div><div data-ic="✦"><i>06</i>미국주식<small>20강</small></div>
+<div data-ic="₿"><i>07</i>암호화폐<small>26강</small></div><div data-ic="◆"><i>08</i>금·원자재<small>10강</small></div><div data-ic="▦"><i>09</i>ETF<small>10강</small></div>
+<div data-ic="◔"><i>10</i>자산배분<small>10강</small></div><div data-ic="⌕"><i>11</i>기업 보는 법<small>10강</small></div><div data-ic="◌"><i>12</i>연금·절세<small>10강</small></div>
+</div>
+</div>
+
+</section>
+<!-- LEARN -->
+<section class="learn cream">
+<div class="rv">
+<span class="num">09 · 배우는 것</span>
+<h2>이해하고, 정하고,<br/>입력하고, <span class="u">확인한다</span></h2>
+</div>
+<div class="journey rv">
+<div class="js"><span class="n">1</span><b>이해</b><span>금융의<br/>큰 흐름</span></div>
+<div class="js"><span class="n">2</span><b>기준</b><span>내 매수·<br/>매도 원칙</span></div>
+<div class="js"><span class="n">3</span><b>실습</b><span>RMS<br/>설정값 입력</span></div>
+<div class="js on"><span class="n">4</span><b>확인</b><span>그리드센서<br/>감지·실행</span></div>
+</div>
+<div class="markets rv">
+<div class="mk"><div class="s">M</div><b>매크로</b></div>
+<div class="mk"><div class="s">FX</div><b>환율</b></div>
+<div class="mk"><div class="s">B</div><b>채권</b></div>
+<div class="mk"><div class="s">KR</div><b>국내주식</b></div>
+<div class="mk"><div class="s">US</div><b>미국주식</b></div>
+<div class="mk"><div class="s">DT</div><b>디지털자산</b></div>
+</div>
+<div class="track rv">
+<div class="th"><div class="k">실전 실습 · RMS 클라우드서비스</div><h3>그리드센서 투자 교육과정</h3></div>
+<ul>
+<li><b>RMS 실습</b><span>예산·시작가·수량·간격 설정</span></li>
+<li><b>그리드센서 이해</b><span>조건 감지·회차별 상태 확인</span></li>
+<li><b>파동형 · 적립형</b><span>두 가지 엔진의 설계법</span></li>
+<li><b>나만의 룰 설계</b><span>내 예산·성향에 맞는 전략 기준</span></li>
+</ul>
+</div>
+</section>
+<!-- CERT -->
+<section class="cert sky">
+<div class="rv">
+<span class="num">10 · 자격 · 지식재산권</span>
+<h2>배움 → 자격 → <span class="u">실천</span></h2>
+<p class="hook">자격증에서 끝나지 않고, 그리드센서 실습까지.</p>
+</div>
+<div class="trust rv">
+<div><b>5종</b><span>등록 민간자격</span></div>
+<div><b>특허</b><span>특허청 등록</span></div>
+<div><b>저작권</b><span>프로그램 저작물</span></div>
+</div>
+<div class="photo rv" style="margin-top:14px"><img alt="자격증 5종" src="images/rms14.jpg"/></div>
+<ul class="list rv">
+<li><span class="n">01</span><b>시니어자산운용지도사</b><span>노후 자산관리</span></li>
+<li><span class="n">02</span><b>자동화자산운용지도사</b><span>자동 분할매매</span></li>
+<li><span class="n">03</span><b>AI재테크운용지도사</b><span>AI 재테크</span></li>
+<li><span class="n">04</span><b>AI생활금융지도사</b><span>AI 생활 금융</span></li>
+<li><span class="n">05</span><b>금융생활지도사</b><span>가계 금융생활</span></li>
+</ul>
+</section>
+<!-- CLOSE -->
+<section class="close deep">
+<div class="rv">
+<span class="num">RMS 클라우드</span>
+<div class="big" style="margin-top:14px">좋은 투자는<br/><em>좋은 원칙에서</em> 시작됩니다</div>
+<p class="sub">올바른 금융지식 → 투자 룰 → 반복 가능한 행동</p>
+<div class="rse"><span>RULE</span><span>SENSOR</span><span>EXECUTION</span></div>
+</div>
+</section>
+<footer>
+  본 교육은 투자 방법에 대한 교육이며, 특정 종목 추천이나 수익 보장을 목적으로 하지 않습니다. 투자의 판단과 책임은 본인에게 있으며 원금 손실이 발생할 수 있습니다.<br/>본 자격은 자격기본법에 의거 등록된 민간자격입니다. RMS 클라우드서비스 · Rule-based Management System
+</footer>
+</div>
+
+</div>
+
+<script>
+(function(){
+  var rv = document.querySelectorAll('.rv');
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.12});
+    rv.forEach(function(el){io.observe(el);});
+  } else { rv.forEach(function(el){el.classList.add('in');}); }
+
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var now = document.getElementById('rowNow'), price = document.getElementById('nowPrice');
+  var rowSell = document.getElementById('rowSell'), rowBuy = document.getElementById('rowBuy');
+  var cnt = document.getElementById('cntNum'), head = document.getElementById('headPrice');
+  var tagSellB = document.getElementById('tagSellB'), tagBuyB = document.getElementById('tagBuyB');
+  var pathEl = document.getElementById('gsPath');
+  if(!now || reduce) return;
+
+  var SELL_Y=72, BUY_Y=220, SELL_P=412, BUY_P=404;
+  var MID=(SELL_P+BUY_P)/2, AMP=(SELL_P-BUY_P)/2*1.13;
+  function yAt(p){ var y = SELL_Y + (SELL_P-p)/(SELL_P-BUY_P)*(BUY_Y-SELL_Y); return Math.max(30, Math.min(268, y)); }
+  function fmt(n){ return n.toFixed(2); }
+  function flash(row){ row.classList.add('hit'); setTimeout(function(){row.classList.remove('hit');},1800); }
+
+  var sells = 18, armedSell = true, armedBuy = true, jitter = 0, target = 0, pts = [], t0 = null;
+  function loop(ts){
+    if(!t0) t0 = ts;
+    var el = (ts - t0)/1000;
+    if(Math.random() < .06){ target = (Math.random()-.5)*1.8; }
+    jitter += (target - jitter) * .05;
+    var p = MID + AMP*Math.sin(el*2*Math.PI/8.2) + AMP*.16*Math.sin(el*2.7) + jitter;
+    var shown = Math.round(p*100)/100;
+    var y = yAt(p);
+    now.style.top = y + 'px';
+    price.textContent = fmt(shown);
+    head.textContent = '$' + fmt(shown);
+
+    if(p >= SELL_P){
+      if(armedSell){
+        armedSell = false; armedBuy = true;
+        flash(rowSell); rowSell.classList.add('done-sell'); tagSellB.textContent = '매도 체결';
+        rowBuy.classList.remove('done-buy'); tagBuyB.textContent = '매수 대기';
+        sells++; cnt.textContent = sells;
+      }
+    } else if(p <= BUY_P){
+      if(armedBuy){
+        armedBuy = false; armedSell = true;
+        flash(rowBuy); rowBuy.classList.add('done-buy'); tagBuyB.textContent = '매수 체결';
+        rowSell.classList.remove('done-sell'); tagSellB.textContent = '매도 대기';
+      }
+    }
+
+    if(pathEl){
+      pts.push([460, y]);
+      for(var i=0;i<pts.length;i++){ pts[i][0] -= 1.35; }
+      while(pts.length && pts[0][0] < 0) pts.shift();
+      if(pts.length > 400) pts.shift();
+      var d = '';
+      for(var j=0;j<pts.length;j+=2){ d += pts[j][0].toFixed(1)+','+pts[j][1].toFixed(1)+' '; }
+      pathEl.setAttribute('points', d);
+    }
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+})();
+</script>
+</body></html>
