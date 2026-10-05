@@ -1,0 +1,16 @@
+<!doctype html><meta charset="utf-8"><title>probe</title>
+<body style="font:13px monospace;white-space:pre"><div id="o">measuring...</div>
+<script>
+const W=[320,360,375,390,414,430,460,480,500,520,545,546,560,580,600,640,672,700,720,735];
+const out=[];
+function one(w){return new Promise(res=>{
+  const f=document.createElement('iframe');
+  f.style.cssText='position:absolute;left:-9999px;top:0;border:0;width:'+w+'px;height:200px;';
+  f.setAttribute('scrolling','no');
+  f.src='https://ansojang.github.io/gridsensor/index.html?p='+Math.floor(Math.random()*1e9);
+  f.onload=()=>{setTimeout(()=>{let h=0;try{h=f.contentDocument.documentElement.scrollHeight}catch(e){h=-1};res([w,h]);f.remove();},4200)};
+  document.body.appendChild(f);
+});}
+(async()=>{for(const w of W){const r=await one(w);out.push(r);document.getElementById('o').textContent=JSON.stringify(out);}
+document.getElementById('o').textContent='DONE '+JSON.stringify(out);})();
+</script>
