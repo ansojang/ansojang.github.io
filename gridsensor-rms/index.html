@@ -2427,8 +2427,7 @@ html.bkm-lock, html.bkm-lock body{overflow:hidden}
 /* ═══ 라이브클래스 삽입용 조정 (735px 본문 칸) ═══ */
 html,body{margin:0;padding:0;background:#fff;}
 body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;-webkit-text-size-adjust:100%;}
-.lk-wrap{max-width:735px;margin:0 auto;overflow-x:hidden;}
-.lk-wrap .page{max-width:100%;}
+.lk-wrap{max-width:540px;margin:0 auto;overflow-x:hidden;}
 img{max-width:100%;}
 .lk-dates{padding-top:clamp(34px,6vw,54px);}
 .lk-lead{margin:0 0 18px;text-align:center;font-size:clamp(14px,2.4vw,15.5px);color:#4A566B;line-height:1.75;font-weight:700;}
@@ -2445,7 +2444,11 @@ img{max-width:100%;}
 /* ═══ 높이 보정 — 좁은 폭(≤420px)에서 레이아웃이 한 단계 줄어드는 만큼 아래를 채워
        iframe 높이 공식과 실제 높이가 어긋나지 않게 한다 ═══ */
 .lk-fill{height:0;}
-@media (max-width:420px){.lk-fill{padding-top:max(0px,calc(779.23% - 2710px));}}
+/* 신청 버튼을 뺀 자리 — 날짜와 시간을 원본처럼 한 줄로 */
+.lk-dates .xr{display:flex!important;align-items:center;justify-content:space-between;gap:10px;}
+.lk-dates .xr b{grid-column:auto!important;grid-row:auto!important;flex:none;}
+.lk-dates .xr .tm{grid-column:auto!important;grid-row:auto!important;margin:0 0 0 auto!important;font-size:clamp(14.5px,3vw,17px)!important;}
+@media (max-width:420px){.lk-fill{padding-top:max(0px,calc(557.27% - 1654px));}}
 </style>
 </head>
 <body>
@@ -2464,20 +2467,20 @@ img{max-width:100%;}
 <!-- 교육일자 -->
 
 <!-- VIDEO -->
-<section class="hvs"><div class="hvs-in rv in">
+<section class="hvs"><div class="hvs-in rv">
 <div class="hvs-tx"><h2>매매 규칙만 정하면<br/><em>나머지는 RMS가 작동합니다</em></h2></div>
 <div aria-label="영상 재생: 매매 규칙만 정하면 나머지는 RMS가 작동합니다" class="hv" data-title="매매 규칙만 정하면 나머지는 RMS가 작동합니다" data-yt="https://www.youtube.com/watch?v=4SAbMHU3SSA" role="button" tabindex="0">
 <div class="hv-im"><img alt="RMS 클라우드 소개 영상" src="https://edugridsensor.co.kr/images/rms/15_RMS_클라우드_소개_영상_썸네일.webp"/><span class="hv-play"></span></div>
 </div>
 </div></section>
 <!-- PAIN -->
-<section class="xpain"><div class="rv in">
+<section class="xpain"><div class="rv">
 <p class="xk">규칙이 없는 투자</p>
 <h2>오르면 쫓고, 내리면 던지고.<br/><em>혹시 이렇게 투자하십니까?</em></h2>
 </div></section>
 <!-- RMS -->
 <section class="rms sky xrms">
-<div class="rv in">
+<div class="rv">
 <span class="num">RMS</span>
 <h2>RMS는 규칙을<br/><em>지키게 하는</em><br/>시스템입니다</h2>
 </div>
@@ -2485,44 +2488,44 @@ img{max-width:100%;}
 <!-- RULES -->
 <section class="xflow f1">
 <div class="xf-in">
-<div class="xf-tx rv in">
+<div class="xf-tx rv">
 <span class="xstep"><i>STEP 1</i>전략 생성 · 정한다</span>
 <h2 class="xh2">정할 것은<br/><span class="nw"><em>세 가지</em>뿐입니다</span></h2>
 <p>이 세 가지만 정하면,<br/>나머지는 RMS가 지킵니다.</p>
 </div>
-<div class="xbig rv in"><img alt="휴대폰으로 RMS 전략을 설정하는 모습" src="https://edugridsensor.co.kr/images/rms/29_휴대폰으로_RMS_전략_설정값_입력.webp"/>
+<div class="xbig rv"><img alt="휴대폰으로 RMS 전략을 설정하는 모습" src="https://edugridsensor.co.kr/images/rms/29_휴대폰으로_RMS_전략_설정값_입력.webp"/>
 <div class="xbig-in">
 <div><i>01</i><b>종목 선정</b></div>
 <div><i>02</i><b>언제 사고, 언제 팔지</b></div>
 <div><i>03</i><b>얼마나 살지</b></div>
 </div></div>
 </div>
-<div class="xlink rv in"><span>정한 규칙은, 그리드센서가 그대로 지킵니다</span></div>
+<div class="xlink rv"><span>정한 규칙은, 그리드센서가 그대로 지킵니다</span></div>
 </section>
 <!-- GRID SENSOR -->
 <section class="gs xflow f2">
-<div class="rv in">
+<div class="rv">
 <span class="xstep"><i>STEP 2</i>RMS가 규칙을 지킨다</span>
 <h2>규칙대로 움직이는<br/><em>그리드센서</em></h2>
 <div class="xg-rule"><div class="b"><b>목표매수가</b>에 닿으면 <em>매수</em></div><div class="s"><b>목표매도가</b>에 닿으면 <em>매도</em></div></div>
 </div>
-<div class="xg3 rv in">
-<div class="xg3-hd"><div><small>그리드센서 · 작동 시연</small><b>현재가 <em id="xgNow">215,586</em>원</b></div><div class="xg3-cnt">매도 체결 <b id="xgCnt">0</b>건</div></div>
-<div class="xg3-body"><div class="xg-tag" id="xgTag" style="top: 378.5px;">215,586</div>
-<div class="xg-list" id="xgList"><div class="xc xhit" data-b="217000" data-n="1" data-s="221000"><div class="xc-ch"><span>1회차</span><span class="st b">매수완료</span><span>수익실현 : <em>0</em>번</span></div><div class="xc-g"><span>목표매수가</span><b class="">217,000원</b><span>목표매도가</span><b>221,000원</b><span>주문금액</span><b>217,000원</b><span>수량</span><b>1주</b></div><div class="xc-t"><span>매수중지</span><i></i><span>매도중지</span><i></i></div></div><div class="xc xhit" data-b="216000" data-n="2" data-s="220000"><div class="xc-ch"><span>2회차</span><span class="st b">매수완료</span><span>수익실현 : <em>0</em>번</span></div><div class="xc-g"><span>목표매수가</span><b class="">216,000원</b><span>목표매도가</span><b>220,000원</b><span>주문금액</span><b>216,000원</b><span>수량</span><b>1주</b></div><div class="xc-t"><span>매수중지</span><i></i><span>매도중지</span><i></i></div></div><div class="xc xcur" data-b="215000" data-n="3" data-s="219000"><div class="xc-ch"><span>3회차</span><span class="st w">실행대기</span><span>수익실현 : <em>0</em>번</span></div><div class="xc-g"><span>목표매수가</span><b class="aim">215,000원</b><span>목표매도가</span><b>219,000원</b><span>주문금액</span><b>215,000원</b><span>수량</span><b>1주</b></div><div class="xc-t"><span>매수중지</span><i></i><span>매도중지</span><i></i></div></div></div></div>
-<div class="xg3-msg" id="xgMsg">3회차 목표매수가 215,000원을 기다리는 중</div>
+<div class="xg3 rv">
+<div class="xg3-hd"><div><small>그리드센서 · 작동 시연</small><b>현재가 <em id="xgNow">218,000</em>원</b></div><div class="xg3-cnt">매도 체결 <b id="xgCnt">0</b>건</div></div>
+<div class="xg3-body"><div class="xg-tag" id="xgTag">218,000</div>
+<div class="xg-list" id="xgList"><div class="xc" data-b="217000" data-n="1" data-s="221000"><div class="xc-ch"><span>1회차</span><span class="st w">실행대기</span><span>수익실현 : <em>0</em>번</span></div><div class="xc-g"><span>목표매수가</span><b>217,000원</b><span>목표매도가</span><b>221,000원</b><span>주문금액</span><b>217,000원</b><span>수량</span><b>1주</b></div><div class="xc-t"><span>매수중지</span><i></i><span>매도중지</span><i></i></div></div><div class="xc" data-b="216000" data-n="2" data-s="220000"><div class="xc-ch"><span>2회차</span><span class="st w">실행대기</span><span>수익실현 : <em>0</em>번</span></div><div class="xc-g"><span>목표매수가</span><b>216,000원</b><span>목표매도가</span><b>220,000원</b><span>주문금액</span><b>216,000원</b><span>수량</span><b>1주</b></div><div class="xc-t"><span>매수중지</span><i></i><span>매도중지</span><i></i></div></div><div class="xc" data-b="215000" data-n="3" data-s="219000"><div class="xc-ch"><span>3회차</span><span class="st w">실행대기</span><span>수익실현 : <em>0</em>번</span></div><div class="xc-g"><span>목표매수가</span><b>215,000원</b><span>목표매도가</span><b>219,000원</b><span>주문금액</span><b>215,000원</b><span>수량</span><b>1주</b></div><div class="xc-t"><span>매수중지</span><i></i><span>매도중지</span><i></i></div></div></div></div>
+<div class="xg3-msg" id="xgMsg">가격이 내려오기를 기다리는 중</div>
 </div>
-<p class="xg3-note rv in">기능 설명용 시연 화면이며 실제 시세가 아닙니다</p>
-<div class="xlink rv in"><span>그리고 그 결과는, 매일 기록됩니다</span></div>
+<p class="xg3-note rv">기능 설명용 시연 화면이며 실제 시세가 아닙니다</p>
+<div class="xlink rv"><span>그리고 그 결과는, 매일 기록됩니다</span></div>
 </section>
 <!-- 결과 확인 -->
 <section class="xres xflow f3">
-<div class="rv in">
+<div class="rv">
 <span class="xstep"><i>STEP 3</i>결과를 확인한다</span>
 <h2>매일매일,<br/><em>결과를 확인합니다</em></h2>
 <p class="xres-s">하루는 데일리 결과로, 한 달은 수익 캘린더로.</p>
 </div>
-<div class="xres2 rv in">
+<div class="xres2 rv">
 <div class="xr-card xr-day">
 <div class="xr-tab"><span class="t d">데일리 결과</span><b>10월 20일 (화)</b></div>
 <div class="xd-sum">
@@ -2548,16 +2551,16 @@ img{max-width:100%;}
 <div class="xcal-w"><span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span></div><div class="xcal-g"><div class="e"></div><div class="e"></div><div class="e"></div><div class="e"></div><div class=""><b>1</b><em class="bl">+3,819</em></div><div class=""><b>2</b><em class="bl">+4,383</em></div><div class="su sa"><b>3</b></div><div class="su"><b>4</b></div><div class=""><b>5</b><em class="bl">+2,109</em></div><div class=""><b>6</b><em class="bl">+5,212</em></div><div class=""><b>7</b><em class="bl">+4,174</em></div><div class=""><b>8</b><em class="bl">+2,164</em></div><div class="su"><b>9</b></div><div class="sa"><b>10</b></div><div class="su"><b>11</b></div><div class=""><b>12</b><em class="bl">+3,104</em></div><div class=""><b>13</b><em class="bl">+2,355</em></div><div class=""><b>14</b><em class="bl">+4,408</em></div><div class=""><b>15</b><em class="bl">+3,311</em></div><div class=""><b>16</b><em class="bl">+5,354</em></div><div class="sa"><b>17</b></div><div class="su"><b>18</b></div><div class=""><b>19</b><em class="bl">+2,499</em></div><div class="sel"><b>20</b><em class="bl">+5,256</em></div><div class="ft"><b>21</b></div><div class="ft"><b>22</b></div><div class="ft"><b>23</b></div><div class="sa ft"><b>24</b></div><div class="su ft"><b>25</b></div><div class="ft"><b>26</b></div><div class="ft"><b>27</b></div><div class="ft"><b>28</b></div><div class="ft"><b>29</b></div><div class="ft"><b>30</b></div><div class="sa ft"><b>31</b></div></div>
 </div>
 </div>
-<p class="xres-n rv in">실제 운용 화면을 바탕으로 구성한 예시이며, 수익을 보장하지 않습니다.</p>
+<p class="xres-n rv">실제 운용 화면을 바탕으로 구성한 예시이며, 수익을 보장하지 않습니다.</p>
 </section>
 <!-- ENGINES -->
 <section class="engines cream">
-<div class="rv in">
+<div class="rv">
 <span class="num">전략 유형</span>
 <h2>RMS의<br/>두 가지 <span class="u">엔진</span></h2>
 <p class="hook">예산을 나누는 두 가지 방식</p>
 </div>
-<div class="eng rv in">
+<div class="eng rv">
 <div class="engine wave">
 <div class="eh"><div><div class="k">STRATEGY · 파동형</div><h3>파동형</h3></div><p>회차마다 독립 청산</p></div>
 <div class="chart"><svg aria-label="파동형: 회차별로 매수하고 각 회차의 목표가에서 독립적으로 매도" role="img" viewbox="0 0 480 250">
@@ -2609,32 +2612,32 @@ img{max-width:100%;}
 </section>
 <!-- 작은 반복 -->
 <section class="xrep">
-<div class="rv in">
+<div class="rv">
 <span class="num">작은 반복</span>
 <h2>작은 반복이<br/><em>거대한 차이</em>를 만듭니다</h2>
 <p class="xrep-s">한 번은 작아도, 쌓이면 다릅니다.</p>
 </div>
-<div class="xrp2 rv in" id="xrpBox">
+<div class="xrp2 rv" id="xrpBox">
 <div class="xrp-l">
-<div class="xrp-big"><small>삼성전자 · 파동형 전략 · 완료(매도 체결)</small><b><span id="xrpNum">236</span><i>회</i></b></div>
-<div class="xrp-dots" id="xrpDots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+<div class="xrp-big"><small>삼성전자 · 파동형 전략 · 완료(매도 체결)</small><b><span id="xrpNum">0</span><i>회</i></b></div>
+<div class="xrp-dots" id="xrpDots"></div>
 </div>
 <div class="xrp-c">
 <div class="xrp-h"><b><i></i>삼성전자</b><span class="pt">파동형</span><time>운용 중</time></div>
-<div class="xrp-pills"><div><small>회차</small><b>40</b></div><div class="w"><small>대기</small><b id="xrpW">24</b></div><div class="g"><small>진행</small><b id="xrpG">16</b></div><div><small>정지</small><b>0</b></div><div class="r"><small>오류</small><b>0</b></div><div class="d"><small>완료</small><b id="xrpPill">236</b></div></div>
+<div class="xrp-pills"><div><small>회차</small><b>40</b></div><div class="w"><small>대기</small><b id="xrpW">28</b></div><div class="g"><small>진행</small><b id="xrpG">12</b></div><div><small>정지</small><b>0</b></div><div class="r"><small>오류</small><b>0</b></div><div class="d"><small>완료</small><b id="xrpPill">0</b></div></div>
 <div class="xrp-lh"><span>체결 내역</span><span class="lv"><i></i>실시간</span></div>
-<div class="xrp-win"><ul class="xrp-log" id="xrpLog" style="transition: transform 0.55s; transform: translateY(-52px);"><li class="b"><span class="n">12회차</span><span class="cs">매수완료</span><b>분할 매수</b><time>10.20 09:12</time></li><li class="b"><span class="n">13회차</span><span class="cs">매수완료</span><b>분할 매수</b><time>10.20 09:19</time></li><li class="b"><span class="n">14회차</span><span class="cs">매수완료</span><b>분할 매수</b><time>10.20 09:32</time></li><li class="s"><span class="n">14회차</span><span class="cs">매도완료</span><b>수익실현 +1</b><time>10.20 09:44</time></li><li class="b"><span class="n">14회차</span><span class="cs">매수완료</span><b>분할 매수</b><time>10.20 09:59</time></li><li class="b"><span class="n">15회차</span><span class="cs">매수완료</span><b>분할 매수</b><time>10.20 10:12</time></li><li class="b nw"><span class="n">16회차</span><span class="cs">매수완료</span><b>분할 매수</b><time>10.20 10:16</time></li></ul></div>
+<div class="xrp-win"><ul class="xrp-log" id="xrpLog"></ul></div>
 </div>
 </div>
-<p class="xrp-note rv in">실제 운용 중인 전략의 완료 건수 기준 · 화면은 이해를 돕기 위한 연출입니다</p>
+<p class="xrp-note rv">실제 운용 중인 전략의 완료 건수 기준 · 화면은 이해를 돕기 위한 연출입니다</p>
 </section>
 <!-- MARKETS -->
 <section class="mkt xmkt">
-<div class="rv in">
+<div class="rv">
 <span class="num">장세별 사례</span>
 <h2>어떤 장이 와도<br/><span class="u">규칙은 그대로</span></h2>
 </div>
-<div class="xm2 t1 rv in">
+<div class="xm2 t1 rv">
 <div aria-hidden="true" class="xm2-bg"><svg role="img" viewbox="0 0 480 250"><defs><lineargradient id="cDOWN" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#1B4E92" stop-opacity=".18"></stop><stop offset="1" stop-color="#1B4E92" stop-opacity="0"></stop></lineargradient></defs><g stroke="#E4EAF3" stroke-dasharray="3 4" stroke-width="1"><line x1="52" x2="466" y1="212.0" y2="212.0"></line><line x1="52" x2="466" y1="150.7" y2="150.7"></line><line x1="52" x2="466" y1="89.3" y2="89.3"></line><line x1="52" x2="466" y1="28.0" y2="28.0"></line></g><path d="M52.0,62.3 L57.8,56.1 L63.7,54.6 L69.5,46.0 L75.3,44.5 L81.2,43.3 L87.0,48.9 L92.8,53.3 L98.6,59.6 L104.5,65.4 L110.3,72.8 L116.1,75.4 L122.0,82.0 L127.8,83.5 L133.6,86.5 L139.5,90.6 L145.3,93.1 L151.1,93.7 L157.0,97.1 L162.8,96.2 L168.6,101.4 L174.5,105.1 L180.3,105.4 L186.1,112.2 L191.9,114.4 L197.8,119.1 L203.6,125.3 L209.4,131.6 L215.3,135.6 L221.1,137.9 L226.9,137.4 L232.8,139.7 L238.6,141.1 L244.4,142.3 L250.3,139.9 L256.1,138.8 L261.9,139.6 L267.7,138.0 L273.6,137.5 L279.4,137.0 L285.2,137.3 L291.1,138.0 L296.9,138.1 L302.7,142.6 L308.6,145.4 L314.4,146.0 L320.2,147.9 L326.1,147.1 L331.9,148.1 L337.7,149.0 L343.5,149.9 L349.4,146.1 L355.2,146.2 L361.0,145.7 L366.9,145.2 L372.7,144.9 L378.5,150.2 L384.4,151.3 L390.2,152.6 L396.0,155.0 L401.9,160.1 L407.7,164.8 L413.5,170.7 L419.4,175.9 L425.2,177.5 L431.0,181.2 L436.8,187.3 L442.7,190.5 L448.5,194.5 L454.3,193.7 L460.2,196.7 L466.0,195.2 L466.0,224 L52.0,224 Z" fill="url(#cDOWN)"></path><polyline fill="none" points="52.0,62.3 57.8,56.1 63.7,54.6 69.5,46.0 75.3,44.5 81.2,43.3 87.0,48.9 92.8,53.3 98.6,59.6 104.5,65.4 110.3,72.8 116.1,75.4 122.0,82.0 127.8,83.5 133.6,86.5 139.5,90.6 145.3,93.1 151.1,93.7 157.0,97.1 162.8,96.2 168.6,101.4 174.5,105.1 180.3,105.4 186.1,112.2 191.9,114.4 197.8,119.1 203.6,125.3 209.4,131.6 215.3,135.6 221.1,137.9 226.9,137.4 232.8,139.7 238.6,141.1 244.4,142.3 250.3,139.9 256.1,138.8 261.9,139.6 267.7,138.0 273.6,137.5 279.4,137.0 285.2,137.3 291.1,138.0 296.9,138.1 302.7,142.6 308.6,145.4 314.4,146.0 320.2,147.9 326.1,147.1 331.9,148.1 337.7,149.0 343.5,149.9 349.4,146.1 355.2,146.2 361.0,145.7 366.9,145.2 372.7,144.9 378.5,150.2 384.4,151.3 390.2,152.6 396.0,155.0 401.9,160.1 407.7,164.8 413.5,170.7 419.4,175.9 425.2,177.5 431.0,181.2 436.8,187.3 442.7,190.5 448.5,194.5 454.3,193.7 460.2,196.7 466.0,195.2" stroke="#1B4E92" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.6"></polyline><circle cx="81.2" cy="43.3" fill="#C9873A" r="5.6" stroke="#fff" stroke-width="2.4"></circle><circle cx="279.4" cy="137.0" fill="#C9873A" r="5.6" stroke="#fff" stroke-width="2.4"></circle><circle cx="372.7" cy="144.9" fill="#C9873A" r="5.6" stroke="#fff" stroke-width="2.4"></circle><circle cx="244.4" cy="142.3" fill="#0E7F73" r="5.6" stroke="#fff" stroke-width="2.4"></circle><circle cx="343.5" cy="149.9" fill="#0E7F73" r="5.6" stroke="#fff" stroke-width="2.4"></circle><g fill="#9AA4B4" font-family="Pretendard,sans-serif" font-size="11" font-weight="700"><text text-anchor="end" x="44" y="215.5">3.3만</text><text text-anchor="end" x="44" y="154.2">4.6만</text><text text-anchor="end" x="44" y="92.8">5.8만</text><text text-anchor="end" x="44" y="31.5">7.0만</text><text text-anchor="middle" x="62" y="242">25.09</text><text text-anchor="middle" x="190.0" y="242">25.12</text><text text-anchor="middle" x="328.0" y="242">26.03</text><text text-anchor="middle" x="456" y="242">26.08</text></g></svg></div>
 <div class="xm2-in">
 <div class="xm2-top"><span class="lo" style="background:#FEE500;color:#3C1E1E">K</span><div class="nm"><b>카카오</b><span>KRX 035720</span></div><span class="mtag t1">하락장</span></div>
@@ -2756,7 +2759,7 @@ img{max-width:100%;}
 <div class="xw z"><div class="xw-h"><b>줌 라이브</b><span class="hp">저녁 8시 · 온라인</span></div><div class="xr"><b>2026. 10. 28 <small>(수)</small></b><span class="tm">저녁 8시</span></div><div class="xr"><b>2026. 11. 04 <small>(수)</small></b><span class="tm">저녁 8시</span></div><div class="xr"><b>2026. 11. 07 <small>(토)</small></b><span class="tm">저녁 8시</span></div></div>
 </div>
 <div class="lk-note"><p><b>강의장</b> 경기도 안양시 동안구 시민대로 398, 623(평촌동, 인덕원역 더리브디하우트)</p><p class="lk-apply">신청은 이 페이지 하단의 <b>신청 버튼</b>으로 받습니다.</p></div></div>
-</section><footer>본 교육은 RMS 시스템의 설정과 운용 원리를 배우는 과정입니다. 특정 종목 추천이나 수익을 보장하지 않습니다. 투자의 판단과 책임은 본인에게 있으며 원금 손실이 발생할 수 있습니다.<br/>RMS 클라우드서비스 · Rule-based Management System<span class="lk-biz"><b>EDUGRIDSENSOR</b><br/>상호 (주)모멘타  |  대표 안영신  |  사업자등록번호 599-88-01147<br/>주소 경기도 안양시 동안구 시민대로 398, 623(평촌동, 인덕원역 더리브디하우트)<br/>통신판매신고번호 제 2018-안양동안-0507호<br/>개인정보관리책임자 조진형  |  이메일 ceo@globalseller.kr  |  개인정보보유기간 회원탈퇴시까지<br/>모멘타는 RMS 소프트웨어를 제공하는 회사이며, 특정 종목의 선정·추천, 매수·매도 시점의 제안, 투자자문·투자일임 또는 수익 보장 서비스를 제공하지 않습니다. 모든 투자 판단과 주문 설정은 회원 본인이 직접 결정합니다.<br/>© 2026 모멘타. All rights reserved.</span></footer>
+</section><footer>본 교육은 RMS 시스템의 설정과 운용 원리를 배우는 과정입니다. 특정 종목 추천이나 수익을 보장하지 않습니다. 투자의 판단과 책임은 본인에게 있으며 원금 손실이 발생할 수 있습니다.<br/>RMS 클라우드서비스 · Rule-based Management System</footer>
 </div></div>
 <div class="lk-fill"></div>
 </div>
